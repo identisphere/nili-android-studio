@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\USER\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67">
+        <dex dex="C:\Users\USER\Desktop\NILI_10.05.16\Development\app\Android_studio\nili\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-85537dbd897a6a574f66f6c8c42ab7622d564724.jar" />
+    </item>
+
+</items>

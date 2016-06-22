@@ -1,0 +1,103 @@
+html
+{
+	overflow: hidden;
+	scroll: no;
+}
+
+div, img, span, table
+{
+	font-family: Courier New;
+	font-weight: bold;
+	position: absolute;	
+	/*border: 1px black solid;*/
+	/*opacity: 0.4;*/
+
+	margin: 0px;
+	padding: 0px;
+	text-align: center;
+	vertical-align: top;
+	z-index: 1;
+    transition: opacity 0.5s;
+}
+
+.chord
+{
+	color: red;
+	text-shadow: 5px 5px 2px black;
+	font-stretch: condensed;
+}
+
+.next
+{
+	opacity: 0.4;
+}
+
+.text
+{
+	color: white;
+	text-shadow: 5px 5px 2px black;
+}
+
+@keyframes blink 
+{
+	0%	{ opacity: 0; }
+	50% { opacity: 1; }
+	100% { opacity: 0; }
+}
+
+
+.position_td
+{
+	text-align: right;
+    background-color:#00a2e8;
+    font-family: Arial;
+    font-weight:bold;
+    overflow:hidden;
+	opacity: 0.2;
+
+	
+    transition: opacity 0.5s;
+
+    
+    /*font-size:150px;
+    line-height:20px;*/
+}
+
+.string
+{
+	background: linear-gradient(#CCC, #666, #FFF); /* Standard syntax */
+	transition: background-color 0.2s;
+}
+
+.strum
+{
+	background: #668800; /* Standard syntax */
+}
+
+.dont_strum
+{
+	background: red; /* Standard syntax */
+}
+
+.timer
+{
+	z-index: 100;
+}
+
+@keyframes vibrate {
+    0% {
+        top: 0px;
+    }
+    25% {
+        top: -3px;
+    }
+    50% {
+        top: 0px;
+    }
+    75% {
+        top: 3px;
+    }
+    100% {
+        top: 0px;
+    }
+}
