@@ -2,5 +2,5 @@
 
 .gradle/
 .idea/
-
+app/build/intermediates/
 try/
