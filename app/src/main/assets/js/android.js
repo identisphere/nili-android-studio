@@ -5,7 +5,7 @@ function eventSetTimer(tick)
 
 function eventLiftFingers()
 {
-	if(!checkEventIsReal()) return;
+	if(isAndroid && !checkEventIsReal()) return;
 
 	console.log("eventLiftFingers");
 
@@ -29,7 +29,6 @@ function eventBackward()
 	displayCurrentChord()
 }
 
-
 function eventPressedCorrect(positionString)
 {
 	if(!checkEventIsReal()) return;
@@ -43,7 +42,7 @@ function eventPressedCorrect(positionString)
 	if(isAutoMode)
 	{
 		moveToNextChord()
-		setNeckPositionListOn(getPositionListOfChordText(getChordText(currentChordIndex)));
+		setNeckPositionListOn(chordTextToPositionList(getChordText(currentChordIndex)));
 	}
 
 	element_chord.style.color = 'green';
@@ -51,7 +50,7 @@ function eventPressedCorrect(positionString)
 
 function eventStartStrummingAnimation()
 {
-	startStrummingAnimation(200, getChordTopString(getChordText(currentChordIndex)));
+	startStrummingAnimation(200, chordTextTopString(getChordText(currentChordIndex)));
 }
 
 
@@ -75,7 +74,6 @@ function eventSetManual()
 {
 	setTimerHidden();
 }
-
 
 function sendMessageToAndroid(message)
 {
@@ -135,7 +133,13 @@ function eventStop()
 	setLyrics();
 
 	setAllNeckPositionsOff(false);
-	setFingering(getPositionListOfChordText(getChordText(currentChordIndex)));
-	setNeckPositionListOn(getPositionListOfChordText(getChordText(currentChordIndex)));
+	setFingering(chordTextToPositionList(getChordText(currentChordIndex)));
+	setNeckPositionListOn(chordTextToPositionList(getChordText(currentChordIndex)));
+}
+
+function sendChordToAndroid(chord)
+{
+	var jsonChord = JSON.parse(JSON.stringify(chord));
+	sendMessageToAndroid("addChord_"+jsonChord.toString());
 }
 
