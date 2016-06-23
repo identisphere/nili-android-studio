@@ -84,9 +84,10 @@ function processChordsHtml()
 		chordList.push(new ChordObject());
 		chordList[i].text = originalChordElementList[i].innerHTML;
 		chordList[i].positionList = chordTextToPositionList(chordList[i].text);
-		chordList[i].string = positionListToString(chordList[i].positionList);
+		chordList[i].positionString = positionListToString(chordList[i].positionList);
 		chordList[i].stringList = chordTextToStringList(chordList[i].text);
 		chordList[i].topString = chordTextTopString(chordList[i].text);
+		chordList[i].index = i;
 	}
 	for(var i=0; i<originalLyricsElementList.length; i++)
 	{
@@ -449,10 +450,11 @@ if(!isAndroid)
 		{
 			if(clickIndex==0)
 			{
-				eventForward();
+				eventPressedCorrect("0000000c000000c0000000c0");
 			}
 			else if (clickIndex==1)
 			{
+				eventLiftFingers();
 			}
 			else if (clickIndex==3)
 			{

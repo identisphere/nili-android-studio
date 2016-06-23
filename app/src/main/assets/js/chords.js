@@ -12,7 +12,7 @@ function isChordTextExplicit(chordText)
 
 function chordTextToStringList(chordText)
 {
-	if(!isChordTextExplicit(chordText)) return null;
+	if(!isChordTextExplicit(chordText)) return new Array();
 
 	var returnedList = new Array();
 	var positionsArray = JSON.parse(chordText);

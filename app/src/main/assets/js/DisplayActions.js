@@ -24,7 +24,7 @@ function setChordText()
     element_chord.innerHTML = currentChord.text;
 
     if(nextChord!=null)
-        element_next.innerHTML = nextChord.txt;
+        element_next.innerHTML = nextChord.text;
     else
         element_next.innerHTML = "";
 

@@ -4,7 +4,7 @@ function ChordObject()  {
     this.stringList = new Array();
     this.text = new String();
     this.lyrics = new String();
-    this.stringList = new Array();
-    var highestString = null;
+    this.topString = null;
+    this.index = null;
 };
 

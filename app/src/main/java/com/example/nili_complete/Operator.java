@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.JsonReader;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 
@@ -20,7 +22,7 @@ public class Operator extends Thread
 	private ConnectionManager	connectionManager;
 	private WebAppInterface		webInterface;
 	public 	Handler				mHandler;
-	public	ArrayList<String> chordList = new ArrayList<String>();
+	public	ArrayList<ChordObject> chordList = new ArrayList<ChordObject>();
 	private int currentChordIndex; 
 	private Object waitingForBlink = new Object();
 
@@ -32,35 +34,24 @@ public class Operator extends Thread
 		mHandler = new Handler() {
 			public void handleMessage(Message message)
 			{
-				if(message.arg1==Commands.Operator.receivePress)
+				try
 				{
-					receivedPressFromUser((String)message.obj);
-					return;
+					if(message.arg1==Commands.Operator.receivePress)
+						receivedPressFromUser((String)message.obj);
+					else if(message.arg1==Commands.Operator.addChord)
+						addChordToChordList((String)message.obj);
+					else if(message.arg1==Commands.Operator.finishedAddingChords)
+						initialize();
+					else if(message.arg1==Commands.Operator.restart)
+						restart();
+					else if(message.arg1==Commands.Operator.eventForward)
+						eventForward();
+					else if(message.arg1==Commands.Operator.eventBackward)
+						eventBackward();
 				}
-				else if(message.arg1==Commands.Operator.addChord)
+				catch (Exception ex)
 				{
-					addChordToChordList((String)message.obj);
-					return;
-				}
-				else if(message.arg1==Commands.Operator.finishedAddingChords)
-				{
-					initialize();
-					return;
-				}
-				else if(message.arg1==Commands.Operator.restart)
-				{
-					restart();
-					return;
-				}
-				else if(message.arg1==Commands.Operator.eventForward)
-				{
-					eventForward();
-					return;
-				}
-				else if(message.arg1==Commands.Operator.eventBackward)
-				{
-					eventBackward();
-					return;
+
 				}
 			}
 		};
@@ -73,15 +64,14 @@ public class Operator extends Thread
 		this.chordList.clear();
 	}
 
-	public void receivedPressFromUser(String receivedData)
+	public void receivedPressFromUser(String receivedSwitchString)
 	{
 		if(this.chordList.size()==0)
 		{
-			this.sendStringToBoth(receivedData);
+			this.sendStringToBoth(receivedSwitchString);
 			return;
 		}
 
-		String receivedSwitchString = receivedData;
 		String btReturnedString = currentChordString;
 		String jsReturnedString = currentChordString;
 
@@ -155,7 +145,7 @@ public class Operator extends Thread
 		this.currentChordIndex = 0;
 		if(setCurrentChord(this.currentChordIndex))
 		{
-			sendStringToBt(chordList.get(currentChordIndex));
+			sendStringToBt(chordList.get(currentChordIndex).positionString);
 		}
 		
 		// temp
@@ -230,9 +220,17 @@ public class Operator extends Thread
 	}
 
 	// run by javascript
-	public void addChordToChordList(String chordString) 
+	public void addChordToChordList(String chordJsonString) throws Exception
 	{
-		this.chordList.add(chordString);
+		JSONObject receivedJson = new JSONObject(chordJsonString);
+		ChordObject receivedChord = new ChordObject();
+		receivedChord.positionString = receivedJson.getString("positionString");
+		JSONArray stringListJson = receivedJson.getJSONArray("stringList");
+		receivedChord.stringList = new ArrayList<Integer>();
+		for(int i=0; i<stringListJson.length(); i++)
+			receivedChord.stringList.add(Integer.parseInt(stringListJson.get(i).toString()));
+
+		this.chordList.add(receivedChord);
 	}
 	
 	public boolean setCurrentChord(int index)
@@ -246,7 +244,7 @@ public class Operator extends Thread
 			this.sendStringToBt("000000000000000000000000");
 			return false;
 		}
-		this.currentChordString = this.chordList.get(index);
+		this.currentChordString = this.chordList.get(index).positionString;
 		this.positionCount = 0;
 		for(int i=0; i<this.currentChordString.length(); i++)
 		{

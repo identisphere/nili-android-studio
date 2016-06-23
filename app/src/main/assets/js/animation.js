@@ -8,16 +8,13 @@ function stopStrummingAnimation()
 function startStrummingAnimation(interval, topString)
 {
 	playStrummingAnimation = true;
-	for(var i=0; i<6-topString; i++)
-	{
-		stringElements[i].classList.add("dont_strum");
-		//stringElements[i].style.animation = "";
-	}
+	clearStrummingAnimation();
+	clearDontStrummAnimation();
 	
 	if(topString==undefined)
 		return;
 
-	strummingAnimation(6-topString, interval, topString)
+	strummingAnimation(topString, interval, topString)
 }
 
 function strummingAnimation(string, interval, topString)
@@ -25,18 +22,18 @@ function strummingAnimation(string, interval, topString)
 	if(!playStrummingAnimation) return;
 
 
-	if(string==6)
+	if(string==0)
 	{
+		clearStrummingAnimation();
 		setTimeout(function()
 		{
-			clearStrummingAnimation();
-			strummingAnimation(6-topString, interval, topString);
+			strummingAnimation(topString, interval, topString);
 		}, interval);
 		return;
 	}
 	setStringOn(string);
 	setTimeout(function(){
-		strummingAnimation(string+1, interval, topString);
+		strummingAnimation(string-1, interval, topString);
 	}, interval);
 }
 
@@ -52,7 +49,7 @@ function clearDontStrummAnimation()
 {
 	for(var i=0; i<TOTAL_NUMBER_OF_STRINGS; i++)
 	{
-		stringElements[i].classList.remove("dont_strum");
+		setStringOff(i);
 	}
 }
 

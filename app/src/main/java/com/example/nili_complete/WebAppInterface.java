@@ -10,7 +10,7 @@ public class WebAppInterface extends Thread
 	private	MainActivity 	mainActivity;
 	private Operator		operator;
 	private String jsMessage;
-	public Handler mHandler;
+	public static Handler mHandler;
 	
 	public void run()
 	{
@@ -21,35 +21,17 @@ public class WebAppInterface extends Thread
 			public void handleMessage(Message message)
 			{
 				if(message.arg1 == Commands.WebApp.liftFingers)
-				{
 					eventLiftFingers();
-					return;
-				}
-				if(message.arg1 == Commands.WebApp.eventPressedCorrect)
-				{
+				else if(message.arg1 == Commands.WebApp.eventPressedCorrect)
 					pressedCorrect_Animation(addJsDelimeters((String)message.obj));
-					return;
-				}
-				if(message.arg1 == Commands.WebApp.sendStringToJs)
-				{
+				else if(message.arg1 == Commands.WebApp.sendStringToJs)
 					sendPositionStringToJs(addJsDelimeters((String)message.obj));
-					return;
-				}
-				if(message.arg1 == Commands.WebApp.eventUiChangeMode)
-				{
+				else if(message.arg1 == Commands.WebApp.eventUiChangeMode)
 					changeMode(addJsDelimeters((String)message.obj));
-					return;
-				}
-				if(message.arg1 == Commands.WebApp.eventForward)
-				{
+				else if(message.arg1 == Commands.WebApp.eventForward)
 					eventForward();
-					return;
-				}
-				if(message.arg1 == Commands.WebApp.eventBackward)
-				{
+				else if(message.arg1 == Commands.WebApp.eventBackward)
 					eventBackward();
-					return;
-				}
 			}
 		};
 		

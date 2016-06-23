@@ -271,8 +271,8 @@ public class MainActivity extends Activity
     	webView.getSettings().setRenderPriority(RenderPriority.HIGH);
     	webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
     	
-    	//loadWebView(this.songsMap.get("--Empty--"));
-    	loadWebView(this.songsMap.get("Leaving On A Jet Plane - John Denver"));
+    	loadWebView(this.songsMap.get("solo"));
+    	//loadWebView(this.songsMap.get("Leaving On A Jet Plane - John Denver"));
 
     	webView.setWebViewClient(new WebViewClient() {
           @Override

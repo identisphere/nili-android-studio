@@ -42,7 +42,7 @@ function eventPressedCorrect(positionString)
 	if(isAutoMode)
 	{
 		moveToNextChord()
-		setNeckPositionListOn(chordTextToPositionList(getChordText(currentChordIndex)));
+		setNeckPositionListOn(currentChord.positionList);
 	}
 
 	element_chord.style.color = 'green';
@@ -50,7 +50,7 @@ function eventPressedCorrect(positionString)
 
 function eventStartStrummingAnimation()
 {
-	startStrummingAnimation(200, chordTextTopString(getChordText(currentChordIndex)));
+	startStrummingAnimation(200, currentChord.topString);
 }
 
 
@@ -139,7 +139,7 @@ function eventStop()
 
 function sendChordToAndroid(chord)
 {
-	var jsonChord = JSON.parse(JSON.stringify(chord));
-	sendMessageToAndroid("addChord_"+jsonChord.toString());
+	var jsonChord = JSON.stringify(chord);
+	sendMessageToAndroid("addChord_"+jsonChord);
 }
 

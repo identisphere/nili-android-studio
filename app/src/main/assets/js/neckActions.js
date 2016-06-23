@@ -7,7 +7,7 @@ function lightStringsList(stringList)
 function setStringOn(string)
 {
 	//stringElements[string].style.animation = "vibrate 0.1s linear 0s infinite";
-	stringElements[TOTAL_NUMBER_OF_STRINGS-string-1].classList.add("strum");
+	stringElements[TOTAL_NUMBER_OF_STRINGS-string].classList.add("strum");
 }
 
 function setStringOff(string)
