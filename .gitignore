@@ -2,8 +2,7 @@
 .gradle/
 
 # android studio
-.idea/
-.app/build/intermediates/assessts/debug/
-.idea/*.*
-/idea/
+
+.app/build/intermediates/assessts/debug/*
+.idea\*
 *.iml
