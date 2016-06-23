@@ -1,6 +1,6 @@
 # gradle
-gradle\
+.gradle\
 
 # idea
-idea\
-app\build\intermediates\assessts\debug\
+.idea\
+.app\build\intermediates\assessts\debug\
