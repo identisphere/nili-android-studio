@@ -3,17 +3,41 @@ function getChordText(index)
 	return chordList[index];
 }
 
-function isChordTextString(chord)
+function isChordTextExplicit(chordText)
 {
-	if(chord.indexOf('[')!=-1) return true;
+	if(chordText.indexOf('[')!=-1)
+		return true
+	return false
 }
 
-function chordTextToChordArray(chord)
+function chordTextToStringList(chordText)
 {
-	if(isChordTextString(chord))
+	if(!isChordTextExplicit(chordText)) return null;
+
+	var returnedList = new Array();
+	var positionsArray = JSON.parse(chordText);
+	for(var i=0; i<positionsArray.length; i++)
+	{
+		var fret = positionsArray[i][0];
+		var string = positionsArray[i][1];
+		var finger = null;
+		if(positionsArray[i][2]!=null)
+			finger = positionsArray[i][2]
+		// is string
+		if(fret == '0')
+		{
+			returnedList.push(string);
+		}
+	}
+	return returnedList;
+}
+
+function explicitChordTextToChordList(chordText)
+{
+	if(isChordTextExplicit(chordText))
 	{
 		var returnedList = new Array();
-		var positionsArray = JSON.parse(chord);
+		var positionsArray = JSON.parse(chordText);
 		for(var i=0; i<positionsArray.length; i++)
 		{
 			var fret = positionsArray[i][0];
@@ -21,15 +45,10 @@ function chordTextToChordArray(chord)
 			var finger = null;
 			if(positionsArray[i][2]!=null)
 				finger = positionsArray[i][2]
-			// is string
+			// if string: fill all frets in string
 			if(fret == '0')
-			{
-				for(var j=0; j<=TOTAL_NUMBER_OF_FRETS; j++)
-				{
-					returnedList.push([j+1,string, null]);
-				}
-				returnedList.push(["string",string, null]);
-			}
+				for(var j=1; j<=TOTAL_NUMBER_OF_FRETS; j++)
+					returnedList.push([j,string, null]);
 			else
 				returnedList.push([fret,string, finger]);
 		}
@@ -37,13 +56,13 @@ function chordTextToChordArray(chord)
 	}
 }
 
-function getPositionListOfChordText(chord)
+function chordTextToPositionList(chordText)
 {
 	// [fret,string,finger]
-	var chordArray = chordTextToChordArray(chord);
+	var chordArray = explicitChordTextToChordList(chordText);
 	if(chordArray!=null) return chordArray;
 	// [chord name]
-	else switch(chord)
+	else switch(chordText)
 	{
 		case 'A':
 			return [[2,2,1],[2,3,1],[2,4,1]];
@@ -74,21 +93,36 @@ function getPositionListOfChordText(chord)
 	}
 }
 
-function getChordTopString(chord)
+function chordTextTopString(chordText)
 {
-	if(chord.indexOf('A')!=-1)
+	if(chordText.indexOf('A')!=-1)
 		return 5;
-	else if(chord.indexOf('B')!=-1)
+	else if(chordText.indexOf('B')!=-1)
 		return 4;
-	else if(chord.indexOf('C')!=-1)
+	else if(chordText.indexOf('C')!=-1)
 		return 5;
-	else if(chord.indexOf('D')!=-1)
+	else if(chordText.indexOf('D')!=-1)
 		return 4;
-	else if(chord.indexOf('E')!=-1)
+	else if(chordText.indexOf('E')!=-1)
 		return 6;
-	else if(chord.indexOf('F')!=-1)
+	else if(chordText.indexOf('F')!=-1)
 		return 4;
-	else if(chord.indexOf('G')!=-1)
+	else if(chordText.indexOf('G')!=-1)
 		return 6;
+}
+
+function positionListToString(positionList)
+{
+	var returnedString = "000000000000000000000000";
+
+	for(var i=0; i<positionList.length; i++)
+	{
+		var fret = positionList[i][0];
+		var string = positionList[i][1];
+		var replaceIndex = 30 - (fret*6 + string);
+		returnedString = returnedString.substr(0,replaceIndex) + '1' + returnedString.substr(replaceIndex+1);
+	}
+
+	return returnedString;
 }
 

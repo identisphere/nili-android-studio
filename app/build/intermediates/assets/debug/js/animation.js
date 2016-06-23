@@ -34,8 +34,7 @@ function strummingAnimation(string, interval, topString)
 		}, interval);
 		return;
 	}
-	//stringElements[string].style.animation = "vibrate 0.1s linear 0s infinite";
-	stringElements[string].classList.add("strum");
+	setStringOn(string);
 	setTimeout(function(){
 		strummingAnimation(string+1, interval, topString);
 	}, interval);
@@ -45,8 +44,7 @@ function clearStrummingAnimation()
 {
 	for(var i=0; i<TOTAL_NUMBER_OF_STRINGS; i++)
 	{
-		stringElements[i].classList.remove("strum");
-		//stringElements[i].style.animation = "";
+		setStringOff(i)
 	}
 }
 

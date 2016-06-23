@@ -1,3 +1,33 @@
+function lightStringsList(stringList)
+{
+	for(var i=0; i < stringList.length; i++)
+		setStringOn(stringList[i]);
+}
+
+function setStringOn(string)
+{
+	//stringElements[string].style.animation = "vibrate 0.1s linear 0s infinite";
+	stringElements[TOTAL_NUMBER_OF_STRINGS-string-1].classList.add("strum");
+}
+
+function setStringOff(string)
+{
+	stringElements[TOTAL_NUMBER_OF_STRINGS-string-1].classList.remove("strum");
+	//stringElements[i].style.animation = "";
+}
+
+function setNeckPositionStringOff(string)
+{
+	for(var fret=1; fret<=TOTAL_NUMBER_OF_FRETS; fret++)
+		setNeckPositionOff(fret, string, false)
+}
+
+function setNeckPositionStringListOff(stringList)
+{
+	for(var i=0; i<stringList.length; i++)
+		setNeckPositionStringOff(stringList[i]);
+}
+
 function setNeckPositionOn(fret, string, leaveFingering)
 {
 	if(neckFrets==null) neckFrets = document.getElementsByClassName("fret_table");
@@ -99,10 +129,6 @@ function setNeckPositionListOn(positionList)
 		else
 			setNeckPositionOn(positionList[i][0], positionList[i][1])
 	}
-}
-
-function lightString(string)
-{
 }
 
 function setNeckPositionListCorrect(positionList)

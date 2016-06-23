@@ -6,8 +6,6 @@ var originalLyricsElementList = $(".lyrics");
 var originalTicksElementList = $(".tick");
 
 var chordList = new Array();
-var lyricsList = new Array();
-var ticksList = new Array();
 
 
 $("#title").hide();
@@ -30,6 +28,9 @@ var isTimed = false;
 var stringElements = new Array();
 
 var currentChordIndex = 0;
+var currentChord = null;
+var nextChord = null;
+var prevChord = null;
 
 var neckPositions, neckFrets;
 var neckPositionElementArray  = new Array()
@@ -46,8 +47,6 @@ var BLINK_INTERVAL = 200;
 
 var isAutoMode;
 
-getChordsLyricsAndTicks();
-
 
 
 // 3rd         1st   controls
@@ -59,137 +58,58 @@ getChordsLyricsAndTicks();
 
 
 
-var clickIndex = 0;
-var demoIndex = 0;
-var demoString = "000000000000000000000000";
-
-
-
-function demoFunction()
-{
-	return;
-	receivePositionStringFromAndroid(demoString);
-	demoString = demoString.substr(0,demoIndex) + '1' + demoString.substr(demoIndex+1);
-	demoIndex++;
-	setTimeout(demoFunction, 300);
-}
-
-//receivePositionStringFromAndroid("030000c0000c010000000000");
-clickIndex = 0;
-if(!isAndroid)
-{
-	document.body.onclick = 
-		function()
-		{
-			if(clickIndex==1)
-			{
-				eventPressedCorrect();
-				eventLiftFingers();
-			}
-			else if (clickIndex==1)
-			{
-			}
-			else if (clickIndex%3==1)
-			{
-				eventLiftFingers()
-			}
-			clickIndex++;
-		};
-}
-
-var demo;
-function Demo()
-{
-
-	this.startDemo = function()
-	{
-		setTimeout(function(){demo.action1();}, 1590);
-		setTimeout(function(){demo.action2();}, 2610);
-		setTimeout(function(){demo.action3();}, 3320);
-		setTimeout(function(){demo.action4();}, 4410);
-		setTimeout(function(){demo.action5();}, 6200);
-	}
-	
-	this.initialize = function()
-	{
-		setAllNeckPositionsOff(false);
-		element_title.style.opacity = '1';
-		setNeckPositionListOn([[3,1,3], [2,5,2], [3,6,1]]);
-		setFingering([[3,1,3], [2,5,1], [3,6,2]]);
-	}
-
-	this.action1 = function()
-	{
-		setNeckPositionOff(3, 1, true);
-		setNeckPositionListCorrect([[3,1]]);
-	}
-	
-	this.action2 = function()
-	{
-		setNeckPositionOff(3, 1, true);
-		setNeckPositionOn(3, 1);
-	}
-	
-	this.action3 = function()
-	{
-		setNeckPositionIncorrect(3, 3);
-	}
-	
-	this.action4 = function()
-	{
-		setNeckPositionOff(3, 3);
-	}
-	
-	this.action5 = function()
-	{
-		setNeckPositionListOff([[3,1], [2,5], [3,6]], true);
-		setNeckPositionListCorrect([[3,1,3], [2,5,2], [3,6,1]]);
-		startStrummingAnimation(200, getChordTopString(getChordText(currentChordIndex)));
-		element_chord.style.color = 'green';
-		element_lyrics.style.color = 'green';
-		
-	}
-
-
-	this.initialize();
-}
 
 document.body.onload = function()
 {
 
+
+	loadScript('./js/consts.js');
+	loadScript('./js/DisplayActions.js');
+	loadScript('./js/Navigation.js');
 	loadScript('./js/neckActions.js');
 	loadScript('./js/chords.js');
 	loadScript('./js/animation.js');
 	loadScript('./js/timer.js');
-	loadScript('./js/android.js');
+	loadScript('./js/Android.js');
 
-	window.setTimeout(initialize, 300);
-
+	window.setTimeout(initialize, 500);
 	// temp
 	//window.setTimeout(function(){demo = new Demo();}, 400);
 };
 
-function getChordsLyricsAndTicks()
+function processChordsHtml()
 {
 	for(var i=0; i<originalChordElementList.length; i++)
 	{
-		chordList[i] = originalChordElementList[i].innerHTML;
-		$(originalChordElementList[i].remove());
+		chordList.push(new ChordObject());
+		chordList[i].text = originalChordElementList[i].innerHTML;
+		chordList[i].positionList = chordTextToPositionList(chordList[i].text);
+		chordList[i].string = positionListToString(chordList[i].positionList);
+		chordList[i].stringList = chordTextToStringList(chordList[i].text);
+		chordList[i].topString = chordTextTopString(chordList[i].text);
 	}
 	for(var i=0; i<originalLyricsElementList.length; i++)
 	{
-		lyricsList[i] = originalLyricsElementList[i].innerHTML;
-		$(originalLyricsElementList[i].remove());
+		chordList[i].lyrics = originalLyricsElementList[i].innerHTML;
 	}
 	for(var i=0; i<originalTicksElementList.length; i++)
 	{
-		ticksList[i] = originalTicksElementList[i].innerHTML;
-		$(originalTicksElementList[i].remove());
+		chordList[i].tiks = originalTicksElementList[i].innerHTML;
 	}
+	if(originalChordElementList.length>0)
+		$(originalChordElementList[i].remove());
+	if(originalTicksElementList.length>0)
+		$(originalTicksElementList[i].remove());
+	if(originalLyricsElementList.length>0)
+		$(originalLyricsElementList[i].remove());
 }
 
 function initialize()
 {
+
+	processChordsHtml();
+	setCurrentChord(0);
+	
 	createElements();
 	createTable();
 	createStrings()
@@ -199,23 +119,11 @@ function initialize()
 
 	sendMessageToAndroid("start_chords");
 	for(var i=0; i<chordList.length; i++)
-	{
-		sendChordToAndroid(currentChordIndex);
-		currentChordIndex++;
-	}
+		sendChordToAndroid(chordList[i]);
+
 	sendMessageToAndroid("end_chords");
 
-	/*
-	sendMessageToAndroid("start_ticks");
-	for(var i=0; i<ticksList.length; i++)
-	{
-		sendMessageToAndroid("addTick_"+ticksList[i]);
-		currentChordIndex++;
-	}
-
-	sendMessageToAndroid("end_ticks");
-	 */
-	currentChordIndex = 0;
+	setCurrentChord(0);
 
 	setTimerIncorrect();
 	setTimerHidden();
@@ -237,30 +145,6 @@ function checkEventIsReal()
 	}
 	lastEventTime = newEventTime;
 	return true;
-}
-
-function sendChordToAndroid(index)
-{
-	var currentChordToAndroid = getPositionListOfChordText(chordList[index]);
-	if(currentChordToAndroid == null) return;
-	currentChordToAndroid = convertPositionListToString(currentChordToAndroid);
-
-	sendMessageToAndroid("addChord_"+currentChordToAndroid.toString());
-}
-
-function convertPositionListToString(positionList)
-{
-	var returnedString = "000000000000000000000000";
-	
-	for(var i=0; i<positionList.length; i++)
-	{
-		var fret = positionList[i][0];
-		var string = positionList[i][1];
-		var replaceIndex = 30 - (fret*6 + string);
-		returnedString = returnedString.substr(0,replaceIndex) + '1' + returnedString.substr(replaceIndex+1);
-	}
-	
-	return returnedString;
 }
 
 function updateBlinkingList(newBlinkingList)
@@ -292,81 +176,6 @@ function blink()
 	}
 	
 	setTimeout(function(){blink();}, BLINK_INTERVAL)
-}
-
-function moveToNextChord()
-{
-	if(currentChordIndex+1>=chordList.length) return;
-
-	currentChordIndex++;
-
-}
-
-function moveToPreviousChord()
-{
-	if(currentChordIndex<=0) return;
-
-	currentChordIndex--;
-}
-
-function displayCurrentChord()
-{
-	var currentChordText = getPositionListOfChordText(getChordText(currentChordIndex))
-	setAllNeckPositionsOff(false);
-	setLyrics();
-	setChordText();
-	setFingering(currentChordText);
-	if(isChordTextString(currentChordText))
-		stringElements[string].classList.add("strum");
-	else
-		setNeckPositionListOn(currentChordText);
-
-	element_chord.style.color = 'red';
-}
-
-function setChordText()
-{
-	if(getChordText(currentChordIndex).indexOf('[')!=-1)
-	{
-		element_chord.innerHTML = "--";
-		return;
-	}
-	element_chord.innerHTML = getChordText(currentChordIndex);
-	
-	if(currentChordIndex+1<chordList.length)
-		element_next.innerHTML = getChordText(currentChordIndex+1);
-	else
-		element_next.innerHTML = "";
-
-	element_chord.style.fontSize = parseInt(getBestFitTextSize(element_chord))*1.2;
-	element_next.style.fontSize = parseInt(getBestFitTextSize(element_next))*1.2;
-}
-
-function setLyrics()
-{
-	element_lyrics.innerHTML = lyricsList[currentChordIndex];
-	element_lyrics.style.fontSize = getBestFitTextSize(element_lyrics);
-}
-
-function clearLyrics()
-{
-	element_lyrics.innerHTML = "";
-}
-
-function setFingering(chordPositionList)
-{
-	var size = 1.01;
-	for(var i=0; i<chordPositionList.length; i++)
-	{
-		if(chordPositionList[i][2]==null) continue;
-		var fingeringElement = document.createElement('span');
-		var fret = chordPositionList[i][0];
-		var string = chordPositionList[i][1];
-		var positionElement = neckPositionElementArray[fret-1][6-string];
-		fingeringElement.innerHTML = chordPositionList[i][2];
-		fingeringElement.style.fontSize = getBestFitTextSize(positionElement, fingeringElement.innerHTML) * size;
-		positionElement.appendChild(fingeringElement);
-	}
 }
 
 function createTable()
@@ -614,4 +423,98 @@ function loadScript(url, callback)
 
     // Fire the loading
     head.appendChild(script);
+}
+
+var clickIndex = 0;
+var demoIndex = 0;
+var demoString = "000000000000000000000000";
+
+
+
+function demoFunction()
+{
+	return;
+	receivePositionStringFromAndroid(demoString);
+	demoString = demoString.substr(0,demoIndex) + '1' + demoString.substr(demoIndex+1);
+	demoIndex++;
+	setTimeout(demoFunction, 300);
+}
+
+//receivePositionStringFromAndroid("030000c0000c010000000000");
+clickIndex = 0;
+if(!isAndroid)
+{
+	document.body.onclick =
+		function()
+		{
+			if(clickIndex==0)
+			{
+				eventForward();
+			}
+			else if (clickIndex==1)
+			{
+			}
+			else if (clickIndex==3)
+			{
+				eventLiftFingers()
+			}
+			clickIndex++;
+		};
+}
+
+var demo;
+function Demo()
+{
+
+	this.startDemo = function()
+	{
+		setTimeout(function(){demo.action1();}, 1590);
+		setTimeout(function(){demo.action2();}, 2610);
+		setTimeout(function(){demo.action3();}, 3320);
+		setTimeout(function(){demo.action4();}, 4410);
+		setTimeout(function(){demo.action5();}, 6200);
+	}
+
+	this.initialize = function()
+	{
+		setAllNeckPositionsOff(false);
+		element_title.style.opacity = '1';
+		setNeckPositionListOn([[3,1,3], [2,5,2], [3,6,1]]);
+		setFingering([[3,1,3], [2,5,1], [3,6,2]]);
+	}
+
+	this.action1 = function()
+	{
+		setNeckPositionOff(3, 1, true);
+		setNeckPositionListCorrect([[3,1]]);
+	}
+
+	this.action2 = function()
+	{
+		setNeckPositionOff(3, 1, true);
+		setNeckPositionOn(3, 1);
+	}
+
+	this.action3 = function()
+	{
+		setNeckPositionIncorrect(3, 3);
+	}
+
+	this.action4 = function()
+	{
+		setNeckPositionOff(3, 3);
+	}
+
+	this.action5 = function()
+	{
+		setNeckPositionListOff([[3,1], [2,5], [3,6]], true);
+		setNeckPositionListCorrect([[3,1,3], [2,5,2], [3,6,1]]);
+		startStrummingAnimation(200, chordTextTopString(getChordText(currentChordIndex)));
+		element_chord.style.color = 'green';
+		element_lyrics.style.color = 'green';
+
+	}
+
+
+	this.initialize();
 }
