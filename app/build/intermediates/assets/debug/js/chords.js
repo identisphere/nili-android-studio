@@ -3,15 +3,47 @@ function getChordText(index)
 	return chordList[index];
 }
 
+function isChordTextString(chord)
+{
+	if(chord.indexOf('[')!=-1) return true;
+}
+
+function chordTextToChordArray(chord)
+{
+	if(isChordTextString(chord))
+	{
+		var returnedList = new Array();
+		var positionsArray = JSON.parse(chord);
+		for(var i=0; i<positionsArray.length; i++)
+		{
+			var fret = positionsArray[i][0];
+			var string = positionsArray[i][1];
+			var finger = null;
+			if(positionsArray[i][2]!=null)
+				finger = positionsArray[i][2]
+			// is string
+			if(fret == '0')
+			{
+				for(var j=0; j<=TOTAL_NUMBER_OF_FRETS; j++)
+				{
+					returnedList.push([j+1,string, null]);
+				}
+				returnedList.push(["string",string, null]);
+			}
+			else
+				returnedList.push([fret,string, finger]);
+		}
+		return returnedList;
+	}
+}
+
 function getPositionListOfChordText(chord)
 {
 	// [fret,string,finger]
-	if(chord.indexOf('[')!=-1)
-	{
-		return JSON.parse(chord);
-		return;
-	}
-	switch(chord)
+	var chordArray = chordTextToChordArray(chord);
+	if(chordArray!=null) return chordArray;
+	// [chord name]
+	else switch(chord)
 	{
 		case 'A':
 			return [[2,2,1],[2,3,1],[2,4,1]];

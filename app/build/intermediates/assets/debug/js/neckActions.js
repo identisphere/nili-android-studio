@@ -58,7 +58,7 @@ function setNeckPositionBlinkOff(fret, string, leaveFingering)
 function setAllNeckPositionsOff(leaveFingering)
 {
 	if(neckPositions==null) neckPositions = document.getElementsByClassName("position_td");
-	for(var fret=0; fret<TOTAL_NUMBER_OF_FRETS; fret++)
+	for(var fret=0; fret<=TOTAL_NUMBER_OF_FRETS; fret++)
 	{
 		for(var string=0; string<TOTAL_NUMBER_OF_STRINGS; string++)
 		{
@@ -71,7 +71,7 @@ function setAllNeckPositionsOff(leaveFingering)
 function setAllNeckPositionsOn(leaveFingering)
 {
 	if(neckPositions==null) neckPositions = document.getElementsByClassName("position_td");
-	for(var fret=0; fret<TOTAL_NUMBER_OF_FRETS; fret++)
+	for(var fret=0; fret<=TOTAL_NUMBER_OF_FRETS; fret++)
 	{
 		for(var string=0; string<TOTAL_NUMBER_OF_STRINGS; string++)
 		{
@@ -92,8 +92,17 @@ function setNeckPositionListOn(positionList)
 {
 	for(var i=0; i<positionList.length; i++)
 	{
-		setNeckPositionOn(positionList[i][0], positionList[i][1])
+		if(positionList[i][0]=="string")
+			stringElements[
+				TOTAL_NUMBER_OF_STRINGS - positionList[i][1]
+			].classList.add("strum");
+		else
+			setNeckPositionOn(positionList[i][0], positionList[i][1])
 	}
+}
+
+function lightString(string)
+{
 }
 
 function setNeckPositionListCorrect(positionList)

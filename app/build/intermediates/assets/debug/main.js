@@ -1,4 +1,4 @@
-var TOTAL_NUMBER_OF_FRETS = 5;
+var TOTAL_NUMBER_OF_FRETS = 4;
 var TOTAL_NUMBER_OF_STRINGS = 6;
 
 var originalChordElementList = $(".chord");
@@ -81,19 +81,18 @@ if(!isAndroid)
 	document.body.onclick = 
 		function()
 		{
-			if(clickIndex%2==0)
+			if(clickIndex==1)
 			{
 				eventPressedCorrect();
-				setNeckPositionListOff([[3,1], [2,5], [3,6]], true);
-				setNeckPositionListCorrect([[3,1,3], [2,5,2], [3,6,1]]);
-				startStrummingAnimation(200, getChordTopString(getChordText(currentChordIndex)));
-				element_chord.style.color = 'green';
-				element_lyrics.style.color = 'green';
-			} 
-			else if (clickIndex%2==1)
-			{
 				eventLiftFingers();
-			} 
+			}
+			else if (clickIndex==1)
+			{
+			}
+			else if (clickIndex%3==1)
+			{
+				eventLiftFingers()
+			}
 			clickIndex++;
 		};
 }
@@ -114,7 +113,6 @@ function Demo()
 	this.initialize = function()
 	{
 		setAllNeckPositionsOff(false);
-		element_title.innerHTML = "Reckoning Song -  Asaf Avidan";
 		element_title.style.opacity = '1';
 		setNeckPositionListOn([[3,1,3], [2,5,2], [3,6,1]]);
 		setFingering([[3,1,3], [2,5,1], [3,6,2]]);
@@ -301,6 +299,7 @@ function moveToNextChord()
 	if(currentChordIndex+1>=chordList.length) return;
 
 	currentChordIndex++;
+
 }
 
 function moveToPreviousChord()
@@ -312,12 +311,16 @@ function moveToPreviousChord()
 
 function displayCurrentChord()
 {
+	var currentChordText = getPositionListOfChordText(getChordText(currentChordIndex))
 	setAllNeckPositionsOff(false);
 	setLyrics();
 	setChordText();
-	setFingering(getPositionListOfChordText(getChordText(currentChordIndex)));
-	setNeckPositionListOn(getPositionListOfChordText(getChordText(currentChordIndex)));
-	
+	setFingering(currentChordText);
+	if(isChordTextString(currentChordText))
+		stringElements[string].classList.add("strum");
+	else
+		setNeckPositionListOn(currentChordText);
+
 	element_chord.style.color = 'red';
 }
 
@@ -343,10 +346,6 @@ function setLyrics()
 {
 	element_lyrics.innerHTML = lyricsList[currentChordIndex];
 	element_lyrics.style.fontSize = getBestFitTextSize(element_lyrics);
-
-	element_title.innerHTML = lyricsList[currentChordIndex+1];
-	element_title.style.fontSize = getBestFitTextSize(element_title);
-
 }
 
 function clearLyrics()
@@ -374,12 +373,12 @@ function createTable()
 {
 	neckPositionElementArray = new Array(TOTAL_NUMBER_OF_FRETS);
 
-	for(var i=0; i<TOTAL_NUMBER_OF_FRETS; i++)
+	for(var i=0; i<=TOTAL_NUMBER_OF_FRETS; i++)
 	{
 		neckPositionElementArray[i] = new Array();
 	}
 	
-	for(var j=0; j<TOTAL_NUMBER_OF_FRETS; j++)
+	for(var j=0; j<=TOTAL_NUMBER_OF_FRETS; j++)
 	{
 		var element_neck_fret = document.createElement('table');
 		element_neck_fret.className = "fret_table";
@@ -417,7 +416,7 @@ function createTable()
 	var neckTop = $(element_neck).position().top;
 	var neckHeight = $(element_neck).height();
 	var neckWidth = $(element_neck).width();
-	for(var i=0; i<TOTAL_NUMBER_OF_FRETS; i++)
+	for(var i=0; i<=TOTAL_NUMBER_OF_FRETS; i++)
 	{
 		$(".fret_table")[i].style.left = ($($(".fret_table")[0]).width()/3)*(i+1)+(neckWidth/6)*i;
 		$(".fret_table")[i].style.top = neckTop;
@@ -427,7 +426,7 @@ function createTable()
 function createCorrectIncorrectTable()
 {
 	neckPositionCorrectElementArray = new Array();
-	for(var i=0; i<TOTAL_NUMBER_OF_FRETS; i++)
+	for(var i=0; i<=TOTAL_NUMBER_OF_FRETS; i++)
 	{
 		neckPositionCorrectElementArray[i] = new Array()
 		for(var j=0; j<TOTAL_NUMBER_OF_STRINGS; j++)
@@ -446,7 +445,7 @@ function createCorrectIncorrectTable()
 	}
 
 	neckPositionIncorrectElementArray = new Array();
-	for(var i=0; i<TOTAL_NUMBER_OF_FRETS; i++)
+	for(var i=0; i<=TOTAL_NUMBER_OF_FRETS; i++)
 	{
 		neckPositionIncorrectElementArray[i] = new Array()
 		for(var j=0; j<TOTAL_NUMBER_OF_STRINGS; j++)
