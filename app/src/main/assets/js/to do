@@ -1,0 +1,16 @@
+1. intialize
+    1. JS reads all chords, converts to arduino string. if string, sets '1' for all frets in string.
+    2. JS sends all position strings to android
+
+
+
+
+
+
+light up string
+1. js       light string when moving to next chord
+2. js       stop of string/move to next chord
+3. android  light all four lights
+4. android  wait for correct strumming
+4.1
+5. android  tell js pressed correct/...
