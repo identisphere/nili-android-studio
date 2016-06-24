@@ -12,7 +12,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import com.nili.BT.ConnectionManager;
+import com.nili.utilities.ConnectionManager;
 
 
 public class Operator extends Thread

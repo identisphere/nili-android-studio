@@ -38,15 +38,15 @@ import com.example.main.R;
 import com.nili.globals.Commands;
 import com.nili.globals.Globals;
 
-import com.nili.BT.ConnectionManager;
-import com.nili.BT.ReadData;
+import com.nili.utilities.ConnectionManager;
+import com.nili.utilities.BtReadData;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class MainActivity extends Activity 
 {
 	// bt
     public ConnectionManager connectionManager;
-    public ReadData readData;
+    public BtReadData btReadData;
     
 	public	TextView			dataReceived;
 	public 	TextView			dataSent;
@@ -86,7 +86,7 @@ public class MainActivity extends Activity
 		Thread.currentThread().setName("Main Activity Thread");
 		
 		connectionManager = new ConnectionManager();
-		readData = new ReadData();
+		btReadData = new BtReadData();
 		operator = new Operator();
 		webInterface = new WebAppInterface();
 		
@@ -129,11 +129,11 @@ public class MainActivity extends Activity
 		
         // connect java script to android
 
-        readData.set(this, connectionManager.inputStream, operator); // this thread reads the incomming data from bluetooth
+        btReadData.set(this, connectionManager.inputStream, operator); // this thread reads the incomming data from bluetooth
 		operator.set(this.connectionManager, this.webInterface, this);
 
         webInterface.start();
-        readData.start();
+        btReadData.start();
 		operator.start();
 
 		//setUiAutoMode(false);

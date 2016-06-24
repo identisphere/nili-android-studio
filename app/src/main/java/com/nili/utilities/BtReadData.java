@@ -1,4 +1,4 @@
-package com.nili.BT;
+package com.nili.utilities;
 
 import java.io.InputStream;
 
@@ -8,7 +8,7 @@ import com.nili.globals.Commands;
 import com.nili.main.MainActivity;
 import com.nili.main.Operator;
 
-public class ReadData extends Thread
+public class BtReadData extends Thread
 {
 
 	private Operator operator = null;
@@ -17,7 +17,7 @@ public class ReadData extends Thread
 	private boolean receivedFirst = false;
     public char[] receivedChars = new char[24];
 
-	public ReadData() 
+	public BtReadData()
 	{
 	}
 	
@@ -50,7 +50,7 @@ public class ReadData extends Thread
                         }
                         this.inputStream.read();
 
-                        if(ReadData.this.operator == null) return; 
+                        if(BtReadData.this.operator == null) return;
                         
 						Message operatorMessage = new Message();
                         operatorMessage.obj = new String(receivedChars);
@@ -67,7 +67,7 @@ public class ReadData extends Thread
                 { //if an error appear, we return to the Main activity
                 	this.mainActivity.runOnUiThread(new Runnable() {@Override public void run()
                     {
-	                    ReadData.this.mainActivity.showToast("error reading data from bluetooth");
+	                    BtReadData.this.mainActivity.showToast("error reading data from bluetooth");
                     }});
                     break;
                 }

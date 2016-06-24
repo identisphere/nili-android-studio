@@ -1,4 +1,4 @@
-package com.nili.BT;
+package com.nili.utilities;
 
 import java.io.IOException;
 import java.io.InputStream;
