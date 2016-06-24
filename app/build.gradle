@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.example.nili_complete"
+        applicationId "com.nili"
         minSdkVersion 19
         targetSdkVersion 19
     }

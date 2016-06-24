@@ -1,11 +1,14 @@
-package com.example.nili_complete;
+package com.nili.BT;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import android.os.Message;
 
-class ReadData extends Thread
+import com.nili.globals.Commands;
+import com.nili.main.MainActivity;
+import com.nili.main.Operator;
+
+public class ReadData extends Thread
 {
 
 	private Operator operator = null;

@@ -1,4 +1,4 @@
-package com.example.nili_complete;
+package com.nili.BT;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,9 +12,11 @@ import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.nili.globals.Commands;
+import com.nili.globals.Globals;
+import com.nili.main.MainActivity;
 
 public class ConnectionManager extends Thread 
 {
@@ -78,7 +80,7 @@ public class ConnectionManager extends Thread
 					System.out.println("unable to send message to blue tooth");
 					return;
 				}
-				if(message.arg1==Commands.ConnectionManager.sendToBt)
+				if(message.arg1== Commands.ConnectionManager.sendToBt)
 				{
 					sendDataToBt((String)message.obj);
 					return;

@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.example.nili_complete;
+package com.example.main;
 
 public final class R {
     public static final class attr {
@@ -16,19 +16,17 @@ public final class R {
         public static final int forward=0x7f020002;
         public static final int ic_launcher=0x7f020003;
         public static final int manual=0x7f020004;
+        public static final int restart=0x7f020005;
     }
     public static final class id {
-        public static final int Backward=0x7f070009;
-        public static final int Forward=0x7f070008;
-        public static final int IsAuto=0x7f070006;
+        public static final int Backward=0x7f070006;
+        public static final int Forward=0x7f070005;
+        public static final int IsAuto=0x7f070002;
         public static final int activity_main_webview=0x7f070000;
-        public static final int incomingData=0x7f070001;
-        public static final int menu_settings=0x7f07000a;
-        public static final int outData=0x7f070003;
-        public static final int restart=0x7f070005;
-        public static final int sendDataOn=0x7f070002;
-        public static final int showSongsList=0x7f070007;
-        public static final int songsList=0x7f070004;
+        public static final int menu_settings=0x7f070007;
+        public static final int restart=0x7f070004;
+        public static final int showSongsList=0x7f070003;
+        public static final int songsList=0x7f070001;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;

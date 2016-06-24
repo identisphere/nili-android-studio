@@ -1,4 +1,4 @@
-package com.example.nili_complete;
+package com.nili.main;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,29 +29,35 @@ import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.main.R;
+import com.nili.globals.Commands;
+import com.nili.globals.Globals;
+
+import com.nili.BT.ConnectionManager;
+import com.nili.BT.ReadData;
+
 @SuppressLint("SetJavaScriptEnabled")
 public class MainActivity extends Activity 
 {
 	// bt
-    public	ConnectionManager	connectionManager;
-    public	ReadData			readData;
+    public ConnectionManager connectionManager;
+    public ReadData readData;
     
 	public	TextView			dataReceived;
 	public 	TextView			dataSent;
 	
-	public	Operator	operator;
+	public Operator operator;
 	private ListView songsListView;
 	public HashMap<String, String> songsMap = new HashMap<String, String>();
 
 	// javascript
 	public  WebView			webView;
-	public	WebAppInterface webInterface;
+	public WebAppInterface webInterface;
 	public	String jsCommand;
 	
 	public Object waitConnection = new ReentrantLock();

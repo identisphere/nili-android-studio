@@ -1,30 +1,28 @@
-package com.example.nili_complete;
-
-import java.util.ArrayList;
+package com.nili.main;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.JsonReader;
-import android.util.Log;
+
+import com.nili.globals.Commands;
+import com.nili.globals.Globals;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import com.nili.BT.ConnectionManager;
 
 
 public class Operator extends Thread
 {
 	private MainActivity		mainActivity;
-	private String 				currentChordString;
-	private final char 			blinkRateChar = '5';
-	private int 				positionCount;
-	private boolean 			waitingForNoPress = false;
+	private int					currentState = Globals.State.WAITING_FOR_USER_PRESS;
 	private ConnectionManager	connectionManager;
 	private WebAppInterface		webInterface;
 	public 	Handler				mHandler;
-	public	ArrayList<ChordObject> chordList = new ArrayList<ChordObject>();
-	private int currentChordIndex; 
-	private Object waitingForBlink = new Object();
+	private Chords				chords = new Chords();
 
 	public void run()
 	{
@@ -36,7 +34,7 @@ public class Operator extends Thread
 			{
 				try
 				{
-					if(message.arg1==Commands.Operator.receivePress)
+					if(message.arg1== Commands.Operator.receivePress)
 						receivedPressFromUser((String)message.obj);
 					else if(message.arg1==Commands.Operator.addChord)
 						addChordToChordList((String)message.obj);
@@ -61,17 +59,18 @@ public class Operator extends Thread
 	
 	protected void restart() 
 	{
-		this.chordList.clear();
+		chords.clearList();
 	}
 
 	public void receivedPressFromUser(String receivedSwitchString)
 	{
-		if(this.chordList.size()==0)
+		if(chords.getListSize()==0)
 		{
 			this.sendStringToBoth(receivedSwitchString);
 			return;
 		}
 
+		String currentChordString = chords.getCurrentChord().positionString;
 		String btReturnedString = currentChordString;
 		String jsReturnedString = currentChordString;
 
@@ -89,19 +88,20 @@ public class Operator extends Thread
 			// pressed wrong. set char to blinkRate
 			if(receivedSwitchString.charAt(i)=='1' && currentChordString.charAt(i)=='0')
 			{
-				btReturnedString = btReturnedString.substring(0,i) + blinkRateChar + btReturnedString.substring(i+1);
+				btReturnedString = btReturnedString.substring(0,i) + Globals.BLINK_CHAR_RATE + btReturnedString.substring(i+1);
 				jsReturnedString = jsReturnedString.substring(0,i) + "i" + jsReturnedString.substring(i+1);
 			}
 		}
 
 		// waiting for user to lift fingers to move to next chord
-		if(this.waitingForNoPress && mainActivity.isAutoMode())
+		if(this.currentState == Globals.State.WAITING_FOR_USER_LIFT && mainActivity.isAutoMode())
 		{
+			// user  lifted fingers
 			if(receivedSwitchString.equalsIgnoreCase("000000000000000000000000"))
 			{
-				this.sendStringToBt(this.currentChordString);
+				this.sendStringToBt(currentChordString);
 				sendLiftFingersToJs();
-				this.waitingForNoPress = false;
+				this.currentState = Globals.State.WAITING_FOR_USER_PRESS;
 			}
 			return;
 		}
@@ -111,14 +111,14 @@ public class Operator extends Thread
 		this.sendStringToJs(jsReturnedString);
 
 		// pressed correctly, perform strumming animation and wait for user to lift fingers to move to next chord
-		if(pressedCorrect==this.positionCount)
+		if(pressedCorrect == chords.getPositionCoumt())
 		//if(pressedCorrect>=1)
 		{
 
 			if(mainActivity.isAutoMode())
 			{
 				goToNextChord();
-				this.waitingForNoPress = true;
+				this.currentState = Globals.State.WAITING_FOR_USER_PRESS;
 			}
 
 			this.sendStringToBt("111111111111111111111111");
@@ -137,21 +137,20 @@ public class Operator extends Thread
 	
 	public void initialize()
 	{
-		if(chordList.size()==0)
+		if(chords.getListSize()==0)
 		{
 			this.sendStringToBt("000000000000000000000000");
 			return;
 		}
-		this.currentChordIndex = 0;
-		if(setCurrentChord(this.currentChordIndex))
+		if(chords.setCurrentChord(0))
 		{
-			sendStringToBt(chordList.get(currentChordIndex).positionString);
+			sendStringToBt(chords.getCurrentChord().positionString);
 		}
 		
 		// temp
     	//createFakePress();
 	}
-	
+
 	public void createFakePress()
 	{
     	try {
@@ -160,11 +159,25 @@ public class Operator extends Thread
     		//webInterface.sendMessageToJs("eventPressedCorrect()");
     		//webInterface.sendMessageToJs("eventPressedCorrect(000000100001010000000000)");
 	    	receivedPressFromUser("000000100001010000000000");
-	    	receivedPressFromUser("000000000000000000000000");
+			receivedPressFromUser("000000000000000000000000");
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private boolean goToNextChord()
+	{
+		if(!chords.goToNextChord()) return false;
+		sendStringToBt(chords.getCurrentChord().positionString);
+		return true;
+	}
+
+	private boolean goToPrevChord()
+	{
+		if(!chords.goToPreviousChord()) return false;
+		sendStringToBt(chords.getCurrentChord().positionString);
+		return true;
 	}
 
 	private void eventForward()
@@ -179,7 +192,7 @@ public class Operator extends Thread
 	
 	private void eventBackward()
 	{
-		if(goToPreviousChord())
+		if(goToPrevChord())
 		{
 			Message message = new Message();
 			message.arg1 = Commands.WebApp.eventBackward;
@@ -187,23 +200,7 @@ public class Operator extends Thread
 		}
 	}
 
-	private boolean goToNextChord()
-	{
-		if(this.currentChordIndex == chordList.size()-1) return false;
-		this.currentChordIndex++;
-		setCurrentChord(this.currentChordIndex);
-		return true;
-	}
-	
-	private boolean goToPreviousChord()
-	{
-		if(this.currentChordIndex == 0) return false;
-		this.currentChordIndex--;
-		setCurrentChord(this.currentChordIndex);
-		return true;
-	}
-	
-	private void sendPressedCorrectToJs(String positionString) 
+	private void sendPressedCorrectToJs(String positionString)
 	{
 		Message message = new Message();
 		message.arg1 = Commands.WebApp.eventPressedCorrect;
@@ -223,37 +220,14 @@ public class Operator extends Thread
 	public void addChordToChordList(String chordJsonString) throws Exception
 	{
 		JSONObject receivedJson = new JSONObject(chordJsonString);
-		ChordObject receivedChord = new ChordObject();
+		Chords.ChordObject receivedChord = new Chords.ChordObject();
 		receivedChord.positionString = receivedJson.getString("positionString");
 		JSONArray stringListJson = receivedJson.getJSONArray("stringList");
 		receivedChord.stringList = new ArrayList<Integer>();
 		for(int i=0; i<stringListJson.length(); i++)
 			receivedChord.stringList.add(Integer.parseInt(stringListJson.get(i).toString()));
 
-		this.chordList.add(receivedChord);
-	}
-	
-	public boolean setCurrentChord(int index)
-	{
-		if(this.chordList.size()==0)
-		{
-			return false;
-		}
-		if(index>this.chordList.size())
-		{
-			this.sendStringToBt("000000000000000000000000");
-			return false;
-		}
-		this.currentChordString = this.chordList.get(index).positionString;
-		this.positionCount = 0;
-		for(int i=0; i<this.currentChordString.length(); i++)
-		{
-			if(this.currentChordString.charAt(i)=='1')
-				this.positionCount++;
-		}
-		
-		this.sendStringToBt(this.currentChordString);
-		return true;
+		chords.addChordToList(receivedChord);
 	}
 	
 	void sendStringToBt(String data)

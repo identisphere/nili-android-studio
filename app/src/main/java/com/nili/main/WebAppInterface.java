@@ -1,13 +1,15 @@
-package com.example.nili_complete;
+package com.nili.main;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.webkit.JavascriptInterface;
 
+import com.nili.globals.Commands;
+
 public class WebAppInterface extends Thread
 {
-	private	MainActivity 	mainActivity;
+	private MainActivity mainActivity;
 	private Operator		operator;
 	private String jsMessage;
 	public static Handler mHandler;

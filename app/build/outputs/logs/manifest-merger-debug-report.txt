@@ -4,7 +4,7 @@ ADDED from C:\Users\USER\Desktop\NILI_10.05.16\Development\app\Android_studio\gi
 	xmlns:android
 		ADDED from C:\Users\USER\Desktop\NILI_10.05.16\Development\app\Android_studio\git_nili\nili-android-studio\app\src\main\AndroidManifest.xml:2:11-69
 	package
-		ADDED from C:\Users\USER\Desktop\NILI_10.05.16\Development\app\Android_studio\git_nili\nili-android-studio\app\src\main\AndroidManifest.xml:3:5-40
+		ADDED from C:\Users\USER\Desktop\NILI_10.05.16\Development\app\Android_studio\git_nili\nili-android-studio\app\src\main\AndroidManifest.xml:3:5-31
 		INJECTED from C:\Users\USER\Desktop\NILI_10.05.16\Development\app\Android_studio\git_nili\nili-android-studio\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\USER\Desktop\NILI_10.05.16\Development\app\Android_studio\git_nili\nili-android-studio\app\src\main\AndroidManifest.xml
 	android:versionName
@@ -51,14 +51,14 @@ ADDED from C:\Users\USER\Desktop\NILI_10.05.16\Development\app\Android_studio\gi
 		ADDED from C:\Users\USER\Desktop\NILI_10.05.16\Development\app\Android_studio\git_nili\nili-android-studio\app\src\main\AndroidManifest.xml:23:9-40
 	android:hardwareAccelerated
 		ADDED from C:\Users\USER\Desktop\NILI_10.05.16\Development\app\Android_studio\git_nili\nili-android-studio\app\src\main\AndroidManifest.xml:20:9-43
-activity#com.example.nili_complete.MainActivity
+activity#com.nili.main.MainActivity
 ADDED from C:\Users\USER\Desktop\NILI_10.05.16\Development\app\Android_studio\git_nili\nili-android-studio\app\src\main\AndroidManifest.xml:24:9-33:20
 	android:screenOrientation
 		ADDED from C:\Users\USER\Desktop\NILI_10.05.16\Development\app\Android_studio\git_nili\nili-android-studio\app\src\main\AndroidManifest.xml:27:7-44
 	android:label
 		ADDED from C:\Users\USER\Desktop\NILI_10.05.16\Development\app\Android_studio\git_nili\nili-android-studio\app\src\main\AndroidManifest.xml:26:13-45
 	android:name
-		ADDED from C:\Users\USER\Desktop\NILI_10.05.16\Development\app\Android_studio\git_nili\nili-android-studio\app\src\main\AndroidManifest.xml:25:13-66
+		ADDED from C:\Users\USER\Desktop\NILI_10.05.16\Development\app\Android_studio\git_nili\nili-android-studio\app\src\main\AndroidManifest.xml:25:13-54
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
 ADDED from C:\Users\USER\Desktop\NILI_10.05.16\Development\app\Android_studio\git_nili\nili-android-studio\app\src\main\AndroidManifest.xml:28:13-32:29
 action#android.intent.action.MAIN
