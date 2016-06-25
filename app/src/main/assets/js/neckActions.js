@@ -1,4 +1,4 @@
-function lightStringsList(stringList)
+function setStringListOn(stringList)
 {
 	for(var i=0; i < stringList.length; i++)
 		setStringOn(stringList[i]);
@@ -49,6 +49,12 @@ function setNeckPositionOff(fret, string, leaveFingering)
 	neckPositionIncorrectElementArray[fret-1][6-string].style.opacity = '0';
 	neckPositionCorrectElementArray[fret-1][6-string].style.opacity = '0';
 	
+}
+
+function setNeckPositionCorrectList(positionList)
+{
+	for(var i=0; i<positionList.length; i++)
+		setNeckPositionCorrect(positionList[i][0], positionList[i][1]);
 }
 
 function setNeckPositionCorrect(fret, string)

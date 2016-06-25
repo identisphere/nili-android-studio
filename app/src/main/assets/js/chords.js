@@ -90,6 +90,14 @@ function chordTextToPositionList(chordText)
 			return [[2,1,1],[2,2,1],[4,4,3]];
 		case 'G':
 			return [[3,6,3],[2,5,2],[3,1,4]];
+		case 'test0':
+			return[[4,6],[4,5],[4,4]];
+		case 'test1':
+			return[[4,3],[4,2],[4,1]];
+		case 'test2':
+			return[[3,6],[3,5],[3,4]];
+		case 'test3':
+			return[[3,3],[3,2],[3,1]];
 	}
 }
 

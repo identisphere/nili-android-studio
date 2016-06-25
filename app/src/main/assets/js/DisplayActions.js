@@ -5,10 +5,10 @@ function displayCurrentChord()
     setChordText();
     setFingering(currentChord.positionList);
     setNeckPositionListOn(currentChord.positionList);
-    if(currentChord.stringList.length>0)
+    if(currentChord.emptyStringList.length>0)
     {
-        lightStringsList(currentChord.stringList);
-        setNeckPositionStringListOff(currentChord.stringList)
+        setStringListOn(currentChord.emptyStringList);
+        setNeckPositionStringListOff(currentChord.emptyStringList)
     }
 
     element_chord.style.color = 'red';
@@ -16,20 +16,22 @@ function displayCurrentChord()
 
 function setChordText()
 {
-    if(isChordTextExplicit(currentChord.text))
-    {
-        element_chord.innerHTML = "--";
-        return;
-    }
-    element_chord.innerHTML = currentChord.text;
-
+    setChordElement(currentChord, element_chord);
     if(nextChord!=null)
-        element_next.innerHTML = nextChord.text;
-    else
-        element_next.innerHTML = "";
+        setChordElement(nextChord, element_next);
+}
 
-    element_chord.style.fontSize = parseInt(getBestFitTextSize(element_chord))*1.2;
-    element_next.style.fontSize = parseInt(getBestFitTextSize(element_next))*1.2;
+function setChordElement(chord, element)
+{
+    if(isChordTextExplicit(chord.text))
+        element.style.opacity = "0";
+    else
+    {
+        element.style.opacity = "1";
+        element.innerHTML = chord.text;
+    }
+
+    element.style.fontSize = parseInt(getBestFitTextSize(element))*1.2;
 }
 
 function setLyrics()

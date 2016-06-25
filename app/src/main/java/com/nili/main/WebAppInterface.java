@@ -9,11 +9,11 @@ import com.nili.globals.Commands;
 
 public class WebAppInterface extends Thread
 {
-	private MainActivity mainActivity;
+	private MainActivity	mainActivity;
 	private Operator		operator;
-	private String jsMessage;
-	public static Handler mHandler;
-	
+	private String 			jsMessage;
+	public static Handler	mHandler;
+
 	public void run()
 	{
 		Thread.currentThread().setName("WebAppInterface");
@@ -25,7 +25,7 @@ public class WebAppInterface extends Thread
 				if(message.arg1 == Commands.WebApp.liftFingers)
 					eventLiftFingers();
 				else if(message.arg1 == Commands.WebApp.eventPressedCorrect)
-					pressedCorrect_Animation(addJsDelimeters((String)message.obj));
+					pressedCorrect_Animation();
 				else if(message.arg1 == Commands.WebApp.sendStringToJs)
 					sendPositionStringToJs(addJsDelimeters((String)message.obj));
 				else if(message.arg1 == Commands.WebApp.eventUiChangeMode)
@@ -34,6 +34,8 @@ public class WebAppInterface extends Thread
 					eventForward();
 				else if(message.arg1 == Commands.WebApp.eventBackward)
 					eventBackward();
+				else if(message.arg1 == Commands.WebApp.restart)
+					eventRestart();
 			}
 		};
 		
@@ -61,12 +63,12 @@ public class WebAppInterface extends Thread
 	}
 
 
-	public void pressedCorrect_Animation(String positionString) 
+	public void pressedCorrect_Animation()
 	{
-		sendMessageToJs(String.format("eventPressedCorrect(%s);", positionString));
+		sendMessageToJs("eventPressedCorrect()");
 	}
 
-	public void performStop() 
+	public void eventRestart()
 	{
 		sendMessageToJs("eventStop()");
 	}
@@ -91,7 +93,7 @@ public class WebAppInterface extends Thread
 		Message operatorMessage = new Message();
 		if(chordString.equalsIgnoreCase("start_chords"))
 		{
-			operatorMessage.arg1 = Commands.Operator.restart;
+			operatorMessage.arg1 = Commands.Operator.startAddingChords;
 			this.operator.mHandler.sendMessage(operatorMessage);
 			return;
 		}
@@ -100,6 +102,7 @@ public class WebAppInterface extends Thread
 		{
 			operatorMessage.arg1 = Commands.Operator.finishedAddingChords;
 			this.operator.mHandler.sendMessage(operatorMessage);
+			mainActivity.setMode(mainActivity.isAutoMode());
 			return;
 		} 
 		

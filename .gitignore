@@ -1,6 +1,10 @@
 
 
 .gradle/
+.idea/*
+
+.idea/workspace.xml
+app/src/main/assets/.idea
+app/build/
+.gradle/2.2.1/
 .idea/
-app/build/intermediates/
-try/

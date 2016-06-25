@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.concurrent.locks.ReentrantLock;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -58,10 +57,7 @@ public class MainActivity extends Activity
 	// javascript
 	public  WebView			webView;
 	public WebAppInterface webInterface;
-	public	String jsCommand;
-	
-	public Object waitConnection = new ReentrantLock();
-	
+
 	private boolean isAutoMode;
 	private ImageView changeModeButton;
 	private ImageView forwardButton;
@@ -136,8 +132,9 @@ public class MainActivity extends Activity
         btReadData.start();
 		operator.start();
 
-		//setUiAutoMode(false);
-		//setMode(false);
+		// needs to wait for page to load
+		setUiAutoMode(true);
+		isAutoMode = true;
 	}
 
     private void setUiAutoMode(boolean isAuto)
@@ -160,7 +157,7 @@ public class MainActivity extends Activity
 		}
     }
     
-	private void setMode(boolean isAuto)
+	public synchronized void setMode(boolean isAuto)
 	{
 		isAutoMode = isAuto;
 		
@@ -289,10 +286,14 @@ public class MainActivity extends Activity
         });
 	}
 	
-	public void onButtonRestart(View v)
-	{
-		this.operator.initialize();
-		this.webInterface.performStop();
+	public void onButtonRestart(View v) {
+		Message message = new Message();
+		message.arg1 = Commands.Operator.restart;
+		this.operator.mHandler.sendMessage(message);
+
+		message = new Message();
+		message.arg1 = Commands.WebApp.restart;
+		this.webInterface.mHandler.sendMessage(message);
 	}
 	
 	public void onButtonShowSongsList(View v)

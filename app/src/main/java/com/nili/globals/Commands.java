@@ -11,6 +11,7 @@ final public class Commands
 		public static final int eventUiChangeMode = 5;
 		public static final int eventForward = 6;
 		public static final int eventBackward = 7;
+		public static final int restart = 8;
 	}
 	
 	public final class Operator 
@@ -18,9 +19,11 @@ final public class Commands
 		public static final int receivePress = 1;
 		public static final int addChord = 2;
 		public static final int finishedAddingChords = 3;
-		public static final int restart = 4;
+		public static final int startAddingChords = 4;
 		public static final int eventForward = 5;
 		public static final int eventBackward = 6;
+		public static final int strummedCorrect = 7;
+		public static final int restart = 8;
 	}
 	
 	public final class ConnectionManager

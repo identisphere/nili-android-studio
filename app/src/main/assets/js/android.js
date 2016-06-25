@@ -10,7 +10,9 @@ function eventLiftFingers()
 	console.log("eventLiftFingers");
 
 	eventStopStrummingAnimation();
+	moveToNextChord();
 	displayCurrentChord()
+
 }
 
 function eventForward()
@@ -29,30 +31,32 @@ function eventBackward()
 	displayCurrentChord()
 }
 
-function eventPressedCorrect(positionString)
+function eventPressedCorrect()
 {
 	if(!checkEventIsReal()) return;
 	
-	console.log("eventPressedCorrect: " + positionString);
+	console.log("eventPressedCorrect");
 
-	receivePositionStringFromAndroid(positionString);
+	setAllNeckPositionsOff(true);
+	setNeckPositionCorrectList(currentChord.positionList);
 
-	eventStartStrummingAnimation();
-	
 	if(isAutoMode)
 	{
-		moveToNextChord()
-		setNeckPositionListOn(currentChord.positionList);
+		setNeckPositionListOn(nextChord.positionList);
 	}
 
 	element_chord.style.color = 'green';
+
+	if(isChordTextExplicit(currentChord.text))
+		setStringOn(currentChord.positionList[0][1])
+	else
+		eventStartStrummingAnimation();
 }
 
 function eventStartStrummingAnimation()
 {
 	startStrummingAnimation(200, currentChord.topString);
 }
-
 
 function eventStopStrummingAnimation()
 {
@@ -126,20 +130,21 @@ function receivePositionStringFromAndroid(_positionString)
 
 function eventStop()
 {
+	console.log("eventStop();")
 	stopStrummingAnimation();
-	currentChordIndex = 0;
+	setCurrentChord(0);
 	
 	setChordText();
 	setLyrics();
 
 	setAllNeckPositionsOff(false);
-	setFingering(chordTextToPositionList(getChordText(currentChordIndex)));
-	setNeckPositionListOn(chordTextToPositionList(getChordText(currentChordIndex)));
+	setFingering(currentChord.positionList);
+	setNeckPositionListOn(currentChord.positionList);
 }
 
 function sendChordToAndroid(chord)
 {
 	var jsonChord = JSON.stringify(chord);
-	sendMessageToAndroid("addChord_"+jsonChord);
+	sendMessageToAndroid("addChord_"+jsonChord.toString());
 }
 

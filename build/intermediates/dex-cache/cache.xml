@@ -2,6 +2,13 @@
 <items version="2" >
 
     <item
+        jar="C:\Users\USER\Desktop\NILI_10.05.16\Development\app\Android_studio\git_nili\nili-android-studio\app\libs\TarsosDSP-Android-2.0-bin.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="1e716281db210fc3ef4ed201056ac50490cd706b">
+        <dex dex="C:\Users\USER\Desktop\NILI_10.05.16\Development\app\Android_studio\git_nili\nili-android-studio\app\build\intermediates\pre-dexed\debug\TarsosDSP-Android-2.0-bin-00fc556286323c90c0c9ec020167267deb669dbb.jar" />
+    </item>
+    <item
         jar="C:\Users\USER\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
         jumboMode="false"
         revision="23.0.2"

@@ -85,7 +85,7 @@ function processChordsHtml()
 		chordList[i].text = originalChordElementList[i].innerHTML;
 		chordList[i].positionList = chordTextToPositionList(chordList[i].text);
 		chordList[i].positionString = positionListToString(chordList[i].positionList);
-		chordList[i].stringList = chordTextToStringList(chordList[i].text);
+		chordList[i].emptyStringList = chordTextToStringList(chordList[i].text);
 		chordList[i].topString = chordTextTopString(chordList[i].text);
 		chordList[i].index = i;
 	}
@@ -450,15 +450,23 @@ if(!isAndroid)
 		{
 			if(clickIndex==0)
 			{
-				eventPressedCorrect("0000000c000000c0000000c0");
+				eventPressedCorrect();
 			}
 			else if (clickIndex==1)
 			{
 				eventLiftFingers();
 			}
+			if(clickIndex==2)
+			{
+				eventPressedCorrect();
+			}
 			else if (clickIndex==3)
 			{
-				eventLiftFingers()
+				eventLiftFingers();
+			}
+			else if(clickIndex==4)
+			{
+				eventStop();
 			}
 			clickIndex++;
 		};
