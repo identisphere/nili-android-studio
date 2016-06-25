@@ -1,25 +1,30 @@
-package com.nili.main;
+package com.nili.operator;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 
 import com.nili.globals.Commands;
 import com.nili.globals.Globals;
 
+import com.nili.main.MainActivity;
+import com.nili.main.WebAppInterface;
 import com.nili.utilities.ConnectionManager;
 import com.nili.utilities.Listener;
+import com.nili.utilities.Strumming;
 
 
 public class Operator extends Thread
 {
-	private MainActivity		mainActivity;
+	private MainActivity mainActivity;
 	private int					currentState = State.WAITING_FOR_CORRECT_PRESS;
 	private ConnectionManager	connectionManager;
-	private WebAppInterface		webInterface;
+	private WebAppInterface 	webInterface;
 	public 	Handler				mHandler;
 	private Chords				chords = new Chords();
 	private Listener			listener = new Listener();
+	private Strumming 			strumming;
 
 	private class UserPress
 	{
@@ -44,6 +49,7 @@ public class Operator extends Thread
 	public void run()
 	{
 		Thread.currentThread().setName("Operator");
+
 		Looper.prepare();
 		
 		mHandler = new Handler() {
@@ -144,7 +150,7 @@ public class Operator extends Thread
 		// waiting for user to press full chord correct
 		else if(currentState==State.WAITING_FOR_CORRECT_PRESS
 			&&
-			userPress.pressedCorrect == chords.getCurrentChord().positionCount)
+			userPress.pressedCorrect == chords.current().positionCount)
 		{
 			handleStateChange(State.PRESSED_CORRECT);
 		}
@@ -158,7 +164,7 @@ public class Operator extends Thread
 
 	public UserPress processUserPress(String receivedSwitchString)
 	{
-		String currentChordString = chords.getCurrentChord().positionString;
+		String currentChordString = chords.current().positionString;
 		UserPress userPress = new UserPress();
 		userPress.btPositions = currentChordString;
 		userPress.jsPositions = currentChordString;
@@ -198,12 +204,13 @@ public class Operator extends Thread
 		// new chord
 		if(eventType == State.NEW_CHORD)
 		{
-			sendStringToBt(chords.getCurrentChord().positionString);
+			stopStrumming();
+			sendStringToBt(chords.current().positionString);
 			// set open string or not
-			if(chords.isChordString(chords.getCurrentChord()))
+			if(chords.isChordString(chords.current()))
 			{
 				currentState = State.WAITING_FOR_CORRECT_STRUMM;
-				listener.setCurrentString(chords.getCurrentChord().stringList.get(0));
+				listener.setCurrentString(chords.current().stringList.get(0));
 			}
 			else
 				currentState = State.WAITING_FOR_CORRECT_PRESS;
@@ -223,7 +230,10 @@ public class Operator extends Thread
 				eventType == State.PRESSED_CORRECT)
 		{
 			sendPressedCorrectToJs();
-			blinkNeck(100,chords.getNextChord().positionString);
+			if(chords.isChordString(chords.current()))
+				blinkNeck(100, chords.next().positionString);
+			else
+				startStrumming(chords.current());
 			currentState = State.WAITING_FOR_USER_LIFT;
 		}
 		// was waiting for user to lift fingers, and user lifted fingers
@@ -254,6 +264,7 @@ public class Operator extends Thread
 		}
 		else return true;
 	}
+
 	private void blinkNeck(long delay, String postBlinkPositions)
 	{
 		this.sendStringToBt("111111111111111111111111");
@@ -265,19 +276,11 @@ public class Operator extends Thread
 	{
 		if(1==1) return;
     	try {
-    		//webInterface.sendMessageToJs("eventPressedCorrect()");
-    		//webInterface.sendMessageToJs("eventPressedCorrect(000000100001010000000000)");
-			receivedPressFromUser("111000000000000000000000");
+			// G chord: 000000100001010000000000
+			receivedPressFromUser("000000100001010000000000");
 			Thread.sleep(50);
 			receivedPressFromUser("000000000000000000000000");
-			Thread.sleep(50);
-			receivedPressFromUser("100000000000000000000000");
-			Thread.sleep(50);
-			receivedPressFromUser("000000000000000000000000");
-			Thread.sleep(50);
-			receivedPressFromUser("100000000000000000000000");
-			int end = 5;
-			end = 4;
+			Log.d("a", "a");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -291,14 +294,6 @@ public class Operator extends Thread
 		this.webInterface.mHandler.sendMessage(message);
 	}
 
-	private void sendLiftFingersToJs() 
-	{
-
-		Message message = new Message();
-		message.arg1 = Commands.WebApp.liftFingers;
-		this.webInterface.mHandler.sendMessage(message);
-	}
-
 	// run by javascript
 	public void addChordToChordList(String chordJsonString) throws Exception
 	{
@@ -307,11 +302,11 @@ public class Operator extends Thread
 	
 	synchronized void sendStringToBt(String data)
 	{
-		data = this.addBtDelimeters(data);
+		data = Globals.addBtDelimeters(data);
 
 		Message message = new Message();
 		message.arg1 = Commands.ConnectionManager.sendToBt;
-		message.obj = addBtDelimeters(data);
+		message.obj = Globals.addBtDelimeters(data);
 		this.connectionManager.mHandler.sendMessage(message);
 	}
 	
@@ -323,6 +318,24 @@ public class Operator extends Thread
 		this.webInterface.mHandler.sendMessage(message);
 	}
 	
+	private void startStrumming(Chords.ChordObject chord)
+	{
+		Message message = new Message();
+		message.arg1 = Commands.Strumming.startStrumming;
+		message.arg2 = chord.topString;
+		this.strumming.mHandler.sendMessage(message);
+	}
+
+	private void stopStrumming()
+	{
+		this.strumming.isActive = false;
+		/*
+		Message message = new Message();
+		message.arg1 = Commands.Strumming.stopStrumming;
+		this.strumming.mHandler.sendMessage(message);
+		*/
+	}
+
 	public void sendStringToBoth(String positionString)
 	{
 		sendStringToBt(positionString);
@@ -333,21 +346,12 @@ public class Operator extends Thread
 	{
 	}
 	
-	private String addBtDelimeters(String string)
-	{
-		return "+"+string+"#";
-	}
-	
-	private String removeBtDelimeters(String string)
-	{
-		return string.substring(1, string.length()-1);
-	}
-	
-	public void set(ConnectionManager connectionManager, WebAppInterface webInterface, MainActivity mainActivity) 
+	public void set(ConnectionManager connectionManager, WebAppInterface webInterface, Strumming strumming, MainActivity mainActivity)
 	{
 		this.connectionManager = connectionManager;
 		this.webInterface = webInterface;
 		this.mainActivity = mainActivity;
+		this.strumming = strumming;
 		listener.set(this);
 	}
 }

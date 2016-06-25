@@ -3,18 +3,6 @@ function eventSetTimer(tick)
 	setTimer(tick);
 }
 
-function eventLiftFingers()
-{
-	if(isAndroid && !checkEventIsReal()) return;
-
-	console.log("eventLiftFingers");
-
-	eventStopStrummingAnimation();
-	moveToNextChord();
-	displayCurrentChord()
-
-}
-
 function eventForward()
 {
 	console.log("eventForward: ");
@@ -39,11 +27,6 @@ function eventPressedCorrect()
 
 	setAllNeckPositionsOff(true);
 	setNeckPositionCorrectList(currentChord.positionList);
-
-	if(isAutoMode)
-	{
-		setNeckPositionListOn(nextChord.positionList);
-	}
 
 	element_chord.style.color = 'green';
 

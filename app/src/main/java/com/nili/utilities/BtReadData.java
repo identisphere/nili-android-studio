@@ -6,7 +6,7 @@ import android.os.Message;
 
 import com.nili.globals.Commands;
 import com.nili.main.MainActivity;
-import com.nili.main.Operator;
+import com.nili.operator.Operator;
 
 public class BtReadData extends Thread
 {

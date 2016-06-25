@@ -30,4 +30,10 @@ final public class Commands
 	{
 		public static final int sendToBt = 1;
 	}
+
+	public final class Strumming
+	{
+		public static final int startStrumming = 1;
+		public static final int stopStrumming = 2;
+	}
 }

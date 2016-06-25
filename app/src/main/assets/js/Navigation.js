@@ -19,7 +19,7 @@ function setCurrentChord(index)
         currentChord = chordList[currentChordIndex];
 
     if(currentChordIndex+1 < chordList.length)
-        nextChord = chordList[currentChordIndex];
+        nextChord = chordList[currentChordIndex+1];
     else
         nextChord = null;
 

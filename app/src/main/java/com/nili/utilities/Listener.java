@@ -1,11 +1,9 @@
 package com.nili.utilities;
 
-import android.graphics.Color;
 import android.os.Message;
 
 import com.nili.globals.Commands;
-import com.nili.globals.Globals;
-import com.nili.main.Operator;
+import com.nili.operator.Operator;
 
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.AudioEvent;

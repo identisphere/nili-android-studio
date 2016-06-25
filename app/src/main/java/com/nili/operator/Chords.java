@@ -1,6 +1,4 @@
-package com.nili.main;
-
-import com.nili.globals.Globals;
+package com.nili.operator;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,18 +13,13 @@ public class Chords {
     private int         currentChordIndex;
     private ChordObject currentChord;
     private ChordObject nextChord;
-    private boolean lastChord;
-
-    public boolean isLastChord()
-    {
-        return currentChordIndex==chordList.size()-1;
-    }
 
     static public class ChordObject {
         public String               positionString = null;
         public ArrayList<Integer>   stringList = new ArrayList<Integer>();
         public int                  index;
         public int                  positionCount = 0;
+        int                         topString = -1;
 
     }
 
@@ -36,11 +29,11 @@ public class Chords {
         chordList.add(chord);
     }
 
-    public ChordObject getCurrentChord() {
+    public ChordObject current() {
         return currentChord;
     }
 
-    public ChordObject getNextChord()
+    public ChordObject next()
     {
         return nextChord;
     }
@@ -65,7 +58,7 @@ public class Chords {
     {
         if(this.currentChordIndex == chordList.size()-1) return false;
         this.currentChordIndex++;
-        setCurrentChord(this.currentChordIndex);
+        setCurrent(this.currentChordIndex);
         return true;
     }
 
@@ -73,13 +66,13 @@ public class Chords {
     {
         if(this.currentChordIndex == 0) return false;
         this.currentChordIndex--;
-        setCurrentChord(this.currentChordIndex);
+        setCurrent(this.currentChordIndex);
         return true;
     }
 
     public void setToFirstChord()
     {
-        setCurrentChord(0);
+        setCurrent(0);
     }
 
     private int getPositionCount(String positionString)
@@ -90,7 +83,7 @@ public class Chords {
         return positionCount;
     }
 
-    private boolean setCurrentChord(int index)
+    private boolean setCurrent(int index)
     {
         if (this.chordList.size() == 0 || index > this.chordList.size())
             return false;
@@ -98,7 +91,7 @@ public class Chords {
         this.currentChordIndex = index;
         this.currentChord = this.chordList.get(index);
 
-        String positionString = getCurrentChord().positionString;
+        String positionString = current().positionString;
 
         if(index<this.chordList.size()-1)
             nextChord = chordList.get(index+1);
@@ -115,6 +108,8 @@ public class Chords {
         JSONArray stringListJson = jsonChord.getJSONArray("emptyStringList");
         for(int i=0; i<stringListJson.length(); i++)
             createdChord.stringList.add(Integer.parseInt(stringListJson.get(i).toString()));
+
+        createdChord.topString = Integer.parseInt(jsonChord.getString("topString"));
 
         createdChord.index = index;
 

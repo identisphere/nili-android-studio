@@ -6,11 +6,12 @@ import android.os.Message;
 import android.webkit.JavascriptInterface;
 
 import com.nili.globals.Commands;
+import com.nili.operator.Operator;
 
 public class WebAppInterface extends Thread
 {
 	private MainActivity	mainActivity;
-	private Operator		operator;
+	private Operator operator;
 	private String 			jsMessage;
 	public static Handler	mHandler;
 

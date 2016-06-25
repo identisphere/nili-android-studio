@@ -8,6 +8,17 @@ final public class Globals
 
 	public static final char	BLINK_CHAR_RATE = '5';
 
+	public static String addBtDelimeters(String string)
+	{
+		return "+"+string+"#";
+	}
+
+	private String removeBtDelimeters(String string)
+	{
+		return string.substring(1, string.length()-1);
+	}
+
+
 	////////////////////////////////////////
 	// STRUCTURE OF BT STRING
 	/////////////////////////////////////

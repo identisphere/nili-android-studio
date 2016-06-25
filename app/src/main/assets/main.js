@@ -124,8 +124,6 @@ function initialize()
 
 	sendMessageToAndroid("end_chords");
 
-	setCurrentChord(0);
-
 	setTimerIncorrect();
 	setTimerHidden();
 	
@@ -451,10 +449,11 @@ if(!isAndroid)
 			if(clickIndex==0)
 			{
 				eventPressedCorrect();
+				setNeckPositionListOn(nextChord.positionList);
 			}
 			else if (clickIndex==1)
 			{
-				eventLiftFingers();
+				eventForward();
 			}
 			if(clickIndex==2)
 			{
@@ -462,7 +461,7 @@ if(!isAndroid)
 			}
 			else if (clickIndex==3)
 			{
-				eventLiftFingers();
+				eventForward();
 			}
 			else if(clickIndex==4)
 			{

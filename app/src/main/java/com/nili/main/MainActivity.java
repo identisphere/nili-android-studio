@@ -37,8 +37,10 @@ import com.example.main.R;
 import com.nili.globals.Commands;
 import com.nili.globals.Globals;
 
+import com.nili.operator.Operator;
 import com.nili.utilities.ConnectionManager;
 import com.nili.utilities.BtReadData;
+import com.nili.utilities.Strumming;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class MainActivity extends Activity 
@@ -47,9 +49,7 @@ public class MainActivity extends Activity
     public ConnectionManager connectionManager;
     public BtReadData btReadData;
     
-	public	TextView			dataReceived;
-	public 	TextView			dataSent;
-	
+	public Strumming strumming;
 	public Operator operator;
 	private ListView songsListView;
 	public HashMap<String, String> songsMap = new HashMap<String, String>();
@@ -85,6 +85,7 @@ public class MainActivity extends Activity
 		btReadData = new BtReadData();
 		operator = new Operator();
 		webInterface = new WebAppInterface();
+		strumming = new Strumming();
 		
 		
 		
@@ -102,6 +103,8 @@ public class MainActivity extends Activity
 
 		connectionManager.set(this, "98:D3:31:B1:F7:92");
 		connectionManager.start();
+		strumming.set(this.connectionManager);
+		strumming.start();
 
 		synchronized(connectionManager)
 		{
@@ -126,7 +129,7 @@ public class MainActivity extends Activity
         // connect java script to android
 
         btReadData.set(this, connectionManager.inputStream, operator); // this thread reads the incomming data from bluetooth
-		operator.set(this.connectionManager, this.webInterface, this);
+		operator.set(this.connectionManager, this.webInterface, this.strumming, this);
 
         webInterface.start();
         btReadData.start();
@@ -274,8 +277,8 @@ public class MainActivity extends Activity
     	webView.getSettings().setRenderPriority(RenderPriority.HIGH);
     	webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
     	
-    	loadWebView(this.songsMap.get("solo"));
-    	//loadWebView(this.songsMap.get("Leaving On A Jet Plane - John Denver"));
+    	//loadWebView(this.songsMap.get("solo"));
+    	loadWebView(this.songsMap.get("Leaving On A Jet Plane - John Denver"));
 
     	webView.setWebViewClient(new WebViewClient() {
           @Override
