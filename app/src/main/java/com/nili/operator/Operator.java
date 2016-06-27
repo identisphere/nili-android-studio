@@ -162,6 +162,62 @@ public class Operator extends Thread
 		}
 	}
 
+	public void handleStateChange(int eventType)
+	{
+		// new chord
+		if(eventType == State.NEW_CHORD)
+		{
+			stopStrumming();
+			sendStringToBt(chords.current().positionString);
+			// set open string or not
+			if(chords.isChordEmptyString(chords.current()))
+			{
+				currentState = State.WAITING_FOR_CORRECT_STRUMM;
+				listener.setCurrentString(chords.current().emptyStringList.get(0));
+			}
+			else
+				currentState = State.WAITING_FOR_CORRECT_PRESS;
+		}
+		// finished song
+		else if(eventType == State.FINISHED_SONG)
+		{
+			eventRestart();
+
+			Message message = new Message();
+			message.arg1 = Commands.WebApp.restart;
+			this.webInterface.mHandler.sendMessage(message);
+		}
+		// was waiting for user to press correct, and user pressed correct
+		else if(currentState == State.WAITING_FOR_CORRECT_PRESS
+				&&
+				eventType == State.PRESSED_CORRECT)
+		{
+			sendPressedCorrectToJs();
+			if(chords.current().positionCount==1)
+				blinkNeck(100, chords.next().positionString);
+			else
+				startStrumming(chords.current());
+			currentState = State.WAITING_FOR_USER_LIFT;
+		}
+		// was waiting for user to lift fingers, and user lifted fingers
+		else if(currentState == State.WAITING_FOR_USER_LIFT
+				&&
+				eventType == State.USER_LIFT_FINGERS)
+		{
+			if(mainActivity.isAutoMode())
+			{
+				eventForward();
+			}
+		}
+		// was waiting for use to strum correct, and user strummed correct
+		else if(currentState == State.WAITING_FOR_CORRECT_STRUMM
+				&&
+				eventType == State.STRUMMED_CORRECT)
+		{
+			eventForward();
+		}
+	}
+
 	public UserPress processUserPress(String receivedSwitchString)
 	{
 		String currentChordString = chords.current().positionString;
@@ -197,62 +253,6 @@ public class Operator extends Thread
 			return;
 		}
 		eventRestart();
-	}
-
-	public void handleStateChange(int eventType)
-	{
-		// new chord
-		if(eventType == State.NEW_CHORD)
-		{
-			stopStrumming();
-			sendStringToBt(chords.current().positionString);
-			// set open string or not
-			if(chords.isChordString(chords.current()))
-			{
-				currentState = State.WAITING_FOR_CORRECT_STRUMM;
-				listener.setCurrentString(chords.current().stringList.get(0));
-			}
-			else
-				currentState = State.WAITING_FOR_CORRECT_PRESS;
-		}
-		// finished song
-		else if(eventType == State.FINISHED_SONG)
-		{
-			eventRestart();
-
-			Message message = new Message();
-			message.arg1 = Commands.WebApp.restart;
-			this.webInterface.mHandler.sendMessage(message);
-		}
-		// was waiting for user to press correct, and user pressed correct
-		else if(currentState == State.WAITING_FOR_CORRECT_PRESS
-				&&
-				eventType == State.PRESSED_CORRECT)
-		{
-			sendPressedCorrectToJs();
-			if(chords.isChordString(chords.current()))
-				blinkNeck(100, chords.next().positionString);
-			else
-				startStrumming(chords.current());
-			currentState = State.WAITING_FOR_USER_LIFT;
-		}
-		// was waiting for user to lift fingers, and user lifted fingers
-		else if(currentState == State.WAITING_FOR_USER_LIFT
-				&&
-				eventType == State.USER_LIFT_FINGERS)
-		{
-			if(mainActivity.isAutoMode())
-			{
-				eventForward();
-			}
-		}
-		// was waiting for use to strum correct, and user strummed correct
-		else if(currentState == State.WAITING_FOR_CORRECT_STRUMM
-				&&
-				eventType == State.STRUMMED_CORRECT)
-		{
-			eventForward();
-		}
 	}
 
 	private boolean goToNextChord()

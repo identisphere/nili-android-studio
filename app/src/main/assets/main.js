@@ -85,8 +85,10 @@ function processChordsHtml()
 		chordList[i].text = originalChordElementList[i].innerHTML;
 		chordList[i].positionList = chordTextToPositionList(chordList[i].text);
 		chordList[i].positionString = positionListToString(chordList[i].positionList);
-		chordList[i].emptyStringList = chordTextToStringList(chordList[i].text);
-		chordList[i].topString = chordTextTopString(chordList[i].text);
+		var emptyStringList = chordTextToStringList(chordList[i].text);
+		emptyStringList ? chordList[i].emptyStringList = emptyStringList : chordList[i].emptyStringList = null;
+		var topString = chordTextTopString(chordList[i].text);
+		topString ? chordList[i].topString = topString : chordList[i].topString = chordList[i].positionList[0][1];
 		chordList[i].index = i;
 	}
 	for(var i=0; i<originalLyricsElementList.length; i++)
@@ -97,11 +99,11 @@ function processChordsHtml()
 	{
 		chordList[i].tiks = originalTicksElementList[i].innerHTML;
 	}
-	if(originalChordElementList.length>0)
+	for(var i=0; i<originalChordElementList.length; i++)
 		$(originalChordElementList[i].remove());
-	if(originalTicksElementList.length>0)
+	for(var i=0; i<originalTicksElementList.length; i++)
 		$(originalTicksElementList[i].remove());
-	if(originalLyricsElementList.length>0)
+	for(var i=0; i<originalLyricsElementList.length; i++)
 		$(originalLyricsElementList[i].remove());
 }
 

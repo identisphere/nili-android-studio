@@ -7,6 +7,8 @@ import android.os.Message;
 import com.nili.globals.Commands;
 import com.nili.globals.Globals;
 
+import java.util.Date;
+
 /**
  * Created by USER on 25/06/2016.
  */
@@ -33,7 +35,7 @@ public class Strumming extends Thread
                 try {
                     if (message.arg1 == Commands.Strumming.startStrumming)
                         startStrumming((Integer)message.arg2);
-                    else if (message.arg1 == Commands.Operator.addChord)
+                    else if (message.arg1 == Commands.Strumming.stopStrumming)
                         stopStrumming();
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -65,11 +67,16 @@ public class Strumming extends Thread
     {
         try
         {
+            long startTime = new Date().getTime();
             if(!isActive) return;
 
             if(stringIndex==-1)
             {
-                Thread.sleep(delayCycle);
+                while(new Date().getTime() - startTime  < delayCycle)
+                {
+                    if(!isActive) return;
+                    Thread.sleep(30);
+                }
                 lightStrumString(topString);
                 return;
             }
@@ -87,7 +94,11 @@ public class Strumming extends Thread
             else
                 return;
 
-            Thread.sleep(delay);
+            while(new Date().getTime() - startTime < delay)
+            {
+                if(!isActive) return;
+                Thread.sleep(30);
+            }
             lightStrumString(stringIndex - 1);
         }
         catch(Exception ex)

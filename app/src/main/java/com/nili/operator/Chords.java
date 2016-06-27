@@ -16,7 +16,7 @@ public class Chords {
 
     static public class ChordObject {
         public String               positionString = null;
-        public ArrayList<Integer>   stringList = new ArrayList<Integer>();
+        public ArrayList<Integer> emptyStringList = new ArrayList<Integer>();
         public int                  index;
         public int                  positionCount = 0;
         int                         topString = -1;
@@ -48,9 +48,9 @@ public class Chords {
         return this.chordList.size();
     }
 
-    public boolean isChordString(ChordObject chord)
+    public boolean isChordEmptyString(ChordObject chord)
     {
-        if(chord.stringList.size()>0) return true;
+        if(chord.emptyStringList.size()>0) return true;
         else return false;
     }
 
@@ -107,9 +107,9 @@ public class Chords {
 
         JSONArray stringListJson = jsonChord.getJSONArray("emptyStringList");
         for(int i=0; i<stringListJson.length(); i++)
-            createdChord.stringList.add(Integer.parseInt(stringListJson.get(i).toString()));
+            createdChord.emptyStringList.add(Integer.parseInt(stringListJson.get(i).toString()));
 
-        createdChord.topString = Integer.parseInt(jsonChord.getString("topString"));
+       createdChord.topString = Integer.parseInt(jsonChord.getString("topString"));
 
         createdChord.index = index;
 

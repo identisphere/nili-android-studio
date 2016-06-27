@@ -103,7 +103,12 @@ function chordTextToPositionList(chordText)
 
 function chordTextTopString(chordText)
 {
-	if(chordText.indexOf('A')!=-1)
+	if(isChordTextExplicit(chordText))
+	{
+		return null;
+	}
+
+	else if(chordText.indexOf('A')!=-1)
 		return 5;
 	else if(chordText.indexOf('B')!=-1)
 		return 4;
