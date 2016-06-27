@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
+import java.util.Date;
 import java.util.UUID;
 
 import android.bluetooth.BluetoothAdapter;
@@ -31,8 +32,10 @@ public class ConnectionManager extends Thread
     public MainActivity mainActivity = null;
 	protected TextView dataReceived;
 	public Handler mHandler;
-    
-	public ConnectionManager() 
+
+    long lastBtCallTime = 0;
+
+	public ConnectionManager()
     {
     }
 
@@ -82,6 +85,7 @@ public class ConnectionManager extends Thread
 				}
 				if(message.arg1== Commands.ConnectionManager.sendToBt)
 				{
+
 					sendDataToBt((String)message.obj);
 					return;
 				}
@@ -95,13 +99,19 @@ public class ConnectionManager extends Thread
 	// formerly "write"
     public void sendDataToBt(String data) 
     {
-        try 
+        try
         {
+            long callDifference = new Date().getTime() - lastBtCallTime;
+            if(callDifference< Globals.MIN_TIME_BETWEEN_BT_CALLS)
+                Thread.sleep(callDifference);
+
             outputStream.write(data.getBytes());
             outputStream.write(data.getBytes());
             outputStream.flush();
+
+            lastBtCallTime = new Date().getTime();
         }
-        catch (IOException e) 
+        catch (Exception e)
         {
             e.getStackTrace();
         }
