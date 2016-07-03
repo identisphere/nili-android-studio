@@ -100,6 +100,8 @@ public class MainActivity extends Activity
 		changeModeButton = (ImageView) findViewById(R.id.IsAuto);
 		forwardButton = (ImageView) findViewById(R.id.Forward);
 		backwardButton = (ImageView) findViewById(R.id.Backward);
+		playPauseButton = (ImageView) findViewById(R.id.playPause);
+		reconnectButton = (ImageView) findViewById(R.id.reconnect);
 		
 		
 		webInterface.set(this, operator);
