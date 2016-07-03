@@ -45,6 +45,9 @@ import com.nili.utilities.Strumming;
 @SuppressLint("SetJavaScriptEnabled")
 public class MainActivity extends Activity 
 {
+	private int uiMode;
+	private boolean isPlay;
+
 	// bt
     public ConnectionManager connectionManager;
     public BtReadData btReadData;
@@ -58,10 +61,11 @@ public class MainActivity extends Activity
 	public  WebView			webView;
 	public WebAppInterface webInterface;
 
-	private boolean isAutoMode;
 	private ImageView changeModeButton;
 	private ImageView forwardButton;
 	private ImageView backwardButton;
+	private ImageView playPauseButton;
+	private ImageView reconnectButton;
 	
     @Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -103,9 +107,8 @@ public class MainActivity extends Activity
 
 		connectionManager.set(this, "98:D3:31:B1:F7:92");
 		connectionManager.start();
-		strumming.set(this.connectionManager);
-		strumming.start();
 
+		reconnectButton.setBackgroundResource(R.drawable.reconnecting);
 		synchronized(connectionManager)
 		{
 			try {
@@ -116,17 +119,19 @@ public class MainActivity extends Activity
 			}
 		}
 
+		reconnectButton.setBackgroundResource(R.drawable.reconnect);
 		if(!Globals.isConnectedToBT)
 		{
 			showToast("failed connecting to blue tooth");
-			//return;
+			reconnectButton.setVisibility(View.VISIBLE);
 		}
 		else
 		{
 			showToast("connected to blue tooth");
+			reconnectButton.setVisibility(View.GONE);
 		}
-		
-        // connect java script to android
+
+		waitForBtConnect();
 
         btReadData.set(this, connectionManager.inputStream, operator); // this thread reads the incomming data from bluetooth
 		operator.set(this.connectionManager, this.webInterface, this.strumming, this);
@@ -136,43 +141,38 @@ public class MainActivity extends Activity
 		operator.start();
 
 		// needs to wait for page to load
-		setUiAutoMode(true);
-		isAutoMode = true;
+		uiMode = Globals.UImode.AUTO;
 	}
 
-    private void setUiAutoMode(boolean isAuto)
-    {
-		this.forwardButton.setVisibility(View.GONE);
-		this.backwardButton.setVisibility(View.GONE);
+	private void waitForBtConnect()
+	{
+	}
 
-		
-		if(isAuto)
+	public synchronized void setMode(int mode)
+	{
+		uiMode = mode;
+
+		if(mode==Globals.UImode.AUTO)
 		{
 			changeModeButton.setBackgroundResource(R.drawable.auto);
-			this.forwardButton.setVisibility(View.GONE);
-			this.backwardButton.setVisibility(View.GONE);
+			playPauseButton.setVisibility(View.GONE);
 		}
-		else
+		else if(mode==Globals.UImode.MANUAL)
 		{
 			changeModeButton.setBackgroundResource(R.drawable.manual);
-			this.forwardButton.setVisibility(View.VISIBLE);
-			this.backwardButton.setVisibility(View.VISIBLE);
+			playPauseButton.setVisibility(View.GONE);
 		}
-    }
-    
-	public synchronized void setMode(boolean isAuto)
-	{
-		isAutoMode = isAuto;
-		
-		Message message = new Message();
-		message.arg1 = Commands.WebApp.eventUiChangeMode;
-		message.obj = Boolean.toString(isAutoMode);
-		this.webInterface.mHandler.sendMessage(message);
+		else if(mode==Globals.UImode.TIMED)
+		{
+			changeModeButton.setBackgroundResource(R.drawable.timed);
+			playPauseButton.setVisibility(View.VISIBLE);
+			isPlay = false;
+		}
 	}
     
-	public boolean isAutoMode()
+	public int getMode()
 	{
-		return isAutoMode;
+		return uiMode;
 	}
 	
     private void setSongsList() 
@@ -298,33 +298,54 @@ public class MainActivity extends Activity
 		message.arg1 = Commands.WebApp.restart;
 		this.webInterface.mHandler.sendMessage(message);
 	}
-	
-	public void onButtonShowSongsList(View v)
-	{
+
+	public void onButtonShowSongsList(View v) {
 		this.songsListView.setVisibility(View.VISIBLE);
 	}
 
-    public void eventUiToggleMode(View v)
+    public void onButtonToggleMode(View v)
     {
-    	isAutoMode = !isAutoMode;
-		
-    	setMode(isAutoMode);
-		setUiAutoMode(isAutoMode);
-    }
+		int mode = uiMode;
+    	if(mode == 2)
+			mode = 0;
+		else
+			mode++;
 
-    public void eventUiForward(View v)
+		setMode(mode);
+	}
+
+    public void onButtonForward(View v)
     {
 		Message message = new Message();
 		message.arg1 = Commands.Operator.eventForward;
 		this.operator.mHandler.sendMessage(message);
     }
     
-    public void eventUiBackward(View v)
+    public void onButtonBackward(View v)
     {
 		Message message = new Message();
 		message.arg1 = Commands.Operator.eventBackward;
 		this.operator.mHandler.sendMessage(message);
     }
+
+	public void onButtonPlayPause(View v)
+	{
+		if(isPlay)
+		{
+			isPlay = false;
+			playPauseButton.setBackgroundResource(R.drawable.pause);
+		}
+		else
+		{
+			isPlay = true;
+			playPauseButton.setBackgroundResource(R.drawable.play);
+		}
+	}
+
+	public void onButtonConnect(View v)
+	{
+		waitForBtConnect();
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

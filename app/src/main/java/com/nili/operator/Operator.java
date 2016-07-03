@@ -18,7 +18,7 @@ import com.nili.utilities.Strumming;
 public class Operator extends Thread
 {
 	private MainActivity mainActivity;
-	private int					currentState = State.WAITING_FOR_CORRECT_PRESS;
+	private int userState = State.WAITING_FOR_CORRECT_PRESS;
 	private ConnectionManager	connectionManager;
 	private WebAppInterface 	webInterface;
 	public 	Handler				mHandler;
@@ -137,9 +137,9 @@ public class Operator extends Thread
 		UserPress userPress = processUserPress(receivedSwitchString);
 
 		// waiting for user lift
-		if(currentState == State.WAITING_FOR_USER_LIFT)
+		if(userState == State.WAITING_FOR_USER_LIFT)
 			//auto mode, user lifted fingers
-			if(mainActivity.isAutoMode()
+			if(mainActivity.getMode()==Globals.UImode.AUTO
 			&&
 			receivedSwitchString.equalsIgnoreCase("000000000000000000000000"))
 			{
@@ -148,7 +148,7 @@ public class Operator extends Thread
 			else
 				return;
 		// waiting for user to press full chord correct
-		else if(currentState==State.WAITING_FOR_CORRECT_PRESS
+		else if(userState ==State.WAITING_FOR_CORRECT_PRESS
 			&&
 			userPress.pressedCorrect == chords.current().positionCount)
 		{
@@ -172,11 +172,11 @@ public class Operator extends Thread
 			// set open string or not
 			if(chords.isChordEmptyString(chords.current()))
 			{
-				currentState = State.WAITING_FOR_CORRECT_STRUMM;
+				userState = State.WAITING_FOR_CORRECT_STRUMM;
 				listener.setCurrentString(chords.current().emptyStringList.get(0));
 			}
 			else
-				currentState = State.WAITING_FOR_CORRECT_PRESS;
+				userState = State.WAITING_FOR_CORRECT_PRESS;
 		}
 		// finished song
 		else if(eventType == State.FINISHED_SONG)
@@ -188,7 +188,7 @@ public class Operator extends Thread
 			this.webInterface.mHandler.sendMessage(message);
 		}
 		// was waiting for user to press correct, and user pressed correct
-		else if(currentState == State.WAITING_FOR_CORRECT_PRESS
+		else if(userState == State.WAITING_FOR_CORRECT_PRESS
 				&&
 				eventType == State.PRESSED_CORRECT)
 		{
@@ -197,20 +197,20 @@ public class Operator extends Thread
 				blinkNeck(100, chords.next().positionString);
 			else
 				startStrumming(chords.current());
-			currentState = State.WAITING_FOR_USER_LIFT;
+			userState = State.WAITING_FOR_USER_LIFT;
 		}
 		// was waiting for user to lift fingers, and user lifted fingers
-		else if(currentState == State.WAITING_FOR_USER_LIFT
+		else if(userState == State.WAITING_FOR_USER_LIFT
 				&&
 				eventType == State.USER_LIFT_FINGERS)
 		{
-			if(mainActivity.isAutoMode())
+			if(mainActivity.getMode()==Globals.UImode.AUTO)
 			{
 				eventForward();
 			}
 		}
 		// was waiting for use to strum correct, and user strummed correct
-		else if(currentState == State.WAITING_FOR_CORRECT_STRUMM
+		else if(userState == State.WAITING_FOR_CORRECT_STRUMM
 				&&
 				eventType == State.STRUMMED_CORRECT)
 		{

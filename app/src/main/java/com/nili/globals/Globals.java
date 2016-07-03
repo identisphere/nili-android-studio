@@ -20,6 +20,12 @@ final public class Globals
 		return string.substring(1, string.length()-1);
 	}
 
+	public static class UImode
+	{
+		static public int AUTO = 0;
+		static public int MANUAL = 1;
+		static public int TIMED = 2;
+	}
 
 	////////////////////////////////////////
 	// STRUCTURE OF BT STRING

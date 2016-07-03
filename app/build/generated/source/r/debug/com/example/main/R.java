@@ -16,15 +16,22 @@ public final class R {
         public static final int forward=0x7f020002;
         public static final int ic_launcher=0x7f020003;
         public static final int manual=0x7f020004;
-        public static final int restart=0x7f020005;
+        public static final int pause=0x7f020005;
+        public static final int play=0x7f020006;
+        public static final int reconnect=0x7f020007;
+        public static final int reconnecting=0x7f020008;
+        public static final int restart=0x7f020009;
+        public static final int timed=0x7f02000a;
     }
     public static final class id {
-        public static final int Backward=0x7f070006;
-        public static final int Forward=0x7f070005;
+        public static final int Backward=0x7f070005;
+        public static final int Forward=0x7f070007;
         public static final int IsAuto=0x7f070002;
         public static final int activity_main_webview=0x7f070000;
-        public static final int menu_settings=0x7f070007;
-        public static final int restart=0x7f070004;
+        public static final int menu_settings=0x7f070009;
+        public static final int playPause=0x7f070004;
+        public static final int reconnect=0x7f070008;
+        public static final int restart=0x7f070006;
         public static final int showSongsList=0x7f070003;
         public static final int songsList=0x7f070001;
     }

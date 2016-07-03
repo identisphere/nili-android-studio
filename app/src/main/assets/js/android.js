@@ -46,12 +46,6 @@ function eventStopStrummingAnimation()
 	stopStrummingAnimation();
 }
 
-function setMode(isAuto)
-{
-	console.log("eventSetMode: " + isAuto);
-	isAutoMode = isAuto;
-}
-
 function eventSetTimed(tick)
 {
 	setTimerVisible(tick)

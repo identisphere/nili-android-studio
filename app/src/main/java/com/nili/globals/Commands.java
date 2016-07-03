@@ -8,10 +8,9 @@ final public class Commands
 		public static final int eventStopAnimation = 2;
 		public static final int liftFingers = 3;
 		public static final int sendStringToJs = 4;
-		public static final int eventUiChangeMode = 5;
-		public static final int eventForward = 6;
-		public static final int eventBackward = 7;
-		public static final int restart = 8;
+		public static final int eventForward = 5;
+		public static final int eventBackward = 6;
+		public static final int restart = 7;
 	}
 	
 	public final class Operator 

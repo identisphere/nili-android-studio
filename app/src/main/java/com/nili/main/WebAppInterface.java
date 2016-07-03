@@ -29,8 +29,6 @@ public class WebAppInterface extends Thread
 					pressedCorrect_Animation();
 				else if(message.arg1 == Commands.WebApp.sendStringToJs)
 					sendPositionStringToJs(addJsDelimeters((String)message.obj));
-				else if(message.arg1 == Commands.WebApp.eventUiChangeMode)
-					changeMode(addJsDelimeters((String)message.obj));
 				else if(message.arg1 == Commands.WebApp.eventForward)
 					eventForward();
 				else if(message.arg1 == Commands.WebApp.eventBackward)
@@ -103,7 +101,7 @@ public class WebAppInterface extends Thread
 		{
 			operatorMessage.arg1 = Commands.Operator.finishedAddingChords;
 			this.operator.mHandler.sendMessage(operatorMessage);
-			mainActivity.setMode(mainActivity.isAutoMode());
+			mainActivity.setMode(mainActivity.getMode());
 			return;
 		} 
 		
@@ -121,11 +119,6 @@ public class WebAppInterface extends Thread
 		return "\"" + string + "\"";
 	}
 
-	private void changeMode(String isAuto)
-	{
-		sendMessageToJs("setMode(" + isAuto + ");");
-	}
-	
 	private void eventForward()
 	{
 		sendMessageToJs("eventForward();");

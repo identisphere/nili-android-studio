@@ -57,21 +57,20 @@ public class ConnectionManager extends Thread
 					e.printStackTrace();
 				}
 	        }
-
-	        try
-	        {
-		        this.connect();
-	        	Globals.isConnectedToBT = true;
-	        }
-	        catch(Exception ex)
-	        {
-	        	Globals.isConnectedToBT = false;
-	        }
-	        finally
-	        {
-	        	this.notify();
-	        }
-		}
+            try
+            {
+                this.connect();
+                Globals.isConnectedToBT = true;
+            }
+            catch(Exception ex)
+            {
+                Globals.isConnectedToBT = false;
+            }
+            finally
+            {
+                this.notify();
+            }
+        }
 		
 		Looper.prepare();
 		
@@ -83,10 +82,9 @@ public class ConnectionManager extends Thread
 					System.out.println("unable to send message to blue tooth");
 					return;
 				}
-				if(message.arg1== Commands.ConnectionManager.sendToBt)
+				else if(message.arg1== Commands.ConnectionManager.sendToBt)
 				{
-
-					sendDataToBt((String)message.obj);
+                    sendDataToBt((String)message.obj);
 					return;
 				}
 			}
@@ -95,6 +93,10 @@ public class ConnectionManager extends Thread
 		Looper.loop();
 
 	}
+
+    private void tryConnect()
+    {
+    }
 
 	// formerly "write"
     public void sendDataToBt(String data) 
@@ -182,8 +184,6 @@ public class ConnectionManager extends Thread
     {
         address = btAddress;
         this.mainActivity = mainActivity;
-
-        Thread.currentThread().setName("Connection Manager Thread");
 	}
 
 }

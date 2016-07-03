@@ -45,8 +45,6 @@ var blinkingList;
 var isBlinkOn = false;
 var BLINK_INTERVAL = 200;
 
-var isAutoMode;
-
 
 
 // 3rd         1st   controls
@@ -61,15 +59,13 @@ var isAutoMode;
 
 document.body.onload = function()
 {
-
-
-	loadScript('./js/consts.js');
+	loadScript('./js/Consts.js');
 	loadScript('./js/DisplayActions.js');
 	loadScript('./js/Navigation.js');
-	loadScript('./js/neckActions.js');
-	loadScript('./js/chords.js');
-	loadScript('./js/animation.js');
-	loadScript('./js/timer.js');
+	loadScript('./js/NeckActions.js');
+	loadScript('./js/Chords.js');
+	loadScript('./js/Animation.js');
+	loadScript('./js/Timer.js');
 	loadScript('./js/Android.js');
 
 	window.setTimeout(initialize, 500);
