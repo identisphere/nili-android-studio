@@ -70,7 +70,7 @@ document.body.onload = function()
 	loadScript('./js/chords.js');
 	loadScript('./js/animation.js');
 	loadScript('./js/timer.js');
-	loadScript('./js/Android.js');
+	loadScript('./js/android.js');
 
 	window.setTimeout(initialize, 500);
 	// temp
