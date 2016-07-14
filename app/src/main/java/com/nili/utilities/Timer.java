@@ -34,12 +34,14 @@ public class Timer extends Thread{
             {
                 if(!isPaused && isActive)
                 {
-                   if(counter==0)
-                   {
+                    if(counter==0)
+                    {
                        signalNext();
-                   }
-                   else
-                   {
+                       currentThread().sleep(50);
+                       continue;
+                    }
+                    else
+                    {
                        counter--;
                        this.mainActivity.runOnUiThread(new Runnable() {
                            @Override
@@ -47,10 +49,9 @@ public class Timer extends Thread{
                                Timer.this.mainActivity.setCounter(counter + 1);
                            }
                        });
-                   }
+                    }
+                    currentThread().sleep(Globals.MIN_TIK * timeRatio);
                 }
-
-                currentThread().sleep(Globals.MIN_TIK * timeRatio);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

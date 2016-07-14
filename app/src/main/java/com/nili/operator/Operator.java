@@ -15,6 +15,8 @@ import com.nili.utilities.Listener;
 import com.nili.utilities.Strumming;
 import com.nili.utilities.Timer;
 
+import java.util.Date;
+
 
 public class Operator extends Thread
 {
@@ -123,6 +125,8 @@ public class Operator extends Thread
 		this.webInterface.mHandler.sendMessage(message);
 
 		handleStateChange(State.NEW_CHORD);
+		Log.d("operator:eventForward: ", String.valueOf(new Date().getTime()));
+
 	}
 
 	private void eventBackward()
@@ -206,6 +210,8 @@ public class Operator extends Thread
 			btOperations.stopStrumming();
 			btOperations.sendStringToBt(chords.current().positionString);
 			timer.setCounter(chords.getCounter());
+
+			Log.d("o:handle new state: ", String.valueOf(new Date().getTime()));
 
 			// set open string or not
 			if(chords.isChordEmptyString(chords.current()))
