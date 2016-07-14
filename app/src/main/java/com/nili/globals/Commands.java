@@ -23,11 +23,13 @@ final public class Commands
 		public static final int eventBackward = 6;
 		public static final int strummedCorrect = 7;
 		public static final int restart = 8;
+		public static final int chordChangeTik = 9;
 	}
 	
 	public final class ConnectionManager
 	{
 		public static final int sendToBt = 1;
+		public static final int connectToBt = 2;
 	}
 
 	public final class Strumming

@@ -31,36 +31,31 @@
 
     <ImageView
         android:id="@+id/IsAuto"
-        android:layout_width="30dp"
-    	android:layout_height="30dp"
+        android:layout_width="40dp"
+    	android:layout_height="40dp"
     	android:scaleType="fitXY"
         android:onClick="onButtonToggleMode"
         android:visibility="visible"
-        android:src="@drawable/auto"
-        android:layout_below="@+id/showSongsList"
-        android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/playPause"
-        android:layout_toStartOf="@+id/Backward" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
     <ImageView
         android:id="@+id/restart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:onClick="onButtonRestart"
-        android:src="@drawable/restart"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_above="@+id/IsAuto"
-        android:layout_alignEnd="@+id/IsAuto" />
+        android:src="@android:drawable/ic_menu_rotate"
+        android:layout_alignBottom="@+id/showSongsList"
+        android:layout_toEndOf="@+id/showSongsList" />
 
     <ImageView
         android:id="@+id/showSongsList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:onClick="onButtonShowSongsList"
         android:src="@android:drawable/ic_menu_sort_by_size"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/IsAuto" />
+        android:layout_alignBottom="@+id/reconnect"
+        android:layout_alignParentStart="true" />
 
     <ImageView
         android:id="@+id/Forward"
@@ -69,30 +64,28 @@
         android:onClick="onButtonBackward"
         android:scaleType="fitXY"
         android:src="@drawable/backward"
-        android:layout_below="@+id/IsAuto"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp" />
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/Backward" />
 
     <ImageView
         android:id="@+id/Backward"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_alignTop="@+id/Forward"
-        android:layout_toRightOf="@+id/Forward"
         android:onClick="onButtonForward"
         android:scaleType="fitXY"
         android:src="@drawable/forward"
-        android:layout_marginLeft="5dp" />
+        android:layout_marginLeft="5dp"
+        android:layout_alignTop="@+id/Forward"
+        android:layout_alignParentEnd="true" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:id="@+id/playPause"
-        android:src="@drawable/play"
-        android:layout_below="@+id/showSongsList"
-        android:layout_toEndOf="@+id/IsAuto"
         android:layout_marginLeft="6dp"
-        android:onClick="onButtonPlayPause" />
+        android:onClick="onButtonPlayPause"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/IsAuto" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -102,5 +95,58 @@
         android:layout_alignParentEnd="true"
         android:src="@drawable/reconnect"
         android:onClick="onButtonConnect" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/counterText"
+        android:textSize="40dp"
+        android:textColor="#ffffff"
+        android:layout_marginLeft="10dp"
+        android:text="4"
+        android:singleLine="false"
+        android:textStyle="bold"
+        android:layout_alignBottom="@+id/timerMinus"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="+"
+        android:id="@+id/timerPlus"
+        android:textColor="#ffffff"
+        android:layout_alignTop="@+id/IsAuto"
+        android:layout_toStartOf="@+id/restart"
+        android:clickable="true"
+        android:onClick="onButtonTimerPlus"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="-"
+        android:id="@+id/timerMinus"
+        android:textColor="#ffffff"
+        android:layout_alignTop="@+id/timerText"
+        android:layout_toEndOf="@+id/timerText"
+        android:clickable="true"
+        android:onClick="onButtonTimerMinus"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="1"
+        android:id="@+id/timerText"
+        android:textColor="#ffffff"
+        android:layout_alignTop="@+id/timerPlus"
+        android:layout_toEndOf="@+id/showSongsList"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        />
 
 </RelativeLayout>

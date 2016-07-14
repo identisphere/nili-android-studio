@@ -2,27 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="56d5beab-38c0-482c-aba4-9fb11c29461f" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../java/com/nili/operator/BtOperations.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../java/com/nili/utilities/Timer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../build/outputs/apk/app-debug-unaligned.apk" afterPath="$PROJECT_DIR$/../../../build/outputs/apk/app-debug-unaligned.apk" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../build/outputs/apk/app-debug.apk" afterPath="$PROJECT_DIR$/../../../build/outputs/apk/app-debug.apk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../../.gitignore" afterPath="$PROJECT_DIR$/../../../../.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../app.iml" afterPath="$PROJECT_DIR$/../../../app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../build.gradle" afterPath="$PROJECT_DIR$/../../../build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../build/outputs/logs/manifest-merger-debug-report.txt" afterPath="$PROJECT_DIR$/../../../build/outputs/logs/manifest-merger-debug-report.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../AndroidManifest.xml" afterPath="$PROJECT_DIR$/../AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../build/generated/source/r/debug/com/example/main/R.java" afterPath="$PROJECT_DIR$/../../../build/generated/source/r/debug/com/example/main/R.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/DisplayActions.js" afterPath="$PROJECT_DIR$/js/DisplayActions.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/android.js" afterPath="$PROJECT_DIR$/js/android.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/chords.js" afterPath="$PROJECT_DIR$/js/chords.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/consts.js" afterPath="$PROJECT_DIR$/js/consts.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/neckActions.js" afterPath="$PROJECT_DIR$/js/neckActions.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.js" afterPath="$PROJECT_DIR$/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/solo.html" afterPath="$PROJECT_DIR$/solo.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../java/com/nili/globals/Commands.java" afterPath="$PROJECT_DIR$/../java/com/nili/globals/Commands.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../java/com/nili/globals/Globals.java" afterPath="$PROJECT_DIR$/../java/com/nili/globals/Globals.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../java/com/nili/main/Chords.java" afterPath="$PROJECT_DIR$/../java/com/nili/main/Chords.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../java/com/nili/main/MainActivity.java" afterPath="$PROJECT_DIR$/../java/com/nili/main/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../java/com/nili/main/Operator.java" afterPath="$PROJECT_DIR$/../java/com/nili/main/Operator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../java/com/nili/main/WebAppInterface.java" afterPath="$PROJECT_DIR$/../java/com/nili/main/WebAppInterface.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../java/com/nili/operator/Chords.java" afterPath="$PROJECT_DIR$/../java/com/nili/operator/Chords.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../java/com/nili/operator/Operator.java" afterPath="$PROJECT_DIR$/../java/com/nili/operator/Operator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../java/com/nili/utilities/BtReadData.java" afterPath="$PROJECT_DIR$/../java/com/nili/utilities/BtReadData.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../java/com/nili/utilities/ConnectionManager.java" afterPath="$PROJECT_DIR$/../java/com/nili/utilities/ConnectionManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../java/com/nili/utilities/Listener.java" afterPath="$PROJECT_DIR$/../java/com/nili/utilities/Listener.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../java/com/nili/utilities/Strumming.java" afterPath="$PROJECT_DIR$/../java/com/nili/utilities/Strumming.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../res/layout/activity_main.xml" afterPath="$PROJECT_DIR$/../res/layout/activity_main.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../../build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/../../../../build/intermediates/dex-cache/cache.xml" />
     </list>
     <ignored path="assets.iws" />
@@ -45,12 +44,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1029">
-              <caret line="462" column="34" selection-start-line="462" selection-start-column="34" selection-end-line="462" selection-end-column="34" />
-              <folding />
+            <state relative-caret-position="376">
+              <caret line="103" column="1" selection-start-line="103" selection-start-column="1" selection-end-line="103" selection-end-column="1" />
+              <folding>
+                <marker date="1468152442719" expanded="true" signature="1856:1976" ph="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -58,7 +59,7 @@
       <file leaf-file-name="solo.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/solo.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="610">
+            <state relative-caret-position="1225">
               <caret line="49" column="26" selection-start-line="49" selection-start-column="26" selection-end-line="49" selection-end-column="26" />
               <folding>
                 <element signature="n#style#0;n#html#0;n#!!top" expanded="true" />
@@ -70,19 +71,22 @@
       <file leaf-file-name="chords.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/chords.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="560">
-              <caret line="99" column="35" selection-start-line="99" selection-start-column="35" selection-end-line="99" selection-end-column="35" />
+            <state relative-caret-position="25">
+              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
               <folding>
-                <element signature="n#!!block;n#getChordText#0" expanded="false" />
+                <element signature="n#!!block;n#isChordTextExplicit#0" expanded="false" />
                 <element signature="n#!!block;n#chordTextToStringList#0" expanded="false" />
                 <element signature="e#390#624#0" expanded="false" />
                 <element signature="e#586#621#0" expanded="false" />
                 <element signature="n#!!block;n#explicitChordTextToChordList#0" expanded="false" />
                 <element signature="e#738#1267#0" expanded="false" />
                 <element signature="e#867#1241#0" expanded="false" />
+                <element signature="n#!!block;n#chordTextToPositionList#0" expanded="false" />
+                <element signature="e#1465#2339#0" expanded="false" />
                 <element signature="n#!!block;n#chordTextTopString#0" expanded="false" />
+                <element signature="e#2421#2440#0" expanded="false" />
                 <element signature="n#!!block;n#positionListToString#0" expanded="false" />
-                <element signature="e#2865#3086#0" expanded="false" />
+                <element signature="e#2928#3149#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -91,33 +95,35 @@
       <file leaf-file-name="consts.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/consts.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="63">
-              <caret line="3" column="21" selection-start-line="3" selection-start-column="21" selection-end-line="3" selection-end-column="21" />
+            <state relative-caret-position="200">
+              <caret line="8" column="12" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="12" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Android.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/js/Android.js">
+      <file leaf-file-name="android.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/android.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
-              <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+            <state relative-caret-position="950">
+              <caret line="123" column="26" selection-start-line="123" selection-start-column="26" selection-end-line="123" selection-end-column="26" />
               <folding>
                 <element signature="n#!!block;n#eventSetTimer#0" expanded="false" />
                 <element signature="n#!!block;n#eventBackward#0" expanded="false" />
+                <element signature="n#!!block;n#eventPressedCorrect#0" expanded="false" />
                 <element signature="n#!!block;n#eventStartStrummingAnimation#0" expanded="false" />
                 <element signature="n#!!block;n#eventStopStrummingAnimation#0" expanded="false" />
-                <element signature="n#!!block;n#setMode#0" expanded="false" />
                 <element signature="n#!!block;n#eventSetTimed#0" expanded="false" />
                 <element signature="n#!!block;n#eventSetManual#0" expanded="false" />
                 <element signature="n#!!block;n#sendMessageToAndroid#0" expanded="false" />
-                <element signature="e#1440#1478#0" expanded="false" />
+                <element signature="e#1017#1033#0" expanded="false" />
+                <element signature="e#1165#1203#0" expanded="false" />
                 <element signature="n#!!block;n#receivePositionStringFromAndroid#0" expanded="false" />
-                <element signature="e#1882#2374#0" expanded="false" />
-                <element signature="e#2043#2095#0" expanded="false" />
-                <element signature="e#2139#2196#0" expanded="false" />
-                <element signature="e#2273#2371#0" expanded="false" />
+                <element signature="e#1607#2099#0" expanded="false" />
+                <element signature="e#1768#1820#0" expanded="false" />
+                <element signature="e#1864#1921#0" expanded="false" />
+                <element signature="e#1998#2096#0" expanded="false" />
+                <element signature="n#!!block;n#eventStop#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -126,8 +132,8 @@
       <file leaf-file-name="Navigation.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/Navigation.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="100">
+              <caret line="4" column="9" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -136,8 +142,8 @@
       <file leaf-file-name="DisplayActions.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/DisplayActions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="546">
-              <caret line="29" column="34" selection-start-line="29" selection-start-column="34" selection-end-line="29" selection-end-column="34" />
+            <state relative-caret-position="275">
+              <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
               <folding>
                 <element signature="e#254#383#0" expanded="false" />
                 <element signature="n#!!block;n#setLyrics#0" expanded="false" />
@@ -152,7 +158,7 @@
       <file leaf-file-name="neckActions.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/neckActions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="441">
+            <state relative-caret-position="525">
               <caret line="30" column="24" selection-start-line="30" selection-start-column="9" selection-end-line="30" selection-end-column="24" />
               <folding>
                 <element signature="n#!!block;n#setStringListOn#0" expanded="false" />
@@ -191,12 +197,13 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/js/neckActions.js" />
-        <option value="$PROJECT_DIR$/js/consts.js" />
         <option value="$PROJECT_DIR$/js/DisplayActions.js" />
         <option value="$PROJECT_DIR$/js/chords.js" />
-        <option value="$PROJECT_DIR$/main.js" />
         <option value="$PROJECT_DIR$/js/Android.js" />
         <option value="$PROJECT_DIR$/solo.html" />
+        <option value="$PROJECT_DIR$/js/android.js" />
+        <option value="$PROJECT_DIR$/main.js" />
+        <option value="$PROJECT_DIR$/js/consts.js" />
       </list>
     </option>
   </component>
@@ -237,7 +244,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -272,7 +279,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -354,17 +361,22 @@
       <workItem from="1466706367625" duration="3283000" />
       <workItem from="1466770910458" duration="10917000" />
       <workItem from="1466865071323" duration="5469000" />
+      <workItem from="1467707100217" duration="323000" />
+      <workItem from="1467836209380" duration="4019000" />
+      <workItem from="1468151430225" duration="3706000" />
+      <workItem from="1468226836877" duration="27000" />
+      <workItem from="1468479631033" duration="126000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="20314000" />
+    <option name="totallyTimeSpent" value="28515000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18229716" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25553215" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -377,7 +389,7 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36796537" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
@@ -398,11 +410,515 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/solo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1225">
+          <caret line="49" column="26" selection-start-line="49" selection-start-column="26" selection-end-line="49" selection-end-column="26" />
+          <folding>
+            <element signature="n#style#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/chords.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="25">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!block;n#isChordTextExplicit#0" expanded="false" />
+            <element signature="n#!!block;n#chordTextToStringList#0" expanded="false" />
+            <element signature="e#390#624#0" expanded="false" />
+            <element signature="e#586#621#0" expanded="false" />
+            <element signature="n#!!block;n#explicitChordTextToChordList#0" expanded="false" />
+            <element signature="e#738#1267#0" expanded="false" />
+            <element signature="e#867#1241#0" expanded="false" />
+            <element signature="n#!!block;n#chordTextToPositionList#0" expanded="false" />
+            <element signature="e#1465#2339#0" expanded="false" />
+            <element signature="n#!!block;n#chordTextTopString#0" expanded="false" />
+            <element signature="e#2421#2440#0" expanded="false" />
+            <element signature="n#!!block;n#positionListToString#0" expanded="false" />
+            <element signature="e#2928#3149#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/consts.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="8" column="12" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/android.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="950">
+          <caret line="123" column="26" selection-start-line="123" selection-start-column="26" selection-end-line="123" selection-end-column="26" />
+          <folding>
+            <element signature="n#!!block;n#eventSetTimer#0" expanded="false" />
+            <element signature="n#!!block;n#eventBackward#0" expanded="false" />
+            <element signature="n#!!block;n#eventPressedCorrect#0" expanded="false" />
+            <element signature="n#!!block;n#eventStartStrummingAnimation#0" expanded="false" />
+            <element signature="n#!!block;n#eventStopStrummingAnimation#0" expanded="false" />
+            <element signature="n#!!block;n#eventSetTimed#0" expanded="false" />
+            <element signature="n#!!block;n#eventSetManual#0" expanded="false" />
+            <element signature="n#!!block;n#sendMessageToAndroid#0" expanded="false" />
+            <element signature="e#1017#1033#0" expanded="false" />
+            <element signature="e#1165#1203#0" expanded="false" />
+            <element signature="n#!!block;n#receivePositionStringFromAndroid#0" expanded="false" />
+            <element signature="e#1607#2099#0" expanded="false" />
+            <element signature="e#1768#1820#0" expanded="false" />
+            <element signature="e#1864#1921#0" expanded="false" />
+            <element signature="e#1998#2096#0" expanded="false" />
+            <element signature="n#!!block;n#eventStop#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/Navigation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="4" column="9" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/DisplayActions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+          <folding>
+            <element signature="e#254#383#0" expanded="false" />
+            <element signature="n#!!block;n#setLyrics#0" expanded="false" />
+            <element signature="n#!!block;n#clearLyrics#0" expanded="false" />
+            <element signature="n#!!block;n#setFingering#0" expanded="false" />
+            <element signature="e#1205#1722#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/neckActions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="30" column="24" selection-start-line="30" selection-start-column="9" selection-end-line="30" selection-end-column="24" />
+          <folding>
+            <element signature="n#!!block;n#setStringListOn#0" expanded="false" />
+            <element signature="n#!!block;n#setStringOn#0" expanded="false" />
+            <element signature="n#!!block;n#setStringOff#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionOn#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionCorrect#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionIncorrect#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionBlinkOn#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionBlinkOff#0" expanded="false" />
+            <element signature="n#!!block;n#setAllNeckPositionsOff#0" expanded="false" />
+            <element signature="e#2860#3063#0" expanded="false" />
+            <element signature="e#2926#3060#0" expanded="false" />
+            <element signature="n#!!block;n#setAllNeckPositionsOn#0" expanded="false" />
+            <element signature="e#3260#3390#0" expanded="false" />
+            <element signature="e#3326#3387#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionListOff#0" expanded="false" />
+            <element signature="e#3485#3550#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionListOn#0" expanded="false" />
+            <element signature="e#3644#3848#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionListCorrect#0" expanded="false" />
+            <element signature="e#3947#4016#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionListIncorrect#0" expanded="false" />
+            <element signature="e#4117#4188#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2975">
+          <caret line="119" column="19" selection-start-line="119" selection-start-column="19" selection-end-line="119" selection-end-column="19" />
+          <folding>
+            <marker date="1468152442719" expanded="true" signature="1856:1976" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/solo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1225">
+          <caret line="49" column="26" selection-start-line="49" selection-start-column="26" selection-end-line="49" selection-end-column="26" />
+          <folding>
+            <element signature="n#style#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/chords.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="50">
+          <caret line="2" column="18" selection-start-line="2" selection-start-column="18" selection-end-line="2" selection-end-column="18" />
+          <folding>
+            <element signature="n#!!block;n#isChordTextExplicit#0" expanded="false" />
+            <element signature="n#!!block;n#chordTextToStringList#0" expanded="false" />
+            <element signature="e#390#624#0" expanded="false" />
+            <element signature="e#586#621#0" expanded="false" />
+            <element signature="n#!!block;n#explicitChordTextToChordList#0" expanded="false" />
+            <element signature="e#738#1267#0" expanded="false" />
+            <element signature="e#867#1241#0" expanded="false" />
+            <element signature="n#!!block;n#chordTextToPositionList#0" expanded="false" />
+            <element signature="e#1465#2339#0" expanded="false" />
+            <element signature="n#!!block;n#chordTextTopString#0" expanded="false" />
+            <element signature="e#2421#2440#0" expanded="false" />
+            <element signature="n#!!block;n#positionListToString#0" expanded="false" />
+            <element signature="e#2928#3149#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/consts.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/android.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="950">
+          <caret line="123" column="26" selection-start-line="123" selection-start-column="26" selection-end-line="123" selection-end-column="26" />
+          <folding>
+            <element signature="n#!!block;n#eventSetTimer#0" expanded="false" />
+            <element signature="n#!!block;n#eventBackward#0" expanded="false" />
+            <element signature="n#!!block;n#eventPressedCorrect#0" expanded="false" />
+            <element signature="n#!!block;n#eventStartStrummingAnimation#0" expanded="false" />
+            <element signature="n#!!block;n#eventStopStrummingAnimation#0" expanded="false" />
+            <element signature="n#!!block;n#eventSetTimed#0" expanded="false" />
+            <element signature="n#!!block;n#eventSetManual#0" expanded="false" />
+            <element signature="n#!!block;n#sendMessageToAndroid#0" expanded="false" />
+            <element signature="e#1017#1033#0" expanded="false" />
+            <element signature="e#1165#1203#0" expanded="false" />
+            <element signature="n#!!block;n#receivePositionStringFromAndroid#0" expanded="false" />
+            <element signature="e#1607#2099#0" expanded="false" />
+            <element signature="e#1768#1820#0" expanded="false" />
+            <element signature="e#1864#1921#0" expanded="false" />
+            <element signature="e#1998#2096#0" expanded="false" />
+            <element signature="n#!!block;n#eventStop#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/Navigation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="4" column="9" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/DisplayActions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+          <folding>
+            <element signature="e#254#383#0" expanded="false" />
+            <element signature="n#!!block;n#setLyrics#0" expanded="false" />
+            <element signature="n#!!block;n#clearLyrics#0" expanded="false" />
+            <element signature="n#!!block;n#setFingering#0" expanded="false" />
+            <element signature="e#1205#1722#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/neckActions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="30" column="24" selection-start-line="30" selection-start-column="9" selection-end-line="30" selection-end-column="24" />
+          <folding>
+            <element signature="n#!!block;n#setStringListOn#0" expanded="false" />
+            <element signature="n#!!block;n#setStringOn#0" expanded="false" />
+            <element signature="n#!!block;n#setStringOff#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionOn#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionCorrect#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionIncorrect#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionBlinkOn#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionBlinkOff#0" expanded="false" />
+            <element signature="n#!!block;n#setAllNeckPositionsOff#0" expanded="false" />
+            <element signature="e#2860#3063#0" expanded="false" />
+            <element signature="e#2926#3060#0" expanded="false" />
+            <element signature="n#!!block;n#setAllNeckPositionsOn#0" expanded="false" />
+            <element signature="e#3260#3390#0" expanded="false" />
+            <element signature="e#3326#3387#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionListOff#0" expanded="false" />
+            <element signature="e#3485#3550#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionListOn#0" expanded="false" />
+            <element signature="e#3644#3848#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionListCorrect#0" expanded="false" />
+            <element signature="e#3947#4016#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionListIncorrect#0" expanded="false" />
+            <element signature="e#4117#4188#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9618">
+          <caret line="458" column="13" selection-start-line="458" selection-start-column="13" selection-end-line="458" selection-end-column="13" />
+          <folding>
+            <marker date="1468152442719" expanded="true" signature="1856:1976" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/solo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1029">
+          <caret line="49" column="26" selection-start-line="49" selection-start-column="26" selection-end-line="49" selection-end-column="26" />
+          <folding>
+            <element signature="n#style#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/chords.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1197">
+          <caret line="99" column="35" selection-start-line="99" selection-start-column="35" selection-end-line="99" selection-end-column="35" />
+          <folding>
+            <element signature="n#!!block;n#isChordTextExplicit#0" expanded="false" />
+            <element signature="n#!!block;n#chordTextToStringList#0" expanded="false" />
+            <element signature="e#390#624#0" expanded="false" />
+            <element signature="e#586#621#0" expanded="false" />
+            <element signature="n#!!block;n#explicitChordTextToChordList#0" expanded="false" />
+            <element signature="e#738#1267#0" expanded="false" />
+            <element signature="e#867#1241#0" expanded="false" />
+            <element signature="n#!!block;n#chordTextToPositionList#0" expanded="false" />
+            <element signature="e#1465#2339#0" expanded="false" />
+            <element signature="n#!!block;n#chordTextTopString#0" expanded="false" />
+            <element signature="e#2421#2440#0" expanded="false" />
+            <element signature="n#!!block;n#positionListToString#0" expanded="false" />
+            <element signature="e#2928#3149#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/consts.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="3" column="21" selection-start-line="3" selection-start-column="21" selection-end-line="3" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/android.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!block;n#eventSetTimer#0" expanded="false" />
+            <element signature="n#!!block;n#eventBackward#0" expanded="false" />
+            <element signature="n#!!block;n#eventPressedCorrect#0" expanded="false" />
+            <element signature="n#!!block;n#eventStartStrummingAnimation#0" expanded="false" />
+            <element signature="n#!!block;n#eventStopStrummingAnimation#0" expanded="false" />
+            <element signature="n#!!block;n#eventSetTimed#0" expanded="false" />
+            <element signature="n#!!block;n#eventSetManual#0" expanded="false" />
+            <element signature="n#!!block;n#sendMessageToAndroid#0" expanded="false" />
+            <element signature="e#1017#1033#0" expanded="false" />
+            <element signature="e#1165#1203#0" expanded="false" />
+            <element signature="n#!!block;n#receivePositionStringFromAndroid#0" expanded="false" />
+            <element signature="e#1607#2099#0" expanded="false" />
+            <element signature="e#1768#1820#0" expanded="false" />
+            <element signature="e#1864#1921#0" expanded="false" />
+            <element signature="e#1998#2096#0" expanded="false" />
+            <element signature="n#!!block;n#eventStop#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/Navigation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/DisplayActions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="546">
+          <caret line="29" column="34" selection-start-line="29" selection-start-column="34" selection-end-line="29" selection-end-column="34" />
+          <folding>
+            <element signature="e#254#383#0" expanded="false" />
+            <element signature="n#!!block;n#setLyrics#0" expanded="false" />
+            <element signature="n#!!block;n#clearLyrics#0" expanded="false" />
+            <element signature="n#!!block;n#setFingering#0" expanded="false" />
+            <element signature="e#1205#1722#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/neckActions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="441">
+          <caret line="30" column="24" selection-start-line="30" selection-start-column="9" selection-end-line="30" selection-end-column="24" />
+          <folding>
+            <element signature="n#!!block;n#setStringListOn#0" expanded="false" />
+            <element signature="n#!!block;n#setStringOn#0" expanded="false" />
+            <element signature="n#!!block;n#setStringOff#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionOn#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionCorrect#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionIncorrect#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionBlinkOn#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionBlinkOff#0" expanded="false" />
+            <element signature="n#!!block;n#setAllNeckPositionsOff#0" expanded="false" />
+            <element signature="e#2860#3063#0" expanded="false" />
+            <element signature="e#2926#3060#0" expanded="false" />
+            <element signature="n#!!block;n#setAllNeckPositionsOn#0" expanded="false" />
+            <element signature="e#3260#3390#0" expanded="false" />
+            <element signature="e#3326#3387#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionListOff#0" expanded="false" />
+            <element signature="e#3485#3550#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionListOn#0" expanded="false" />
+            <element signature="e#3644#3848#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionListCorrect#0" expanded="false" />
+            <element signature="e#3947#4016#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionListIncorrect#0" expanded="false" />
+            <element signature="e#4117#4188#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9702">
+          <caret line="462" column="13" selection-start-line="462" selection-start-column="13" selection-end-line="462" selection-end-column="13" />
+          <folding>
+            <marker date="1468152442719" expanded="true" signature="1856:1976" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/solo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1029">
+          <caret line="49" column="26" selection-start-line="49" selection-start-column="26" selection-end-line="49" selection-end-column="26" />
+          <folding>
+            <element signature="n#style#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/chords.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1197">
+          <caret line="99" column="35" selection-start-line="99" selection-start-column="35" selection-end-line="99" selection-end-column="35" />
+          <folding>
+            <element signature="n#!!block;n#isChordTextExplicit#0" expanded="false" />
+            <element signature="n#!!block;n#chordTextToStringList#0" expanded="false" />
+            <element signature="e#390#624#0" expanded="false" />
+            <element signature="e#586#621#0" expanded="false" />
+            <element signature="n#!!block;n#explicitChordTextToChordList#0" expanded="false" />
+            <element signature="e#738#1267#0" expanded="false" />
+            <element signature="e#867#1241#0" expanded="false" />
+            <element signature="n#!!block;n#chordTextToPositionList#0" expanded="false" />
+            <element signature="e#1465#2339#0" expanded="false" />
+            <element signature="n#!!block;n#chordTextTopString#0" expanded="false" />
+            <element signature="e#2421#2440#0" expanded="false" />
+            <element signature="n#!!block;n#positionListToString#0" expanded="false" />
+            <element signature="e#2928#3149#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/consts.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="3" column="21" selection-start-line="3" selection-start-column="21" selection-end-line="3" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/android.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!block;n#eventSetTimer#0" expanded="false" />
+            <element signature="n#!!block;n#eventBackward#0" expanded="false" />
+            <element signature="n#!!block;n#eventPressedCorrect#0" expanded="false" />
+            <element signature="n#!!block;n#eventStartStrummingAnimation#0" expanded="false" />
+            <element signature="n#!!block;n#eventStopStrummingAnimation#0" expanded="false" />
+            <element signature="n#!!block;n#eventSetTimed#0" expanded="false" />
+            <element signature="n#!!block;n#eventSetManual#0" expanded="false" />
+            <element signature="n#!!block;n#sendMessageToAndroid#0" expanded="false" />
+            <element signature="e#1017#1033#0" expanded="false" />
+            <element signature="e#1165#1203#0" expanded="false" />
+            <element signature="n#!!block;n#receivePositionStringFromAndroid#0" expanded="false" />
+            <element signature="e#1607#2099#0" expanded="false" />
+            <element signature="e#1768#1820#0" expanded="false" />
+            <element signature="e#1864#1921#0" expanded="false" />
+            <element signature="e#1998#2096#0" expanded="false" />
+            <element signature="n#!!block;n#eventStop#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/Navigation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/DisplayActions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="546">
+          <caret line="29" column="34" selection-start-line="29" selection-start-column="34" selection-end-line="29" selection-end-column="34" />
+          <folding>
+            <element signature="e#254#383#0" expanded="false" />
+            <element signature="n#!!block;n#setLyrics#0" expanded="false" />
+            <element signature="n#!!block;n#clearLyrics#0" expanded="false" />
+            <element signature="n#!!block;n#setFingering#0" expanded="false" />
+            <element signature="e#1205#1722#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/neckActions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="441">
+          <caret line="30" column="24" selection-start-line="30" selection-start-column="9" selection-end-line="30" selection-end-column="24" />
+          <folding>
+            <element signature="n#!!block;n#setStringListOn#0" expanded="false" />
+            <element signature="n#!!block;n#setStringOn#0" expanded="false" />
+            <element signature="n#!!block;n#setStringOff#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionOn#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionCorrect#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionIncorrect#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionBlinkOn#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionBlinkOff#0" expanded="false" />
+            <element signature="n#!!block;n#setAllNeckPositionsOff#0" expanded="false" />
+            <element signature="e#2860#3063#0" expanded="false" />
+            <element signature="e#2926#3060#0" expanded="false" />
+            <element signature="n#!!block;n#setAllNeckPositionsOn#0" expanded="false" />
+            <element signature="e#3260#3390#0" expanded="false" />
+            <element signature="e#3326#3387#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionListOff#0" expanded="false" />
+            <element signature="e#3485#3550#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionListOn#0" expanded="false" />
+            <element signature="e#3644#3848#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionListCorrect#0" expanded="false" />
+            <element signature="e#3947#4016#0" expanded="false" />
+            <element signature="n#!!block;n#setNeckPositionListIncorrect#0" expanded="false" />
+            <element signature="e#4117#4188#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="9828">
           <caret line="468" column="23" selection-start-line="468" selection-start-column="23" selection-end-line="468" selection-end-column="23" />
-          <folding />
+          <folding>
+            <marker date="1468152442719" expanded="true" signature="1856:1976" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -421,16 +937,19 @@
         <state relative-caret-position="1197">
           <caret line="99" column="35" selection-start-line="99" selection-start-column="35" selection-end-line="99" selection-end-column="35" />
           <folding>
-            <element signature="n#!!block;n#getChordText#0" expanded="false" />
+            <element signature="n#!!block;n#isChordTextExplicit#0" expanded="false" />
             <element signature="n#!!block;n#chordTextToStringList#0" expanded="false" />
             <element signature="e#390#624#0" expanded="false" />
             <element signature="e#586#621#0" expanded="false" />
             <element signature="n#!!block;n#explicitChordTextToChordList#0" expanded="false" />
             <element signature="e#738#1267#0" expanded="false" />
             <element signature="e#867#1241#0" expanded="false" />
+            <element signature="n#!!block;n#chordTextToPositionList#0" expanded="false" />
+            <element signature="e#1465#2339#0" expanded="false" />
             <element signature="n#!!block;n#chordTextTopString#0" expanded="false" />
+            <element signature="e#2421#2440#0" expanded="false" />
             <element signature="n#!!block;n#positionListToString#0" expanded="false" />
-            <element signature="e#2865#3086#0" expanded="false" />
+            <element signature="e#2928#3149#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -443,25 +962,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/Android.js">
+    <entry file="file://$PROJECT_DIR$/js/android.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="n#!!block;n#eventSetTimer#0" expanded="false" />
             <element signature="n#!!block;n#eventBackward#0" expanded="false" />
+            <element signature="n#!!block;n#eventPressedCorrect#0" expanded="false" />
             <element signature="n#!!block;n#eventStartStrummingAnimation#0" expanded="false" />
             <element signature="n#!!block;n#eventStopStrummingAnimation#0" expanded="false" />
-            <element signature="n#!!block;n#setMode#0" expanded="false" />
             <element signature="n#!!block;n#eventSetTimed#0" expanded="false" />
             <element signature="n#!!block;n#eventSetManual#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageToAndroid#0" expanded="false" />
-            <element signature="e#1440#1478#0" expanded="false" />
+            <element signature="e#1017#1033#0" expanded="false" />
+            <element signature="e#1165#1203#0" expanded="false" />
             <element signature="n#!!block;n#receivePositionStringFromAndroid#0" expanded="false" />
-            <element signature="e#1882#2374#0" expanded="false" />
-            <element signature="e#2043#2095#0" expanded="false" />
-            <element signature="e#2139#2196#0" expanded="false" />
-            <element signature="e#2273#2371#0" expanded="false" />
+            <element signature="e#1607#2099#0" expanded="false" />
+            <element signature="e#1768#1820#0" expanded="false" />
+            <element signature="e#1864#1921#0" expanded="false" />
+            <element signature="e#1998#2096#0" expanded="false" />
+            <element signature="n#!!block;n#eventStop#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -523,7 +1044,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5145">
           <caret line="245" column="36" selection-start-line="245" selection-start-column="36" selection-end-line="245" selection-end-column="36" />
-          <folding />
+          <folding>
+            <marker date="1468152442719" expanded="true" signature="1856:1976" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -541,21 +1064,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/Navigation.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1468152442719" expanded="true" signature="1856:1976" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/neckActions.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="441">
+        <state relative-caret-position="525">
           <caret line="30" column="24" selection-start-line="30" selection-start-column="9" selection-end-line="30" selection-end-column="24" />
           <folding>
             <element signature="n#!!block;n#setStringListOn#0" expanded="false" />
@@ -584,10 +1101,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/solo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1225">
+          <caret line="49" column="26" selection-start-line="49" selection-start-column="26" selection-end-line="49" selection-end-column="26" />
+          <folding>
+            <element signature="n#style#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/DisplayActions.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="546">
-          <caret line="29" column="34" selection-start-line="29" selection-start-column="34" selection-end-line="29" selection-end-column="34" />
+        <state relative-caret-position="275">
+          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
           <folding>
             <element signature="e#254#383#0" expanded="false" />
             <element signature="n#!!block;n#setLyrics#0" expanded="false" />
@@ -598,70 +1125,83 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.js">
+    <entry file="file://$PROJECT_DIR$/jquery-1.11.1.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1029">
-          <caret line="462" column="34" selection-start-line="462" selection-start-column="34" selection-end-line="462" selection-end-column="34" />
+        <state relative-caret-position="197">
+          <caret line="3718" column="40" selection-start-line="3718" selection-start-column="40" selection-end-line="3718" selection-end-column="40" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/consts.js">
+    <entry file="file://$PROJECT_DIR$/js/android.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="3" column="21" selection-start-line="3" selection-start-column="21" selection-end-line="3" selection-end-column="21" />
+        <state relative-caret-position="950">
+          <caret line="123" column="26" selection-start-line="123" selection-start-column="26" selection-end-line="123" selection-end-column="26" />
+          <folding>
+            <element signature="n#!!block;n#eventSetTimer#0" expanded="false" />
+            <element signature="n#!!block;n#eventBackward#0" expanded="false" />
+            <element signature="n#!!block;n#eventPressedCorrect#0" expanded="false" />
+            <element signature="n#!!block;n#eventStartStrummingAnimation#0" expanded="false" />
+            <element signature="n#!!block;n#eventStopStrummingAnimation#0" expanded="false" />
+            <element signature="n#!!block;n#eventSetTimed#0" expanded="false" />
+            <element signature="n#!!block;n#eventSetManual#0" expanded="false" />
+            <element signature="n#!!block;n#sendMessageToAndroid#0" expanded="false" />
+            <element signature="e#1017#1033#0" expanded="false" />
+            <element signature="e#1165#1203#0" expanded="false" />
+            <element signature="n#!!block;n#receivePositionStringFromAndroid#0" expanded="false" />
+            <element signature="e#1607#2099#0" expanded="false" />
+            <element signature="e#1768#1820#0" expanded="false" />
+            <element signature="e#1864#1921#0" expanded="false" />
+            <element signature="e#1998#2096#0" expanded="false" />
+            <element signature="n#!!block;n#eventStop#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/Navigation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="4" column="9" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/chords.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="99" column="35" selection-start-line="99" selection-start-column="35" selection-end-line="99" selection-end-column="35" />
+        <state relative-caret-position="25">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding>
-            <element signature="n#!!block;n#getChordText#0" expanded="false" />
+            <element signature="n#!!block;n#isChordTextExplicit#0" expanded="false" />
             <element signature="n#!!block;n#chordTextToStringList#0" expanded="false" />
             <element signature="e#390#624#0" expanded="false" />
             <element signature="e#586#621#0" expanded="false" />
             <element signature="n#!!block;n#explicitChordTextToChordList#0" expanded="false" />
             <element signature="e#738#1267#0" expanded="false" />
             <element signature="e#867#1241#0" expanded="false" />
+            <element signature="n#!!block;n#chordTextToPositionList#0" expanded="false" />
+            <element signature="e#1465#2339#0" expanded="false" />
             <element signature="n#!!block;n#chordTextTopString#0" expanded="false" />
+            <element signature="e#2421#2440#0" expanded="false" />
             <element signature="n#!!block;n#positionListToString#0" expanded="false" />
-            <element signature="e#2865#3086#0" expanded="false" />
+            <element signature="e#2928#3149#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/solo.html">
+    <entry file="file://$PROJECT_DIR$/js/consts.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="610">
-          <caret line="49" column="26" selection-start-line="49" selection-start-column="26" selection-end-line="49" selection-end-column="26" />
-          <folding>
-            <element signature="n#style#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="200">
+          <caret line="8" column="12" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="12" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/Android.js">
+    <entry file="file://$PROJECT_DIR$/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+        <state relative-caret-position="376">
+          <caret line="103" column="1" selection-start-line="103" selection-start-column="1" selection-end-line="103" selection-end-column="1" />
           <folding>
-            <element signature="n#!!block;n#eventSetTimer#0" expanded="false" />
-            <element signature="n#!!block;n#eventBackward#0" expanded="false" />
-            <element signature="n#!!block;n#eventStartStrummingAnimation#0" expanded="false" />
-            <element signature="n#!!block;n#eventStopStrummingAnimation#0" expanded="false" />
-            <element signature="n#!!block;n#setMode#0" expanded="false" />
-            <element signature="n#!!block;n#eventSetTimed#0" expanded="false" />
-            <element signature="n#!!block;n#eventSetManual#0" expanded="false" />
-            <element signature="n#!!block;n#sendMessageToAndroid#0" expanded="false" />
-            <element signature="e#1440#1478#0" expanded="false" />
-            <element signature="n#!!block;n#receivePositionStringFromAndroid#0" expanded="false" />
-            <element signature="e#1882#2374#0" expanded="false" />
-            <element signature="e#2043#2095#0" expanded="false" />
-            <element signature="e#2139#2196#0" expanded="false" />
-            <element signature="e#2273#2371#0" expanded="false" />
+            <marker date="1468152442719" expanded="true" signature="1856:1976" ph="{...}" />
           </folding>
         </state>
       </provider>

@@ -43,20 +43,35 @@ public class ConnectionManager extends Thread
 	{
 		Thread.currentThread().setName("Connection Manager");
 
-		synchronized(this)
-		{
-	    	btAdapter = BluetoothAdapter.getDefaultAdapter();
-	        while(!btAdapter.isEnabled())
-	        {
-	        	btAdapter.enable();
-	        	try
-	        	{
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+		Looper.prepare();
+
+		mHandler = new Handler() {
+			public void handleMessage(Message message)
+			{
+				if(message.arg1== Commands.ConnectionManager.sendToBt)
+				{
+                    if(!Globals.isConnectedToBT)
+                        System.out.println("unable to send message to blue tooth");
+                    else
+                        sendDataToBt((String) message.obj);
+					return;
 				}
-	        }
+                else if(message.arg1== Commands.ConnectionManager.connectToBt)
+                {
+                    tryConnect();
+                    return;
+                }
+			}
+		};
+		
+		Looper.loop();
+
+	}
+
+    synchronized public void tryConnect()
+    {
+        synchronized (this)
+        {
             try
             {
                 this.connect();
@@ -68,34 +83,9 @@ public class ConnectionManager extends Thread
             }
             finally
             {
-                this.notify();
+                notifyAll();
             }
         }
-		
-		Looper.prepare();
-		
-		mHandler = new Handler() {
-			public void handleMessage(Message message)
-			{
-				if(!Globals.isConnectedToBT)
-				{
-					System.out.println("unable to send message to blue tooth");
-					return;
-				}
-				else if(message.arg1== Commands.ConnectionManager.sendToBt)
-				{
-                    sendDataToBt((String)message.obj);
-					return;
-				}
-			}
-		};
-		
-		Looper.loop();
-
-	}
-
-    private void tryConnect()
-    {
     }
 
 	// formerly "write"
@@ -184,6 +174,19 @@ public class ConnectionManager extends Thread
     {
         address = btAddress;
         this.mainActivity = mainActivity;
+        btAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        while(!btAdapter.isEnabled())
+        {
+            btAdapter.enable();
+            try
+            {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
 	}
 
 }

@@ -13,24 +13,32 @@ public class Chords {
     private int         currentChordIndex;
     private ChordObject currentChord;
     private ChordObject nextChord;
+    private boolean isTiksAvailable = false;
 
     static public class ChordObject {
         public String               positionString = null;
-        public ArrayList<Integer> emptyStringList = new ArrayList<Integer>();
+        public ArrayList<Integer>   emptyStringList = new ArrayList<Integer>();
         public int                  index;
         public int                  positionCount = 0;
         int                         topString = -1;
-
+        int                         tiks = -1;
     }
 
     public void addChordToList(String jsonChordString) throws Exception
     {
         ChordObject chord = createChordFromJson(new JSONObject(jsonChordString), chordList.size());
         chordList.add(chord);
+
+        if(chord.tiks==-1)
+            this.isTiksAvailable = false;
     }
 
     public ChordObject current() {
         return currentChord;
+    }
+
+    public int getCounter() {
+        return currentChord.tiks;
     }
 
     public ChordObject next()
@@ -38,9 +46,10 @@ public class Chords {
         return nextChord;
     }
 
-    public void clearList()
+    public void reset()
     {
         this.chordList.clear();
+        this.isTiksAvailable = true;
     }
 
     public int getListSize()
@@ -52,6 +61,11 @@ public class Chords {
     {
         if(chord.emptyStringList.size()>0) return true;
         else return false;
+    }
+
+    public boolean isTiksAvailable()
+    {
+        return isTiksAvailable;
     }
 
     public boolean goToNextChord()
@@ -114,6 +128,8 @@ public class Chords {
         createdChord.index = index;
 
         createdChord.positionCount = getPositionCount(createdChord.positionString);
+
+        createdChord.tiks = Integer.parseInt(jsonChord.getString("tiks"));
 
         return createdChord;
     }

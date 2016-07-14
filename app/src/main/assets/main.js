@@ -59,14 +59,14 @@ var BLINK_INTERVAL = 200;
 
 document.body.onload = function()
 {
-	loadScript('./js/Consts.js');
+	loadScript('./js/consts.js');
 	loadScript('./js/DisplayActions.js');
 	loadScript('./js/Navigation.js');
-	loadScript('./js/NeckActions.js');
-	loadScript('./js/Chords.js');
-	loadScript('./js/Animation.js');
-	loadScript('./js/Timer.js');
-	loadScript('./js/Android.js');
+	loadScript('./js/neckActions.js');
+	loadScript('./js/chords.js');
+	loadScript('./js/animation.js');
+	loadScript('./js/timer.js');
+	loadScript('./js/android.js');
 
 	window.setTimeout(initialize, 500);
 	// temp
@@ -93,7 +93,7 @@ function processChordsHtml()
 	}
 	for(var i=0; i<originalTicksElementList.length; i++)
 	{
-		chordList[i].tiks = originalTicksElementList[i].innerHTML;
+		chordList[i].tiks = parseInt(originalTicksElementList[i].innerHTML);
 	}
 	for(var i=0; i<originalChordElementList.length; i++)
 		$(originalChordElementList[i].remove());

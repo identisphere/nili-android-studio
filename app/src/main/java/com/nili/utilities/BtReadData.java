@@ -26,14 +26,14 @@ public class BtReadData extends Thread
 		this.inputStream = inputStream;
 		this.mainActivity = mainActivity;
     	this.operator = operator;
-		Thread.currentThread().setName("Read Data Thread");
-
     }
     
     @Override
     public void run()
     {
-    	while(true) 
+		Thread.currentThread().setName("Read Data Thread");
+
+		while(true)
         {
             if (this.inputStream != null) {
                 try {

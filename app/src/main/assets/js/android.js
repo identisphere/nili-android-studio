@@ -58,6 +58,8 @@ function eventSetManual()
 
 function sendMessageToAndroid(message)
 {
+	////// ZVI /////
+	// this will execute messageFromJs in WebAppInterface object.
 	console.log("send message to Android: " + message)
 	if(isAndroid)
 	{
