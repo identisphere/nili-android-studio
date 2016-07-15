@@ -3,7 +3,7 @@ var TOTAL_NUMBER_OF_STRINGS = 6;
 
 var originalChordElementList = $(".chord");
 var originalLyricsElementList = $(".lyrics");
-var originalTicksElementList = $(".tick");
+var originalTicksElementList = $(".tik");
 
 var chordList = new Array();
 

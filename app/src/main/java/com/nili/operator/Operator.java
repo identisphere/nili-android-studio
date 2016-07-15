@@ -170,23 +170,28 @@ public class Operator extends Thread
 			return;
 		}
 
-
 		UserProcessedPress userProcessedPress;
-		// Auto mode, don`t show pressed wrong
-		if(mainActivity.getUiMode()==Globals.UImode.AUTO)
+		// Timed mode, don`t show pressed wrong
+		if(mainActivity.getUiMode()==Globals.UImode.TIMED)
 			userProcessedPress = processUserPress(receivedSwitchString, false);
 		else
 			userProcessedPress = processUserPress(receivedSwitchString, true);
 
-		// waiting for user lift
+
+		// waiting for user to lift fingers, user lifted fingers, auto mode
 		if(userState == State.WAITING_FOR_USER_LIFT)
-			//auto mode, user lifted fingers
+		{
+			// auto mode
 			if(mainActivity.getUiMode()==Globals.UImode.AUTO
-			&&
-			receivedSwitchString.equalsIgnoreCase("000000000000000000000000"))
+				&&
+				receivedSwitchString.equalsIgnoreCase("000000000000000000000000"))
 			{
 				handleStateChange(State.USER_LIFT_FINGERS);
 			}
+			// timed mode
+			else if(mainActivity.getUiMode() == Globals.UImode.TIMED)
+				return;
+		}
 		// waiting for user to press full chord correct
 		else if(userState ==State.WAITING_FOR_CORRECT_PRESS
 			&&
@@ -211,8 +216,6 @@ public class Operator extends Thread
 			btOperations.sendStringToBt(chords.current().positionString);
 			timer.setCounter(chords.getCounter());
 
-			Log.d("o:handle new state: ", String.valueOf(new Date().getTime()));
-
 			// set open string or not
 			if(chords.isChordEmptyString(chords.current()))
 			{
@@ -225,11 +228,13 @@ public class Operator extends Thread
 		// finished song
 		else if(eventType == State.FINISHED_SONG)
 		{
+			/*
 			eventRestart();
 
 			Message message = new Message();
 			message.arg1 = Commands.WebApp.restart;
 			this.webInterface.mHandler.sendMessage(message);
+			*/
 		}
 		// was waiting for user to press correct, and user pressed correct
 		else if(userState == State.WAITING_FOR_CORRECT_PRESS
@@ -237,25 +242,28 @@ public class Operator extends Thread
 				eventType == State.PRESSED_CORRECT)
 		{
 			sendPressedCorrectToJs();
-			if(chords.current().positionCount==1)
-				btOperations.blinkNeck(100, chords.next().positionString);
-			else
-				btOperations.startStrumming(chords.current());
+			if(mainActivity.getUiMode()==Globals.UImode.TIMED)
+				btOperations.sendStringToBt(Globals.emptyString);
+			if(mainActivity.getUiMode()==Globals.UImode.AUTO)
+				if(chords.current().positionCount==1)
+					btOperations.blinkNeck(100, chords.next().positionString);
+				else
+					btOperations.startStrumming(chords.current());
 			userState = State.WAITING_FOR_USER_LIFT;
 		}
-		// auto mode
-		else if(mainActivity.getUiMode()==Globals.UImode.AUTO)
+		// waiting for strummed correct, and strummed correct
+		else if(userState == State.WAITING_FOR_CORRECT_STRUMM && eventType == State.STRUMMED_CORRECT)
 		{
-			// was waiting for user to lift fingers, and user lifted fingers
-			if(userState == State.WAITING_FOR_USER_LIFT && eventType == State.USER_LIFT_FINGERS)
-			{
-					eventForward();
-			}
-			// was waiting for use to strum correct, and user strummed correct
-			else if(userState == State.WAITING_FOR_CORRECT_STRUMM && eventType == State.STRUMMED_CORRECT)
-			{
+			if(mainActivity.getUiMode()==Globals.UImode.TIMED)
+				btOperations.blinkNeck(100, Globals.emptyString);
+			else if(mainActivity.getUiMode()==Globals.UImode.AUTO)
 				eventForward();
-			}
+		}
+		// waiting for user to lift fingers, and user lifted fingers
+		else if(userState == State.WAITING_FOR_USER_LIFT && eventType == State.USER_LIFT_FINGERS)
+		{
+			if(mainActivity.getUiMode()==Globals.UImode.AUTO)
+				eventForward();
 		}
 	}
 

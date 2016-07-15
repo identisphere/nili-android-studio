@@ -5,9 +5,9 @@ import java.util.ArrayList;
 final public class Globals
 {
 	public static final long MIN_TIK = 200;
-	public static boolean 		isConnectedToBT = false;
+	public static final int DEFAULT_TIMER = 5;
 
-	public static int threadCount = 0;
+	public static boolean 		isConnectedToBT = false;
 
 	public static final char	BLINK_CHAR_RATE = '5';
 
@@ -30,6 +30,7 @@ final public class Globals
 		static public int TIMED = 2;
 	}
 
+	public static final String emptyString = "000000000000000000000000";
 	////////////////////////////////////////
 	// STRUCTURE OF BT STRING
 	/////////////////////////////////////

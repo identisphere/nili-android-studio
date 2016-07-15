@@ -351,7 +351,7 @@ public class MainActivity extends Activity
     	//loading the html:
 		// webView.loadUrl("file:///android_asset/"+url);
 		// url will be relative to the 'assets' folder
-		loadWebView(this.songsMap.get("Leaving On A Jet Plane - John Denver"));
+		loadWebView(this.songsMap.get("solo"));
 
 		// call super function
     	webView.setWebViewClient(new WebViewClient() {
@@ -371,8 +371,6 @@ public class MainActivity extends Activity
 		message = new Message();
 		message.arg1 = Commands.WebApp.restart;
 		this.webInterface.mHandler.sendMessage(message);
-
-		setUiModeAndPause(uiMode);
 	}
 
 	public void onButtonShowSongsList(View v) {
@@ -489,6 +487,12 @@ public class MainActivity extends Activity
 		setUiModeAndPause(uiMode);
 		loadingSpinner.hide();
 		webView.setVisibility(View.VISIBLE);
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				timerText.setText(String.valueOf(timer.getRatio()));
+			}
+		});
 	}
 }
 

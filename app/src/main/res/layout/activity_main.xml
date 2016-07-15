@@ -102,13 +102,13 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/counterText"
         android:textSize="40dp"
-        android:textColor="#ffffff"
-        android:layout_marginLeft="10dp"
+        android:textColor="#00CC33"
+        android:layout_marginLeft="0dp"
         android:text="4"
         android:singleLine="false"
         android:textStyle="bold"
-        android:layout_alignBottom="@+id/timerMinus"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignBottom="@+id/timerPlus"
+        android:layout_toStartOf="@+id/IsAuto" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -117,11 +117,12 @@
         android:text="+"
         android:id="@+id/timerPlus"
         android:textColor="#ffffff"
-        android:layout_alignTop="@+id/IsAuto"
-        android:layout_toStartOf="@+id/restart"
         android:clickable="true"
         android:onClick="onButtonTimerPlus"
-        />
+        android:textStyle="bold"
+        android:textSize="30dp"
+        android:layout_alignTop="@+id/IsAuto"
+        android:layout_toEndOf="@+id/timerText" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -130,11 +131,12 @@
         android:text="-"
         android:id="@+id/timerMinus"
         android:textColor="#ffffff"
-        android:layout_alignTop="@+id/timerText"
-        android:layout_toEndOf="@+id/timerText"
         android:clickable="true"
         android:onClick="onButtonTimerMinus"
-        />
+        android:textStyle="bold"
+        android:textSize="30dp"
+        android:layout_alignTop="@+id/timerPlus"
+        android:layout_toStartOf="@+id/timerText" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -143,10 +145,11 @@
         android:text="1"
         android:id="@+id/timerText"
         android:textColor="#ffffff"
-        android:layout_alignTop="@+id/timerPlus"
-        android:layout_toEndOf="@+id/showSongsList"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        />
+        android:layout_alignTop="@+id/timerPlus"
+        android:layout_toEndOf="@+id/showSongsList"
+        android:textStyle="bold"
+        android:textSize="30dp" />
 
 </RelativeLayout>

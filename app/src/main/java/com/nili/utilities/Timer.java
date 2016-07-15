@@ -15,7 +15,7 @@ public class Timer extends Thread{
     MainActivity mainActivity;
 
     int counter;
-    int timeRatio = 1;
+    int timeRatio = Globals.DEFAULT_TIMER;
     boolean isActive = false;
     boolean isPaused = true;
 
