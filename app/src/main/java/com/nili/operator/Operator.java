@@ -107,6 +107,7 @@ public class Operator extends Thread
 	{
 		chords.setToFirstChord();
 		handleStateChange(State.NEW_CHORD);
+		mainActivity.setUiModeAndPause(mainActivity.getUiMode());
 
 		// temp
 		createFakePress();
@@ -181,16 +182,12 @@ public class Operator extends Thread
 		// waiting for user to lift fingers, user lifted fingers, auto mode
 		if(userState == State.WAITING_FOR_USER_LIFT)
 		{
-			// auto mode
-			if(mainActivity.getUiMode()==Globals.UImode.AUTO
-				&&
-				receivedSwitchString.equalsIgnoreCase("000000000000000000000000"))
-			{
-				handleStateChange(State.USER_LIFT_FINGERS);
-			}
 			// timed mode
-			else if(mainActivity.getUiMode() == Globals.UImode.TIMED)
+			if(mainActivity.getUiMode() == Globals.UImode.TIMED)
 				return;
+			// auto/manual mode
+			if(receivedSwitchString.equalsIgnoreCase(Globals.emptyString))
+				handleStateChange(State.USER_LIFT_FINGERS);
 		}
 		// waiting for user to press full chord correct
 		else if(userState ==State.WAITING_FOR_CORRECT_PRESS
@@ -244,26 +241,39 @@ public class Operator extends Thread
 			sendPressedCorrectToJs();
 			if(mainActivity.getUiMode()==Globals.UImode.TIMED)
 				btOperations.sendStringToBt(Globals.emptyString);
-			if(mainActivity.getUiMode()==Globals.UImode.AUTO)
+			else if(mainActivity.getUiMode()==Globals.UImode.AUTO)
 				if(chords.current().positionCount==1)
 					btOperations.blinkNeck(100, chords.next().positionString);
 				else
 					btOperations.startStrumming(chords.current());
+			else if(mainActivity.getUiMode()==Globals.UImode.MANUAL)
+				if(chords.current().positionCount==1)
+					btOperations.blinkNeck(100, Globals.emptyString);
+				else
+					btOperations.startStrumming(chords.current());
+
 			userState = State.WAITING_FOR_USER_LIFT;
 		}
 		// waiting for strummed correct, and strummed correct
 		else if(userState == State.WAITING_FOR_CORRECT_STRUMM && eventType == State.STRUMMED_CORRECT)
 		{
 			if(mainActivity.getUiMode()==Globals.UImode.TIMED)
-				btOperations.blinkNeck(100, Globals.emptyString);
+				btOperations.sendStringToBt(Globals.emptyString);
 			else if(mainActivity.getUiMode()==Globals.UImode.AUTO)
 				eventForward();
+			else if(mainActivity.getUiMode()==Globals.UImode.MANUAL)
+				btOperations.blinkNeck(100, Globals.emptyString);
 		}
 		// waiting for user to lift fingers, and user lifted fingers
 		else if(userState == State.WAITING_FOR_USER_LIFT && eventType == State.USER_LIFT_FINGERS)
 		{
 			if(mainActivity.getUiMode()==Globals.UImode.AUTO)
 				eventForward();
+			else if(mainActivity.getUiMode()==Globals.UImode.MANUAL || mainActivity.getUiMode()==Globals.UImode.TIMED)
+			{
+				handleStateChange(State.NEW_CHORD);
+				sendEventLiftFingersToJs();
+			}
 		}
 	}
 
@@ -313,6 +323,13 @@ public class Operator extends Thread
 	{
 		Message message = new Message();
 		message.arg1 = Commands.WebApp.eventPressedCorrect;
+		this.webInterface.mHandler.sendMessage(message);
+	}
+
+	private void sendEventLiftFingersToJs()
+	{
+		Message message = new Message();
+		message.arg1 = Commands.WebApp.eventLiftFingers;
 		this.webInterface.mHandler.sendMessage(message);
 	}
 

@@ -23,7 +23,7 @@ public class WebAppInterface extends Thread
 		mHandler = new Handler() {
 			public void handleMessage(Message message)
 			{
-				if(message.arg1 == Commands.WebApp.liftFingers)
+				if(message.arg1 == Commands.WebApp.eventLiftFingers)
 					eventLiftFingers();
 				else if(message.arg1 == Commands.WebApp.eventPressedCorrect)
 					pressedCorrect_Animation();

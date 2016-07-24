@@ -1,12 +1,7 @@
-function eventSetTimer(tick)
-{
-	setTimer(tick);
-}
-
 function eventForward()
 {
 	console.log("eventForward: ");
-	eventStopStrummingAnimation();
+	stopStrummingAnimation();
 	moveToNextChord();
 	displayCurrentChord();
 }
@@ -14,9 +9,23 @@ function eventForward()
 function eventBackward()
 {
 	console.log("eventBackward: ");
-	eventStopStrummingAnimation();
+	stopStrummingAnimation();
 	moveToPreviousChord();
 	displayCurrentChord()
+}
+
+function eventStop()
+{
+	console.log("eventStop();");
+	stopStrummingAnimation();
+	setCurrentChord(0);
+
+	setChordText();
+	setLyrics();
+
+	setAllNeckPositionsOff(false);
+	setFingering(currentChord.positionList);
+	setNeckPositionListOn(currentChord.positionList);
 }
 
 function eventPressedCorrect()
@@ -31,38 +40,25 @@ function eventPressedCorrect()
 	element_chord.style.color = 'green';
 
 	if(isChordTextExplicit(currentChord.text))
-		setStringOn(currentChord.positionList[0][1])
+		setStringOn(currentChord.positionList[0][1]);
 	else
-		eventStartStrummingAnimation();
+		startStrummingAnimation();
 }
 
-function eventStartStrummingAnimation()
-{
-	startStrummingAnimation(200, currentChord.topString);
-}
-
-function eventStopStrummingAnimation()
+function eventLiftFingers()
 {
 	stopStrummingAnimation();
-}
-
-function eventSetTimed(tick)
-{
-	setTimerVisible(tick)
-}
-
-function eventSetManual()
-{
-	setTimerHidden();
+	displayCurrentChord();
 }
 
 function sendMessageToAndroid(message)
 {
 	////// ZVI /////
 	// this will execute messageFromJs in WebAppInterface object.
-	console.log("send message to Android: " + message)
+	console.log("send message to Android: " + message);
 	if(isAndroid)
 	{
+		//noinspection JSUnresolvedVariable,JSUnresolvedFunction
 		Android.messageFromJs(message);
 	}
 }
@@ -70,10 +66,10 @@ function sendMessageToAndroid(message)
 function receivePositionStringFromAndroid(_positionString)
 {
 	console.log("receivePositionStringFromAndroid: " + _positionString);
-	var positionOnList = new Array();
-	var positionBlinkList = new Array();
-	var positionCorrectList = new Array();
-	var positionIncorrectList = new Array();
+	var positionOnList = [];
+	var positionBlinkList = [];
+	var positionCorrectList = [];
+	var positionIncorrectList = [];
 	var fretIndex, stringIndex;
 	var positionString = _positionString;
 
@@ -85,18 +81,18 @@ function receivePositionStringFromAndroid(_positionString)
 		if(positionString.charAt(i)=='1')
 		{
 			positionOnList.push(position);
-			continue;
+
 		}
 		else if(positionString.charAt(i)=='c')
 		{
 			positionCorrectList.push(position);
-			continue;
+
 		}
 		else if(positionString.charAt(i)!='1' && positionString.charAt(i)!='0')
 		{
 			//positionBlinkList.push(position);
 			positionIncorrectList.push(position);
-			continue;
+
 		}
 	}
 
@@ -105,20 +101,6 @@ function receivePositionStringFromAndroid(_positionString)
 	setNeckPositionListCorrect(positionCorrectList);
 	setNeckPositionListIncorrect(positionIncorrectList);
 	//updateBlinkingList(positionBlinkList);
-}
-
-function eventStop()
-{
-	console.log("eventStop();")
-	stopStrummingAnimation();
-	setCurrentChord(0);
-	
-	setChordText();
-	setLyrics();
-
-	setAllNeckPositionsOff(false);
-	setFingering(currentChord.positionList);
-	setNeckPositionListOn(currentChord.positionList);
 }
 
 function sendChordToAndroid(chord)
