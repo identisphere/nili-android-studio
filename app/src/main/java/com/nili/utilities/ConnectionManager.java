@@ -34,6 +34,8 @@ public class ConnectionManager extends Thread
 	public Handler mHandler;
 
     long lastBtCallTime = 0;
+    private boolean isLightsActive = true;
+    private String lastLightsString;
 
 	public ConnectionManager()
     {
@@ -60,6 +62,18 @@ public class ConnectionManager extends Thread
                 {
                     tryConnect();
                     return;
+                }
+                else if(message.arg1== Commands.ConnectionManager.lightsOff)
+                {
+                    if(!isLightsActive) return;
+                    sendDataToBt(Globals.addBtDelimeters(Globals.emptyString));
+                    isLightsActive = false;
+                }
+                else if(message.arg1== Commands.ConnectionManager.lightsOn)
+                {
+                    if(isLightsActive) return;
+                    sendDataToBt(lastLightsString);
+                    isLightsActive = true;
                 }
 			}
 		};
@@ -91,6 +105,9 @@ public class ConnectionManager extends Thread
 	// formerly "write"
     public void sendDataToBt(String data) 
     {
+        if(!isLightsActive) return;
+
+        lastLightsString = data;
         try
         {
             long callDifference = new Date().getTime() - lastBtCallTime;

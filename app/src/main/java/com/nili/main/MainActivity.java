@@ -47,6 +47,7 @@ import com.nili.utilities.Timer;
 public class MainActivity extends Activity 
 {
 	private int uiMode;
+	private boolean isLightsActive = true;
 
 	// bt
     public ConnectionManager connectionManager;
@@ -72,6 +73,7 @@ public class MainActivity extends Activity
 	private TextView timerPlus;
 	private TextView timerMinus;
 	private TextView timerText;
+	private TextView toggleLightsText;
 	private ProgressDialog loadingSpinner;
 	private int counter;
 
@@ -84,9 +86,11 @@ public class MainActivity extends Activity
 		//Remove notification bar
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		// prevent locking of phone
+		/*
 		PowerManager powerManager = (PowerManager)getApplicationContext().getSystemService(Context.POWER_SERVICE);
 		WakeLock wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "My Lock");
 		wakeLock.acquire();
+		*/
 
 		setContentView(R.layout.activity_main);
 
@@ -112,6 +116,7 @@ public class MainActivity extends Activity
 		timerPlus = (TextView) findViewById(R.id.timerPlus);
 		timerMinus = (TextView) findViewById(R.id.timerMinus);
 		timerText = (TextView) findViewById(R.id.timerText);
+		toggleLightsText = (TextView) findViewById(R.id.toggleLightsText);
 
 		loadingSpinner = new ProgressDialog(MainActivity.this);
 		loadingSpinner.setMessage("Loading ...");
@@ -154,12 +159,31 @@ public class MainActivity extends Activity
 
 			timer.start();
 			btReadData.start();
+
+			setLightsStatus(true);
 		}
 		catch(Exception ex)
 		{
 
 		}
 	}
+
+	private void setLightsStatus(boolean isActive)
+	{
+		Message message = new Message();
+		if(isActive)
+		{
+			message.arg1 = Commands.ConnectionManager.lightsOn;
+			toggleLightsText.setText("ON");
+		}
+		else
+		{
+			message.arg1 = Commands.ConnectionManager.lightsOff;
+			toggleLightsText.setText("OFF");
+		}
+		this.connectionManager.mHandler.sendMessage(message);
+	}
+
 
 	private void waitForBtConnect()
 	{
@@ -405,6 +429,11 @@ public class MainActivity extends Activity
 	public void onButtonPlayPause(View v)
 	{
 		togglePlayMode();
+	}
+
+	public void onToggleLightsActive(View v)
+	{
+		setLightsStatus(!isLightsActive);
 	}
 
 	private void togglePlayMode()

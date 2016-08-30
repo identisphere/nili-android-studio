@@ -29,6 +29,8 @@ final public class Commands
 	{
 		public static final int sendToBt = 1;
 		public static final int connectToBt = 2;
+		public static final int lightsOn = 3;
+		public static final int lightsOff = 4;
 	}
 
 	public final class Strumming

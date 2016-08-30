@@ -245,7 +245,8 @@ public class Operator extends Thread
 				if(chords.current().positionCount==1)
 					btOperations.blinkNeck(100, chords.next().positionString);
 				else
-					btOperations.startStrumming(chords.current());
+					//btOperations.startStrumming(chords.current());
+					btOperations.sendStringToBt(Globals.strummingPositionString(chords.current().topString));
 			else if(mainActivity.getUiMode()==Globals.UImode.MANUAL)
 				if(chords.current().positionCount==1)
 					btOperations.blinkNeck(100, Globals.emptyString);

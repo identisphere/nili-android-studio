@@ -43,6 +43,7 @@ public class BtOperations
 
     public void startStrumming(Chords.ChordObject chord)
     {
+
         Message message = new Message();
         message.arg1 = Commands.Strumming.startStrumming;
         message.arg2 = chord.topString;

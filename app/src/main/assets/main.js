@@ -447,7 +447,6 @@ if(!isAndroid)
 			if(clickIndex==0)
 			{
 				eventPressedCorrect();
-				setNeckPositionListOn(nextChord.positionList);
 			}
 			else if (clickIndex==1)
 			{

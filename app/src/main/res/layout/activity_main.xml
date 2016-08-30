@@ -152,4 +152,14 @@
         android:textStyle="bold"
         android:textSize="30dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/toggleLightsText"
+        android:onClick="onToggleLightsActive"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/restart"
+        android:textColor="#ffffff" />
+
 </RelativeLayout>

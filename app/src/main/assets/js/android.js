@@ -42,7 +42,7 @@ function eventPressedCorrect()
 	if(isChordTextExplicit(currentChord.text))
 		setStringOn(currentChord.positionList[0][1]);
 	else
-		startStrummingAnimation();
+		startStrummingAnimation(100, currentChord.topString);
 }
 
 function eventLiftFingers()
