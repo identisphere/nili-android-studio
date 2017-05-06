@@ -1,8 +1,10 @@
 package com.nili.operator;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.PowerManager;
 import android.util.Log;
 
 import com.nili.globals.Commands;
@@ -13,20 +15,29 @@ import com.nili.main.WebAppInterface;
 import com.nili.utilities.ConnectionManager;
 import com.nili.utilities.Listener;
 import com.nili.utilities.Strumming;
+import com.nili.utilities.Timer;
+
+import java.util.Date;
 
 
 public class Operator extends Thread
 {
 	private MainActivity mainActivity;
-	private int					currentState = State.WAITING_FOR_CORRECT_PRESS;
-	private ConnectionManager	connectionManager;
+	private int userState = State.WAITING_FOR_CORRECT_PRESS;
 	private WebAppInterface 	webInterface;
-	public 	Handler				mHandler;
+	static public 	Handler				mHandler;
+
 	private Chords				chords = new Chords();
 	private Listener			listener = new Listener();
-	private Strumming 			strumming;
 
-	private class UserPress
+	private BtOperations btOperations;
+	private Timer timer;
+
+	public boolean tiksAvailable() {
+		return chords.isTiksAvailable();
+	}
+
+	private class UserProcessedPress
 	{
 		public String btPositions;
 		public String jsPositions;
@@ -43,6 +54,7 @@ public class Operator extends Thread
 		public static int PRESSED_CORRECT = 5;
 		public static int USER_LIFT_FINGERS = 6;
 		public static int FINISHED_SONG = 7;
+		public static int CHORD_END_TIK = 8;
 	}
 
 
@@ -51,14 +63,14 @@ public class Operator extends Thread
 		Thread.currentThread().setName("Operator");
 
 		Looper.prepare();
-		
+
 		mHandler = new Handler() {
 			public void handleMessage(Message message)
 			{
-				try
+			try
 				{
 					if(message.arg1== Commands.Operator.receivePress)
-						receivedPressFromUser((String)message.obj);
+						receivedPressFromUser((String) message.obj);
 					else if(message.arg1==Commands.Operator.addChord)
 						addChordToChordList((String)message.obj);
 					else if(message.arg1==Commands.Operator.finishedAddingChords)
@@ -73,6 +85,8 @@ public class Operator extends Thread
 						eventStrummedCorrect();
 					else if(message.arg1==Commands.Operator.restart)
 						eventRestart();
+					else if(message.arg1==Commands.Operator.chordChangeTik)
+						eventForward();
 				}
 				catch (Exception ex)
 				{
@@ -84,6 +98,8 @@ public class Operator extends Thread
 		Looper.loop();
 	}
 
+	public void eventChordTik() { handleStateChange(State.CHORD_END_TIK); }
+
 	private void eventStrummedCorrect()
 	{
 		handleStateChange(State.STRUMMED_CORRECT);
@@ -93,6 +109,7 @@ public class Operator extends Thread
 	{
 		chords.setToFirstChord();
 		handleStateChange(State.NEW_CHORD);
+		mainActivity.setUiModeAndPause(mainActivity.getUiMode());
 
 		// temp
 		createFakePress();
@@ -100,7 +117,11 @@ public class Operator extends Thread
 
 	private void eventForward()
 	{
-		if(!goToNextChord()) return;
+		if(!chords.goToNextChord())
+		{
+			handleStateChange(State.FINISHED_SONG);
+			return;
+		}
 
 		Message message = new Message();
 		message.arg1 = Commands.WebApp.eventForward;
@@ -122,7 +143,24 @@ public class Operator extends Thread
 
 	private void startAddingChords()
 	{
-		chords.clearList();
+		chords.reset();
+		timer.setActive(true);
+	}
+
+	public void finishedAddingChords()
+	{
+		if(chords.getListSize()==0)
+		{
+			btOperations.sendStringToBt("000000000000000000000000");
+			return;
+		}
+		eventRestart();
+	}
+
+	// run by javascript
+	public void addChordToChordList(String chordJsonString) throws Exception
+	{
+		chords.addChordToList(chordJsonString);
 	}
 
 	public void receivedPressFromUser(String receivedSwitchString)
@@ -133,50 +171,62 @@ public class Operator extends Thread
 			return;
 		}
 
+		UserProcessedPress userProcessedPress;
+		// Timed mode, don`t show pressed wrong
+		if(mainActivity.getUiMode()==Globals.UImode.TIMED)
+			userProcessedPress = processUserPress(receivedSwitchString, false);
+		else
+			userProcessedPress = processUserPress(receivedSwitchString, true);
 
-		UserPress userPress = processUserPress(receivedSwitchString);
 
-		// waiting for user lift
-		if(currentState == State.WAITING_FOR_USER_LIFT)
-			//auto mode, user lifted fingers
-			if(mainActivity.isAutoMode()
-			&&
-			receivedSwitchString.equalsIgnoreCase("000000000000000000000000"))
-			{
-				handleStateChange(State.USER_LIFT_FINGERS);
-			}
-			else
+		// waiting for user to lift fingers, user lifted fingers, auto mode
+		if(userState == State.WAITING_FOR_USER_LIFT)
+		{
+			// timed mode
+			if(mainActivity.getUiMode() == Globals.UImode.TIMED)
 				return;
+			// auto/manual mode
+			//if(receivedSwitchString.equalsIgnoreCase(Globals.emptyString))
+			if(receivedSwitchString.replace("0", "").length()<=1)
+				handleStateChange(State.USER_LIFT_FINGERS);
+		}
 		// waiting for user to press full chord correct
-		else if(currentState==State.WAITING_FOR_CORRECT_PRESS
+		else if(userState ==State.WAITING_FOR_CORRECT_PRESS
 			&&
-			userPress.pressedCorrect == chords.current().positionCount)
+			userProcessedPress.pressedCorrect == chords.current().positionCount)
 		{
 			handleStateChange(State.PRESSED_CORRECT);
 		}
 		// send processed string to both
 		else
 		{
-			this.sendStringToBt(userPress.btPositions);
-			this.sendStringToJs(userPress.jsPositions);
+			btOperations.sendStringToBt(userProcessedPress.btPositions);
+			this.sendStringToJs(userProcessedPress.jsPositions);
 		}
 	}
 
 	public void handleStateChange(int eventType)
 	{
 		// new chord
-		if(eventType == State.NEW_CHORD)
+		if (eventType == State.NEW_CHORD)
 		{
-			stopStrumming();
-			sendStringToBt(chords.current().positionString);
+			Log.d("state changed", "NEW CHORD");
+			System.out.println("state changed: " +  "NEW CHORD");
+
+			btOperations.sendStringToBt(Globals.emptyString);
+			btOperations.stopStrumming();
+			btOperations.sendStringToBt(chords.current().positionString);
+			timer.setCounter(chords.getCounter());
+
+
 			// set open string or not
 			if(chords.isChordEmptyString(chords.current()))
 			{
-				currentState = State.WAITING_FOR_CORRECT_STRUMM;
+				userState = State.WAITING_FOR_CORRECT_STRUMM;
 				listener.setCurrentString(chords.current().emptyStringList.get(0));
 			}
 			else
-				currentState = State.WAITING_FOR_CORRECT_PRESS;
+				userState = State.WAITING_FOR_CORRECT_PRESS;
 		}
 		// finished song
 		else if(eventType == State.FINISHED_SONG)
@@ -188,40 +238,60 @@ public class Operator extends Thread
 			this.webInterface.mHandler.sendMessage(message);
 		}
 		// was waiting for user to press correct, and user pressed correct
-		else if(currentState == State.WAITING_FOR_CORRECT_PRESS
+		else if(userState == State.WAITING_FOR_CORRECT_PRESS
 				&&
 				eventType == State.PRESSED_CORRECT)
 		{
+			System.out.println("state changed: " + "PRESSED CORRECT");
 			sendPressedCorrectToJs();
-			if(chords.current().positionCount==1)
-				blinkNeck(100, chords.next().positionString);
-			else
-				startStrumming(chords.current());
-			currentState = State.WAITING_FOR_USER_LIFT;
+			btOperations.sendStringToBt(Globals.emptyString);
+
+			if(mainActivity.getUiMode()==Globals.UImode.TIMED)
+				btOperations.sendStringToBt(Globals.strummingPositionString(chords.current().topString));
+			else if(mainActivity.getUiMode()==Globals.UImode.AUTO)
+				if(chords.current().positionCount==1)
+					btOperations.blinkNeck(100, chords.next().positionString);
+				else
+					btOperations.sendStringToBt(Globals.strummingPositionString(chords.current().topString));
+			else if(mainActivity.getUiMode()==Globals.UImode.MANUAL)
+				if(chords.current().positionCount==1)
+					btOperations.blinkNeck(100, Globals.emptyString);
+				else
+					btOperations.startStrumming(chords.current());
+
+			userState = State.WAITING_FOR_USER_LIFT;
 		}
-		// was waiting for user to lift fingers, and user lifted fingers
-		else if(currentState == State.WAITING_FOR_USER_LIFT
-				&&
-				eventType == State.USER_LIFT_FINGERS)
+		// waiting for strummed correct, and strummed correct
+		else if(userState == State.WAITING_FOR_CORRECT_STRUMM && eventType == State.STRUMMED_CORRECT)
 		{
-			if(mainActivity.isAutoMode())
-			{
+			if(mainActivity.getUiMode()==Globals.UImode.TIMED)
+				btOperations.sendStringToBt(Globals.emptyString);
+			else if(mainActivity.getUiMode()==Globals.UImode.AUTO)
 				eventForward();
-			}
+			else if(mainActivity.getUiMode()==Globals.UImode.MANUAL)
+				btOperations.blinkNeck(100, Globals.emptyString);
 		}
-		// was waiting for use to strum correct, and user strummed correct
-		else if(currentState == State.WAITING_FOR_CORRECT_STRUMM
-				&&
-				eventType == State.STRUMMED_CORRECT)
+		// waiting for user to lift fingers, and user lifted fingers
+		else if(userState == State.WAITING_FOR_USER_LIFT && eventType == State.USER_LIFT_FINGERS)
 		{
-			eventForward();
+			System.out.println("state changed: " +  "USER LIFTED FINGERS");
+			if(mainActivity.getUiMode()==Globals.UImode.AUTO)
+				eventForward();
+			else if(mainActivity.getUiMode()==Globals.UImode.MANUAL || mainActivity.getUiMode()==Globals.UImode.TIMED)
+			{
+				handleStateChange(State.NEW_CHORD);
+				sendEventLiftFingersToJs();
+			}
 		}
 	}
 
-	public UserPress processUserPress(String receivedSwitchString)
+	public UserProcessedPress processUserPress(String receivedSwitchString, boolean showWrong)
 	{
+		System.out.println("RECEIVE: " + receivedSwitchString);
+
+
 		String currentChordString = chords.current().positionString;
-		UserPress userPress = new UserPress();
+		UserProcessedPress userPress = new UserProcessedPress();
 		userPress.btPositions = currentChordString;
 		userPress.jsPositions = currentChordString;
 
@@ -236,40 +306,13 @@ public class Operator extends Thread
 			}
 
 			// pressed wrong. set char to blinkRate
-			if(receivedSwitchString.charAt(i)=='1' && currentChordString.charAt(i)=='0')
+			if(showWrong && receivedSwitchString.charAt(i)=='1' && currentChordString.charAt(i)=='0')
 			{
 				userPress.btPositions = userPress.btPositions.substring(0,i) + Globals.BLINK_CHAR_RATE + userPress.btPositions.substring(i+1);
 				userPress.jsPositions = userPress.jsPositions.substring(0,i) + "i" + userPress.jsPositions.substring(i+1);
 			}
 		}
 		return userPress;
-	}
-
-	public void finishedAddingChords()
-	{
-		if(chords.getListSize()==0)
-		{
-			this.sendStringToBt("000000000000000000000000");
-			return;
-		}
-		eventRestart();
-	}
-
-	private boolean goToNextChord()
-	{
-		if(!chords.goToNextChord())
-		{
-			handleStateChange(State.FINISHED_SONG);
-			return false;
-		}
-		else return true;
-	}
-
-	private void blinkNeck(long delay, String postBlinkPositions)
-	{
-		this.sendStringToBt("111111111111111111111111");
-		try { Thread.sleep(delay); } catch (Exception e) {e.printStackTrace();}
-		this.sendStringToBt(postBlinkPositions);
 	}
 
 	public void createFakePress()
@@ -294,22 +337,13 @@ public class Operator extends Thread
 		this.webInterface.mHandler.sendMessage(message);
 	}
 
-	// run by javascript
-	public void addChordToChordList(String chordJsonString) throws Exception
+	private void sendEventLiftFingersToJs()
 	{
-		chords.addChordToList(chordJsonString);
-	}
-	
-	synchronized void sendStringToBt(String data)
-	{
-		data = Globals.addBtDelimeters(data);
-
 		Message message = new Message();
-		message.arg1 = Commands.ConnectionManager.sendToBt;
-		message.obj = Globals.addBtDelimeters(data);
-		this.connectionManager.mHandler.sendMessage(message);
+		message.arg1 = Commands.WebApp.eventLiftFingers;
+		this.webInterface.mHandler.sendMessage(message);
 	}
-	
+
 	private void sendStringToJs(String positionString)
 	{
 		Message message = new Message();
@@ -318,27 +352,9 @@ public class Operator extends Thread
 		this.webInterface.mHandler.sendMessage(message);
 	}
 	
-	private void startStrumming(Chords.ChordObject chord)
-	{
-		Message message = new Message();
-		message.arg1 = Commands.Strumming.startStrumming;
-		message.arg2 = chord.topString;
-		this.strumming.mHandler.sendMessage(message);
-	}
-
-	private void stopStrumming()
-	{
-		this.strumming.isActive = false;
-		/*
-		Message message = new Message();
-		message.arg1 = Commands.Strumming.stopStrumming;
-		this.strumming.mHandler.sendMessage(message);
-		*/
-	}
-
 	public void sendStringToBoth(String positionString)
 	{
-		sendStringToBt(positionString);
+		btOperations.sendStringToBt(positionString);
 		sendStringToJs(positionString);
 	}
 	
@@ -346,12 +362,12 @@ public class Operator extends Thread
 	{
 	}
 	
-	public void set(ConnectionManager connectionManager, WebAppInterface webInterface, Strumming strumming, MainActivity mainActivity)
+	public void set(ConnectionManager connectionManager, WebAppInterface webInterface, Strumming strumming, Timer timer, MainActivity mainActivity)
 	{
-		this.connectionManager = connectionManager;
 		this.webInterface = webInterface;
 		this.mainActivity = mainActivity;
-		this.strumming = strumming;
+		this.timer = timer;
+		this.btOperations = new BtOperations(strumming, connectionManager);
 		listener.set(this);
 	}
 }

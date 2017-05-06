@@ -6,5 +6,6 @@ function ChordObject()  {
     this.lyrics = new String();
     this.topString = null;
     this.index = null;
+    this.tiks = -1;
 };
 

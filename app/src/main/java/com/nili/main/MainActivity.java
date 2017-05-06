@@ -41,10 +41,14 @@ import com.nili.operator.Operator;
 import com.nili.utilities.ConnectionManager;
 import com.nili.utilities.BtReadData;
 import com.nili.utilities.Strumming;
+import com.nili.utilities.Timer;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class MainActivity extends Activity 
 {
+	private int uiMode;
+	private boolean isLightsActive = true;
+
 	// bt
     public ConnectionManager connectionManager;
     public BtReadData btReadData;
@@ -53,17 +57,27 @@ public class MainActivity extends Activity
 	public Operator operator;
 	private ListView songsListView;
 	public HashMap<String, String> songsMap = new HashMap<String, String>();
+	private Timer timer;
+
 
 	// javascript
-	public  WebView			webView;
+	public WebView			webView;
 	public WebAppInterface webInterface;
 
-	private boolean isAutoMode;
 	private ImageView changeModeButton;
 	private ImageView forwardButton;
 	private ImageView backwardButton;
-	
-    @Override
+	private ImageView playPauseButton;
+	private ImageView reconnectButton;
+	private TextView counterText;
+	private TextView timerPlus;
+	private TextView timerMinus;
+	private TextView timerText;
+	private TextView toggleLightsText;
+	private ProgressDialog loadingSpinner;
+	private int counter;
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
         super.onCreate(savedInstanceState);
@@ -71,13 +85,11 @@ public class MainActivity extends Activity
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		//Remove notification bar
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		// prevent locking of phone
-		PowerManager powerManager = (PowerManager)getApplicationContext().getSystemService(Context.POWER_SERVICE);
-		WakeLock wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "My Lock");
-		wakeLock.acquire();
 
 		setContentView(R.layout.activity_main);
 
+
+		// showing a "loading" message until loaded
 
 		Thread.currentThread().setName("Main Activity Thread");
 		
@@ -86,93 +98,167 @@ public class MainActivity extends Activity
 		operator = new Operator();
 		webInterface = new WebAppInterface();
 		strumming = new Strumming();
-		
-		
-		
+		timer = new Timer();
+
         songsListView = (ListView) findViewById(R.id.songsList);
-        setSongsList(); 
-		setWebView();
-		
 		changeModeButton = (ImageView) findViewById(R.id.IsAuto);
 		forwardButton = (ImageView) findViewById(R.id.Forward);
 		backwardButton = (ImageView) findViewById(R.id.Backward);
-		
-		
+		playPauseButton = (ImageView) findViewById(R.id.playPause);
+		reconnectButton = (ImageView) findViewById(R.id.reconnect);
+		counterText = (TextView) findViewById(R.id.counterText);
+		timerPlus = (TextView) findViewById(R.id.timerPlus);
+		timerMinus = (TextView) findViewById(R.id.timerMinus);
+		timerText = (TextView) findViewById(R.id.timerText);
+		toggleLightsText = (TextView) findViewById(R.id.toggleLightsText);
+
+		loadingSpinner = new ProgressDialog(MainActivity.this);
+		loadingSpinner.setMessage("Loading ...");
+		loadingSpinner.setCancelable(false);
+
+		setSongsList();
+		setWebView();
+
+
+
 		webInterface.set(this, operator);
+		///// ZVI ////
+		// this sets webInteface to communicate with the web view JS
+		// For JS to run some_function in webInterface, you need to write 'Android.some_function" in the JS
     	webView.addJavascriptInterface(webInterface, "Android");
 
-		connectionManager.set(this, "98:D3:31:B1:F7:92");
-		connectionManager.start();
-		strumming.set(this.connectionManager);
-		strumming.start();
+		try
+		{
+			connectionManager.set(this, "98:D3:31:B1:F7:92");
+			connectionManager.start();
+			while(connectionManager.mHandler == null)
+				Thread.sleep(200);
 
+			waitForBtConnect();
+
+			strumming.set(this.connectionManager);
+			timer.set(operator, this);
+			btReadData.set(this, connectionManager.inputStream, operator); // this thread reads the incomming data from bluetooth
+			operator.set(this.connectionManager, this.webInterface, this.strumming, this.timer, this);
+
+			webInterface.start();
+			while(webInterface.mHandler == null)
+				Thread.sleep(200);
+			strumming.start();
+			while(strumming.mHandler == null)
+				Thread.sleep(200);
+			operator.start();
+			while(operator.mHandler == null)
+				Thread.sleep(200);
+
+			timer.start();
+			btReadData.start();
+
+			setLightsStatus(true);
+		}
+		catch(Exception ex)
+		{
+
+		}
+	}
+
+	private void setLightsStatus(boolean isActive)
+	{
+		Message message = new Message();
+		if(isActive)
+		{
+			message.arg1 = Commands.ConnectionManager.lightsOn;
+			toggleLightsText.setText("ON");
+		}
+		else
+		{
+			message.arg1 = Commands.ConnectionManager.lightsOff;
+			toggleLightsText.setText("OFF");
+		}
+		this.connectionManager.mHandler.sendMessage(message);
+	}
+
+
+	private void waitForBtConnect()
+	{
+
+		Message message = new Message();
+		message.arg1 = Commands.ConnectionManager.connectToBt;
+		this.connectionManager.mHandler.sendMessage(message);
+
+		reconnectButton.setBackgroundResource(R.drawable.reconnecting);
 		synchronized(connectionManager)
 		{
 			try {
-				connectionManager.wait();
+				connectionManager.wait(6000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
+		reconnectButton.setBackgroundResource(R.drawable.reconnect);
 		if(!Globals.isConnectedToBT)
 		{
 			showToast("failed connecting to blue tooth");
-			//return;
+			reconnectButton.setVisibility(View.VISIBLE);
 		}
 		else
 		{
 			showToast("connected to blue tooth");
+			reconnectButton.setVisibility(View.GONE);
 		}
-		
-        // connect java script to android
-
-        btReadData.set(this, connectionManager.inputStream, operator); // this thread reads the incomming data from bluetooth
-		operator.set(this.connectionManager, this.webInterface, this.strumming, this);
-
-        webInterface.start();
-        btReadData.start();
-		operator.start();
-
-		// needs to wait for page to load
-		setUiAutoMode(true);
-		isAutoMode = true;
 	}
 
-    private void setUiAutoMode(boolean isAuto)
-    {
-		this.forwardButton.setVisibility(View.GONE);
-		this.backwardButton.setVisibility(View.GONE);
+	public void setUiModeAndPause(int mode)
+	{
+		uiMode = mode;
 
-		
-		if(isAuto)
+		setIsPaused(true);
+
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				if (uiMode == Globals.UImode.AUTO) {
+					changeModeButton.setBackgroundResource(R.drawable.auto);
+					showTimedControls(false);
+				} else if (uiMode == Globals.UImode.MANUAL) {
+					changeModeButton.setBackgroundResource(R.drawable.manual);
+					showTimedControls(false);
+				} else if (uiMode == Globals.UImode.TIMED) {
+					changeModeButton.setBackgroundResource(R.drawable.timed);
+					showTimedControls(true);
+					if (!operator.tiksAvailable()) {
+						setUiModeAndPause(0);
+					}
+				}
+			}
+		});
+	}
+
+	private void showTimedControls(boolean isTimed)
+	{
+		if(isTimed)
 		{
-			changeModeButton.setBackgroundResource(R.drawable.auto);
-			this.forwardButton.setVisibility(View.GONE);
-			this.backwardButton.setVisibility(View.GONE);
+			playPauseButton.setVisibility(View.VISIBLE);
+			counterText.setVisibility(View.VISIBLE);
+			timerPlus.setVisibility(View.VISIBLE);
+			timerMinus.setVisibility(View.VISIBLE);
+			timerText.setVisibility(View.VISIBLE);
 		}
 		else
 		{
-			changeModeButton.setBackgroundResource(R.drawable.manual);
-			this.forwardButton.setVisibility(View.VISIBLE);
-			this.backwardButton.setVisibility(View.VISIBLE);
+			playPauseButton.setVisibility(View.GONE);
+			counterText.setVisibility(View.GONE);
+			timerPlus.setVisibility(View.GONE);
+			timerMinus.setVisibility(View.GONE);
+			timerText.setVisibility(View.GONE);
 		}
-    }
-    
-	public synchronized void setMode(boolean isAuto)
-	{
-		isAutoMode = isAuto;
-		
-		Message message = new Message();
-		message.arg1 = Commands.WebApp.eventUiChangeMode;
-		message.obj = Boolean.toString(isAutoMode);
-		this.webInterface.mHandler.sendMessage(message);
 	}
-    
-	public boolean isAutoMode()
+
+	public int getUiMode()
 	{
-		return isAutoMode;
+		return uiMode;
 	}
 	
     private void setSongsList() 
@@ -255,6 +341,9 @@ public class MainActivity extends Activity
          });
 	}
 
+	// ZVI
+	// load the HTML in web view.
+	// url is relevant to the 'assets' folder
 	protected void loadWebView(String url) 
 	{
 		this.webView.loadUrl("file:///android_asset/"+url);
@@ -262,33 +351,36 @@ public class MainActivity extends Activity
 
 	private void setWebView()
 	{
-        final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
-        progressDialog.setMessage("Loading ...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
 
+		///////// ZVI //////////////
+		// connect webView object to display
 		webView = (WebView)findViewById(R.id.activity_main_webview);
+		// set clickable
 		webView.setClickable(true);
     	// Enable java script
     	WebSettings webSettings = webView.getSettings();
     	webSettings.setJavaScriptEnabled(true);
-    	// all pages to load from web view
+    	// all pages to load from web view, instead of opening a new window
     	webView.setWebViewClient(new WebViewClient());
+		// performance things
     	webView.getSettings().setRenderPriority(RenderPriority.HIGH);
     	webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
     	
-    	//loadWebView(this.songsMap.get("solo"));
-    	loadWebView(this.songsMap.get("Leaving On A Jet Plane - John Denver"));
+    	//loading the html:
+		// webView.loadUrl("file:///android_asset/"+url);
+		// url will be relative to the 'assets' folder
+		loadWebView(this.songsMap.get("solo"));
 
+		// call super function
     	webView.setWebViewClient(new WebViewClient() {
           @Override
           public void onPageFinished(WebView view, String url) {
-            super.onPageFinished(view, url);
-            progressDialog.hide();
+			  super.onPageFinished(view, url);
           }
         });
+		///////// ZVI //////////////
 	}
-	
+
 	public void onButtonRestart(View v) {
 		Message message = new Message();
 		message.arg1 = Commands.Operator.restart;
@@ -298,33 +390,105 @@ public class MainActivity extends Activity
 		message.arg1 = Commands.WebApp.restart;
 		this.webInterface.mHandler.sendMessage(message);
 	}
-	
-	public void onButtonShowSongsList(View v)
-	{
+
+	public void onButtonShowSongsList(View v) {
 		this.songsListView.setVisibility(View.VISIBLE);
 	}
 
-    public void eventUiToggleMode(View v)
+    public void onButtonToggleMode(View v)
     {
-    	isAutoMode = !isAutoMode;
-		
-    	setMode(isAutoMode);
-		setUiAutoMode(isAutoMode);
-    }
+		int mode = uiMode;
+    	if(mode == 2)
+			mode = 0;
+		else
+			mode++;
 
-    public void eventUiForward(View v)
+		setUiModeAndPause(mode);
+	}
+
+    public void onButtonForward(View v)
     {
 		Message message = new Message();
 		message.arg1 = Commands.Operator.eventForward;
 		this.operator.mHandler.sendMessage(message);
     }
     
-    public void eventUiBackward(View v)
+    public void onButtonBackward(View v)
     {
 		Message message = new Message();
 		message.arg1 = Commands.Operator.eventBackward;
 		this.operator.mHandler.sendMessage(message);
     }
+
+	public void onButtonPlayPause(View v)
+	{
+		togglePlayMode();
+	}
+
+	public void onToggleLightsActive(View v)
+	{
+		isLightsActive = !isLightsActive;
+		setLightsStatus(isLightsActive);
+	}
+
+	private void togglePlayMode()
+	{
+		if(timer.getIsPaused())
+			setIsPaused(false);
+		else
+			setIsPaused(true);
+	}
+
+	private void setIsPaused(boolean isPaused)
+	{
+		if(isPaused)
+		{
+			playPauseButton.setBackgroundResource(R.drawable.play);
+			timer.setIsPaused(true);
+		}
+		else
+		{
+			playPauseButton.setBackgroundResource(R.drawable.pause);
+			timer.setIsPaused(false);
+		}
+	}
+
+	public void onButtonConnect(View v)
+	{
+		Message message = new Message();
+		message.arg1 = Commands.ConnectionManager.connectToBt;
+		this.connectionManager.mHandler.sendMessage(message);
+
+		waitForBtConnect();
+	}
+
+	public void onButtonTimerPlus(View v)
+	{
+		timer.changeRatio(1);
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				timerText.setText(String.valueOf(timer.getRatio()));
+			}
+		});
+	}
+
+	public void onButtonTimerMinus(View v)
+	{
+		timer.changeRatio(-1);
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				timerText.setText(String.valueOf(timer.getRatio()));
+			}
+		});
+	}
+
+	public void setCounter(int counter)
+	{
+		this.counter = counter;
+		counterText.setText(String.valueOf(counter));
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -336,6 +500,23 @@ public class MainActivity extends Activity
 	public void showToast(String toast)
 	{
 		Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_SHORT).show();
+	}
+
+	public void setLoadingStarted() {
+		webView.setVisibility(View.GONE);
+		loadingSpinner.show();
+	}
+
+	public void setLoadingFinished() {
+		setUiModeAndPause(uiMode);
+		loadingSpinner.hide();
+		webView.setVisibility(View.VISIBLE);
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				timerText.setText(String.valueOf(timer.getRatio()));
+			}
+		});
 	}
 }
 

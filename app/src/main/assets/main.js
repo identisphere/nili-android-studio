@@ -3,7 +3,7 @@ var TOTAL_NUMBER_OF_STRINGS = 6;
 
 var originalChordElementList = $(".chord");
 var originalLyricsElementList = $(".lyrics");
-var originalTicksElementList = $(".tick");
+var originalTicksElementList = $(".tik, .tick");
 
 var chordList = new Array();
 
@@ -45,8 +45,6 @@ var blinkingList;
 var isBlinkOn = false;
 var BLINK_INTERVAL = 200;
 
-var isAutoMode;
-
 
 
 // 3rd         1st   controls
@@ -61,8 +59,6 @@ var isAutoMode;
 
 document.body.onload = function()
 {
-
-
 	loadScript('./js/consts.js');
 	loadScript('./js/DisplayActions.js');
 	loadScript('./js/Navigation.js');
@@ -97,7 +93,7 @@ function processChordsHtml()
 	}
 	for(var i=0; i<originalTicksElementList.length; i++)
 	{
-		chordList[i].tiks = originalTicksElementList[i].innerHTML;
+		chordList[i].tiks = parseInt(originalTicksElementList[i].innerHTML);
 	}
 	for(var i=0; i<originalChordElementList.length; i++)
 		$(originalChordElementList[i].remove());
@@ -451,7 +447,6 @@ if(!isAndroid)
 			if(clickIndex==0)
 			{
 				eventPressedCorrect();
-				setNeckPositionListOn(nextChord.positionList);
 			}
 			else if (clickIndex==1)
 			{

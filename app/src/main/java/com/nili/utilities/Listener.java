@@ -3,6 +3,7 @@ package com.nili.utilities;
 import android.os.Message;
 
 import com.nili.globals.Commands;
+import com.nili.globals.Globals;
 import com.nili.operator.Operator;
 
 import be.tarsos.dsp.AudioDispatcher;
@@ -77,17 +78,17 @@ public class Listener {
                 if (!isActive) return;
 
                 final float pitchInHz = pitchDetectionResult.getPitch();
-                if (pitchInHz > 320.0 && pitchInHz < 340.0 && currentString == Strings.E1)
+                if (pitchInHz > 324.0 && pitchInHz < 335.0 && currentString == Strings.E1)
                     sendStrummedCorrect();
-                else if (pitchInHz > 244.0 && pitchInHz < 248.0 && currentString == Strings.B)
+                else if (pitchInHz > 240.0 && pitchInHz < 251.0 && currentString == Strings.B)
                     sendStrummedCorrect();
-                else if (pitchInHz > 195.0 && pitchInHz < 197.0 && currentString == Strings.G)
+                else if (pitchInHz > 190.0 && pitchInHz < 201.0 && currentString == Strings.G)
                     sendStrummedCorrect();
-                else if (pitchInHz > 145.0 && pitchInHz < 147.0 && currentString == Strings.D)
+                else if (pitchInHz > 141.0 && pitchInHz < 153.0 && currentString == Strings.D)
                     sendStrummedCorrect();
-                else if (pitchInHz > 108.0 && pitchInHz < 112.0 && currentString == Strings.A)
+                else if (pitchInHz > 105.0 && pitchInHz < 115.0 && currentString == Strings.A)
                     sendStrummedCorrect();
-                else if (pitchInHz > 81.0 && pitchInHz < 83.0 && currentString == Strings.E2)
+                else if (pitchInHz > 79.0 && pitchInHz < 85.0 && currentString == Strings.E2)
                     sendStrummedCorrect();
             }
         }));

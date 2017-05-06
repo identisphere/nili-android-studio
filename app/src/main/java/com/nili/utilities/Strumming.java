@@ -46,6 +46,7 @@ public class Strumming extends Thread
         Looper.loop();
     }
 
+
     public void startStrumming(int topString)
     {
         isActive = true;

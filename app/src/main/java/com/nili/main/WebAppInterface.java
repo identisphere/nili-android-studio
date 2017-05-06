@@ -23,14 +23,12 @@ public class WebAppInterface extends Thread
 		mHandler = new Handler() {
 			public void handleMessage(Message message)
 			{
-				if(message.arg1 == Commands.WebApp.liftFingers)
+				if(message.arg1 == Commands.WebApp.eventLiftFingers)
 					eventLiftFingers();
 				else if(message.arg1 == Commands.WebApp.eventPressedCorrect)
 					pressedCorrect_Animation();
 				else if(message.arg1 == Commands.WebApp.sendStringToJs)
 					sendPositionStringToJs(addJsDelimeters((String)message.obj));
-				else if(message.arg1 == Commands.WebApp.eventUiChangeMode)
-					changeMode(addJsDelimeters((String)message.obj));
 				else if(message.arg1 == Commands.WebApp.eventForward)
 					eventForward();
 				else if(message.arg1 == Commands.WebApp.eventBackward)
@@ -74,9 +72,14 @@ public class WebAppInterface extends Thread
 		sendMessageToJs("eventStop()");
 	}
 
+	//// ZVI ////
+	// this function executes functions in JS
 	public void sendMessageToJs(String message)
 	{
 		this.jsMessage = message;
+		// This will run jsMessage in JS. i.e:
+		// if jsMessage = "eventStop(true)", eventStop with argument true will be executed in JS
+		// This has to be executed in the UI thread
 		this.mainActivity.runOnUiThread(new Runnable() 
 		{
 			@Override
@@ -86,46 +89,56 @@ public class WebAppInterface extends Thread
 			}
 		});
 	}
-	
-	
+
+
+	//// ZVI ////
+	// this function is executed when JS calls Android.messageFromJS("some string");
 	@JavascriptInterface
 	public void messageFromJs(String chordString) 
 	{
 		Message operatorMessage = new Message();
 		if(chordString.equalsIgnoreCase("start_chords"))
 		{
+			this.mainActivity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					WebAppInterface.this.mainActivity.setLoadingStarted();
+				}
+			});
 			operatorMessage.arg1 = Commands.Operator.startAddingChords;
 			this.operator.mHandler.sendMessage(operatorMessage);
 			return;
 		}
-		
-		if(chordString.equalsIgnoreCase("end_chords"))
+
+		else if(chordString.equalsIgnoreCase("end_chords"))
+
 		{
 			operatorMessage.arg1 = Commands.Operator.finishedAddingChords;
 			this.operator.mHandler.sendMessage(operatorMessage);
-			mainActivity.setMode(mainActivity.isAutoMode());
+			this.mainActivity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					WebAppInterface.this.mainActivity.setLoadingFinished();
+				}
+			});
 			return;
-		} 
-		
+		}
+
 		else if(chordString.indexOf("addChord_")!=-1)
+
 		{
 			operatorMessage.arg1 = Commands.Operator.addChord;
 			operatorMessage.obj = chordString.split("_")[1];
 		}
 
-		this.operator.mHandler.sendMessage(operatorMessage);
-	}
+			this.operator.mHandler.sendMessage(operatorMessage);
+		}
 
-	private String addJsDelimeters(String string)
+		private String addJsDelimeters(String string)
 	{
 		return "\"" + string + "\"";
 	}
 
-	private void changeMode(String isAuto)
-	{
-		sendMessageToJs("setMode(" + isAuto + ");");
-	}
-	
 	private void eventForward()
 	{
 		sendMessageToJs("eventForward();");

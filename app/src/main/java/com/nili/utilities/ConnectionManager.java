@@ -13,6 +13,7 @@ import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.nili.globals.Commands;
@@ -34,6 +35,8 @@ public class ConnectionManager extends Thread
 	public Handler mHandler;
 
     long lastBtCallTime = 0;
+    private boolean isLightsActive = true;
+    private String lastLightsString;
 
 	public ConnectionManager()
     {
@@ -43,52 +46,39 @@ public class ConnectionManager extends Thread
 	{
 		Thread.currentThread().setName("Connection Manager");
 
-		synchronized(this)
-		{
-	    	btAdapter = BluetoothAdapter.getDefaultAdapter();
-	        while(!btAdapter.isEnabled())
-	        {
-	        	btAdapter.enable();
-	        	try
-	        	{
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	        }
-
-	        try
-	        {
-		        this.connect();
-	        	Globals.isConnectedToBT = true;
-	        }
-	        catch(Exception ex)
-	        {
-	        	Globals.isConnectedToBT = false;
-	        }
-	        finally
-	        {
-	        	this.notify();
-	        }
-		}
-		
 		Looper.prepare();
-		
+
 		mHandler = new Handler() {
 			public void handleMessage(Message message)
 			{
-				if(!Globals.isConnectedToBT)
-				{
-					System.out.println("unable to send message to blue tooth");
-					return;
-				}
 				if(message.arg1== Commands.ConnectionManager.sendToBt)
 				{
-
-					sendDataToBt((String)message.obj);
+                    if(!Globals.isConnectedToBT)
+                        System.out.println("unable to send message to blue tooth");
+                    else
+                    {
+                        lastLightsString = (String) message.obj;
+                        sendDataToBt((String) message.obj);
+                    }
 					return;
 				}
+                else if(message.arg1== Commands.ConnectionManager.connectToBt)
+                {
+                    tryConnect();
+                    return;
+                }
+                else if(message.arg1== Commands.ConnectionManager.lightsOff)
+                {
+                    if(!isLightsActive) return;
+                    sendDataToBt(Globals.addBtDelimeters(Globals.emptyString));
+                    isLightsActive = false;
+                }
+                else if(message.arg1== Commands.ConnectionManager.lightsOn)
+                {
+                    if(isLightsActive) return;
+                    isLightsActive = true;
+                    sendDataToBt(lastLightsString);
+                }
 			}
 		};
 		
@@ -96,19 +86,40 @@ public class ConnectionManager extends Thread
 
 	}
 
+    synchronized public void tryConnect()
+    {
+        synchronized (this)
+        {
+            try
+            {
+                this.connect();
+                Globals.isConnectedToBT = true;
+            }
+            catch(Exception ex)
+            {
+                Globals.isConnectedToBT = false;
+            }
+            finally
+            {
+                notifyAll();
+            }
+        }
+    }
+
 	// formerly "write"
     public void sendDataToBt(String data) 
     {
+        if(!isLightsActive) return;
+
         try
         {
             long callDifference = new Date().getTime() - lastBtCallTime;
-            if(callDifference< Globals.MIN_TIME_BETWEEN_BT_CALLS)
+            if(callDifference < Globals.MIN_TIME_BETWEEN_BT_CALLS)
                 Thread.sleep(callDifference);
 
+            outputStream.write(Globals.addBtDelimeters(Globals.emptyString).getBytes());
             outputStream.write(data.getBytes());
-            outputStream.write(data.getBytes());
-            outputStream.flush();
-
+            System.out.println("SEND: " + data);
             lastBtCallTime = new Date().getTime();
         }
         catch (Exception e)
@@ -182,8 +193,19 @@ public class ConnectionManager extends Thread
     {
         address = btAddress;
         this.mainActivity = mainActivity;
+        btAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        Thread.currentThread().setName("Connection Manager Thread");
+        while(!btAdapter.isEnabled())
+        {
+            btAdapter.enable();
+            try
+            {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
 	}
 
 }
