@@ -1,8 +1,10 @@
 package com.nili.operator;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.PowerManager;
 import android.util.Log;
 
 import com.nili.globals.Commands;
@@ -23,7 +25,7 @@ public class Operator extends Thread
 	private MainActivity mainActivity;
 	private int userState = State.WAITING_FOR_CORRECT_PRESS;
 	private WebAppInterface 	webInterface;
-	public 	Handler				mHandler;
+	static public 	Handler				mHandler;
 
 	private Chords				chords = new Chords();
 	private Listener			listener = new Listener();
@@ -61,11 +63,11 @@ public class Operator extends Thread
 		Thread.currentThread().setName("Operator");
 
 		Looper.prepare();
-		
+
 		mHandler = new Handler() {
 			public void handleMessage(Message message)
 			{
-				try
+			try
 				{
 					if(message.arg1== Commands.Operator.receivePress)
 						receivedPressFromUser((String) message.obj);
@@ -126,8 +128,6 @@ public class Operator extends Thread
 		this.webInterface.mHandler.sendMessage(message);
 
 		handleStateChange(State.NEW_CHORD);
-		Log.d("operator:eventForward: ", String.valueOf(new Date().getTime()));
-
 	}
 
 	private void eventBackward()
@@ -186,7 +186,8 @@ public class Operator extends Thread
 			if(mainActivity.getUiMode() == Globals.UImode.TIMED)
 				return;
 			// auto/manual mode
-			if(receivedSwitchString.equalsIgnoreCase(Globals.emptyString))
+			//if(receivedSwitchString.equalsIgnoreCase(Globals.emptyString))
+			if(receivedSwitchString.replace("0", "").length()<=1)
 				handleStateChange(State.USER_LIFT_FINGERS);
 		}
 		// waiting for user to press full chord correct
@@ -209,9 +210,14 @@ public class Operator extends Thread
 		// new chord
 		if (eventType == State.NEW_CHORD)
 		{
+			Log.d("state changed", "NEW CHORD");
+			System.out.println("state changed: " +  "NEW CHORD");
+
+			btOperations.sendStringToBt(Globals.emptyString);
 			btOperations.stopStrumming();
 			btOperations.sendStringToBt(chords.current().positionString);
 			timer.setCounter(chords.getCounter());
+
 
 			// set open string or not
 			if(chords.isChordEmptyString(chords.current()))
@@ -225,27 +231,27 @@ public class Operator extends Thread
 		// finished song
 		else if(eventType == State.FINISHED_SONG)
 		{
-			/*
 			eventRestart();
 
 			Message message = new Message();
 			message.arg1 = Commands.WebApp.restart;
 			this.webInterface.mHandler.sendMessage(message);
-			*/
 		}
 		// was waiting for user to press correct, and user pressed correct
 		else if(userState == State.WAITING_FOR_CORRECT_PRESS
 				&&
 				eventType == State.PRESSED_CORRECT)
 		{
+			System.out.println("state changed: " + "PRESSED CORRECT");
 			sendPressedCorrectToJs();
+			btOperations.sendStringToBt(Globals.emptyString);
+
 			if(mainActivity.getUiMode()==Globals.UImode.TIMED)
-				btOperations.sendStringToBt(Globals.emptyString);
+				btOperations.sendStringToBt(Globals.strummingPositionString(chords.current().topString));
 			else if(mainActivity.getUiMode()==Globals.UImode.AUTO)
 				if(chords.current().positionCount==1)
 					btOperations.blinkNeck(100, chords.next().positionString);
 				else
-					//btOperations.startStrumming(chords.current());
 					btOperations.sendStringToBt(Globals.strummingPositionString(chords.current().topString));
 			else if(mainActivity.getUiMode()==Globals.UImode.MANUAL)
 				if(chords.current().positionCount==1)
@@ -268,6 +274,7 @@ public class Operator extends Thread
 		// waiting for user to lift fingers, and user lifted fingers
 		else if(userState == State.WAITING_FOR_USER_LIFT && eventType == State.USER_LIFT_FINGERS)
 		{
+			System.out.println("state changed: " +  "USER LIFTED FINGERS");
 			if(mainActivity.getUiMode()==Globals.UImode.AUTO)
 				eventForward();
 			else if(mainActivity.getUiMode()==Globals.UImode.MANUAL || mainActivity.getUiMode()==Globals.UImode.TIMED)
@@ -280,6 +287,9 @@ public class Operator extends Thread
 
 	public UserProcessedPress processUserPress(String receivedSwitchString, boolean showWrong)
 	{
+		System.out.println("RECEIVE: " + receivedSwitchString);
+
+
 		String currentChordString = chords.current().positionString;
 		UserProcessedPress userPress = new UserProcessedPress();
 		userPress.btPositions = currentChordString;

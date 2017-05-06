@@ -85,12 +85,6 @@ public class MainActivity extends Activity
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		//Remove notification bar
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		// prevent locking of phone
-		/*
-		PowerManager powerManager = (PowerManager)getApplicationContext().getSystemService(Context.POWER_SERVICE);
-		WakeLock wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "My Lock");
-		wakeLock.acquire();
-		*/
 
 		setContentView(R.layout.activity_main);
 
@@ -433,7 +427,8 @@ public class MainActivity extends Activity
 
 	public void onToggleLightsActive(View v)
 	{
-		setLightsStatus(!isLightsActive);
+		isLightsActive = !isLightsActive;
+		setLightsStatus(isLightsActive);
 	}
 
 	private void togglePlayMode()

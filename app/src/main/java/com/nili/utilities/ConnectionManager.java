@@ -13,6 +13,7 @@ import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.nili.globals.Commands;
@@ -55,7 +56,10 @@ public class ConnectionManager extends Thread
                     if(!Globals.isConnectedToBT)
                         System.out.println("unable to send message to blue tooth");
                     else
+                    {
+                        lastLightsString = (String) message.obj;
                         sendDataToBt((String) message.obj);
+                    }
 					return;
 				}
                 else if(message.arg1== Commands.ConnectionManager.connectToBt)
@@ -72,8 +76,8 @@ public class ConnectionManager extends Thread
                 else if(message.arg1== Commands.ConnectionManager.lightsOn)
                 {
                     if(isLightsActive) return;
-                    sendDataToBt(lastLightsString);
                     isLightsActive = true;
+                    sendDataToBt(lastLightsString);
                 }
 			}
 		};
@@ -107,17 +111,15 @@ public class ConnectionManager extends Thread
     {
         if(!isLightsActive) return;
 
-        lastLightsString = data;
         try
         {
             long callDifference = new Date().getTime() - lastBtCallTime;
-            if(callDifference< Globals.MIN_TIME_BETWEEN_BT_CALLS)
+            if(callDifference < Globals.MIN_TIME_BETWEEN_BT_CALLS)
                 Thread.sleep(callDifference);
 
+            outputStream.write(Globals.addBtDelimeters(Globals.emptyString).getBytes());
             outputStream.write(data.getBytes());
-            outputStream.write(data.getBytes());
-            outputStream.flush();
-
+            System.out.println("SEND: " + data);
             lastBtCallTime = new Date().getTime();
         }
         catch (Exception e)

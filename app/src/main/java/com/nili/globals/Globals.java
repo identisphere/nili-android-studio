@@ -11,9 +11,9 @@ final public class Globals
 
 	public static boolean 		isConnectedToBT = false;
 
-	public static final char	BLINK_CHAR_RATE = '5';
+	public static final char	BLINK_CHAR_RATE = '9';
 
-	public static final long	MIN_TIME_BETWEEN_BT_CALLS = 50;
+	public static final long	MIN_TIME_BETWEEN_BT_CALLS = 200;
 
 	public static String addBtDelimeters(String string)
 	{

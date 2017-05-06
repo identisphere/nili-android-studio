@@ -37,7 +37,7 @@ public class BtOperations
 
         Message message = new Message();
         message.arg1 = Commands.ConnectionManager.sendToBt;
-        message.obj = Globals.addBtDelimeters(data);
+        message.obj = data;
         this.connectionManager.mHandler.sendMessage(message);
     }
 
@@ -60,4 +60,7 @@ public class BtOperations
 		*/
     }
 
+    public void stillStrumming(Chords.ChordObject chord) {
+        sendStringToBt(Globals.strummingPositionString(chord.topString));
+    }
 }
